@@ -1,0 +1,2530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Evidence-Based Health Plan — Prompt Builder (GPT / Claude / Gemini / Copilot / Perplexity / ⭐ OpenEvidence)</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#151923;
+  --panel2:#111521;
+  --text:#e9eef7;
+  --dim:#9aa6b2;
+  --line:#273043;
+  --accent:#9b5cff;
+  --accent2:#66d9ef;
+  --warn:#ff5c77;
+  --ok:#10b981;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --r:16px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:radial-gradient(1200px 700px at 10% 0%, rgba(155,92,255,.22), transparent 55%),
+             radial-gradient(900px 600px at 90% 10%, rgba(102,217,239,.18), transparent 55%),
+             var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  line-height:1.35;
+}
+
+.header{
+  position:sticky;top:0;z-index:5;
+  background:rgba(15,17,21,.88);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(39,48,67,.8);
+  padding:14px 16px 12px;
+}
+
+.header h1{
+  margin:0;
+  font-size:1.05rem;
+  letter-spacing:.2px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.badge{
+  font-size:.78rem;
+  border:1px solid rgba(39,48,67,.95);
+  color:var(--dim);
+  padding:3px 10px;
+  border-radius:999px;
+  background:rgba(21,25,35,.6);
+}
+.disclaimer{
+  margin-top:8px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,92,119,.35);
+  background:linear-gradient(180deg, rgba(255,92,119,.12), rgba(21,25,35,.2));
+  color:#ffd9e0;
+  font-size:.92rem;
+}
+.disclaimer b{color:#fff}
+.small{
+  color:var(--dim);
+  font-size:.86rem;
+}
+
+.layout{
+  max-width:1500px;
+  margin:0 auto;
+  padding:14px;
+  display:grid;
+  grid-template-columns:minmax(380px,1fr) minmax(520px,1.15fr);
+  gap:14px;
+}
+
+.panel{
+  background:linear-gradient(180deg, rgba(21,25,35,.92), rgba(17,21,33,.92));
+  border:1px solid rgba(39,48,67,.85);
+  box-shadow:var(--shadow);
+  border-radius:var(--r);
+  overflow:hidden;
+  min-height:calc(100vh - 130px);
+  display:flex;
+  flex-direction:column;
+}
+.panel-header{
+  padding:12px 14px;
+  border-bottom:1px solid rgba(39,48,67,.85);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.panel-title{
+  font-weight:900;
+  color:#dfe7ff;
+  letter-spacing:.2px;
+}
+.panel-body{
+  padding:12px 14px;
+  overflow:auto;
+}
+
+fieldset{
+  border:1px solid rgba(39,48,67,.85);
+  border-radius:14px;
+  padding:12px;
+  margin:0 0 12px;
+  background:rgba(17,21,33,.35);
+}
+legend{
+  padding:0 8px;
+  font-weight:900;
+  color:#d9d2ff;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+}
+
+label{
+  display:block;
+  font-size:.86rem;
+  color:var(--dim);
+  margin:0 0 6px;
+}
+.req{
+  display:inline-block;
+  margin-left:6px;
+  font-size:.78rem;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,92,119,.35);
+  background:rgba(255,92,119,.10);
+  color:#ffd1da;
+  vertical-align:middle;
+}
+.s-star{
+  color:#ffcc00;
+  margin-left:4px;
+  font-size:0.9em;
+  filter:drop-shadow(0 0 2px rgba(0,0,0,0.5));
+  cursor:help;
+}
+
+input[type=text],input[type=number],select{
+  width:100%;
+  padding:10px 11px;
+  border-radius:12px;
+  border:1px solid rgba(39,48,67,.95);
+  background:rgba(15,17,21,.65);
+  color:var(--text);
+  outline:none;
+}
+input[type=text]:focus,input[type=number]:focus,select:focus{
+  border-color:rgba(155,92,255,.75);
+  box-shadow:0 0 0 3px rgba(155,92,255,.18);
+}
+input.invalid, select.invalid{
+  border-color:rgba(255,92,119,.85);
+  box-shadow:0 0 0 3px rgba(255,92,119,.16);
+}
+hr.soft{
+  border:none;height:1px;background:rgba(39,48,67,.75);
+  margin:10px 0;
+}
+
+.kpi{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;
+}
+.kchip{
+  font-size:.82rem;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(39,48,67,.95);
+  background:rgba(15,17,21,.55);
+  color:var(--dim);
+}
+.kchip strong{color:#fff}
+
+.btnbar{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+}
+button{
+  border:none;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:.95rem;
+  color:#fff;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(39,48,67,.9);
+}
+button:hover{filter:brightness(1.06)}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-primary{
+  background:linear-gradient(135deg, rgba(155,92,255,.95), rgba(102,217,239,.6));
+}
+.btn-dark{ background:rgba(33,37,41,.95); }
+.btn-oe{
+  background:linear-gradient(135deg, rgba(255,204,0,.95), rgba(255,92,119,.5));
+  color:#151923;
+  font-weight:900;
+}
+.star{filter:drop-shadow(0 3px 10px rgba(255,204,0,.25))}
+.btn-ghost{
+  background:transparent;
+  border:1px solid rgba(39,48,67,.9);
+  color:var(--text);
+}
+.hint{
+  color:var(--dim);
+  font-size:.86rem;
+}
+.mono{ font-family:var(--mono); }
+
+.output{
+  font-family:var(--mono);
+  white-space:pre-wrap;
+  font-size:.92rem;
+  line-height:1.35;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.62);
+  min-height:220px;
+}
+
+.quickbox{
+  border-radius:14px;
+  border:1px solid rgba(102,217,239,.35);
+  background:linear-gradient(180deg, rgba(102,217,239,.12), rgba(17,21,33,.35));
+  padding:12px;
+  margin-bottom:12px;
+}
+.quickbox h3{
+  margin:0 0 6px;
+  font-size:.95rem;
+  letter-spacing:.2px;
+}
+.qgrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+}
+.qitem{
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  border-radius:14px;
+  padding:10px;
+  transition:transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.qitem:hover{ transform:translateY(-1px); }
+.qitem .t{font-weight:900;color:#fff}
+.qitem .d{font-size:.84rem;color:var(--dim);margin-top:4px}
+
+/* LIGHT UP when strongly relevant right now */
+.qitem.hot{
+  border-color:rgba(155,92,255,.92);
+  box-shadow:
+    0 0 0 2px rgba(155,92,255,.16),
+    0 0 22px rgba(155,92,255,.18);
+  background:
+    linear-gradient(180deg, rgba(155,92,255,.15), rgba(15,17,21,.55));
+}
+.qitem.hot .t{
+  text-shadow:0 0 14px rgba(155,92,255,.35);
+}
+.qitem.hot::after{
+  content:"Relevant now";
+  display:inline-block;
+  margin-top:8px;
+  font-size:.74rem;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(155,92,255,.55);
+  color:#e8dcff;
+  background:rgba(155,92,255,.10);
+}
+
+.sectiontitle{
+  margin-top:10px;
+  font-weight:900;
+  color:#dfe7ff;
+  font-size:.9rem;
+}
+
+.tooltip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;height:18px;
+  border-radius:999px;
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  color:var(--dim);
+  font-size:.8rem;
+  cursor:help;
+  margin-left:6px;
+  position:relative;
+}
+.tooltip:hover::after{
+  content:attr(data-tip);
+  position:absolute;
+  left:0;top:24px;
+  width:280px;
+  padding:10px 10px;
+  border-radius:12px;
+  border:1px solid rgba(39,48,67,.95);
+  background:rgba(15,17,21,.95);
+  color:var(--text);
+  font-size:.82rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  z-index:20;
+}
+
+.checkrow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:6px;
+}
+.chk{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  padding:8px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  user-select:none;
+}
+.chk input{ transform:translateY(1px); }
+.chk:hover{
+  border-color:rgba(155,92,255,.55);
+}
+
+.toast{
+  position:fixed;right:16px;bottom:16px;
+  background:rgba(16,185,129,.95);
+  color:#072b1f;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.18);
+  opacity:0;
+  transform:translateY(20px);
+  transition:.22s;
+  z-index:40;
+  font-weight:900;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.warn{background:rgba(255,92,119,.95);color:#2b0612}
+
+/* ===== Modal "Send to..." ===== */
+.modal-overlay{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter: blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:35;
+  padding:14px;
+}
+.modal{
+  width:min(980px, 100%);
+  max-height:min(86vh, 900px);
+  overflow:hidden;
+  border-radius:18px;
+  border:1px solid rgba(39,48,67,.92);
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
+  background:linear-gradient(180deg, rgba(21,25,35,.98), rgba(17,21,33,.98));
+  display:flex;
+  flex-direction:column;
+}
+.modal-hdr{
+  padding:12px 14px;
+  border-bottom:1px solid rgba(39,48,67,.85);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.modal-title{
+  font-weight:900;
+  color:#dfe7ff;
+}
+.modal-body{
+  padding:12px 14px;
+  overflow:auto;
+}
+.modal-note{
+  border:1px solid rgba(102,217,239,.35);
+  background:linear-gradient(180deg, rgba(102,217,239,.12), rgba(17,21,33,.30));
+  border-radius:14px;
+  padding:10px 12px;
+  color:var(--text);
+  font-size:.9rem;
+}
+.modal-note b{color:#fff}
+.send-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.btn-send{
+  justify-content:center;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  color:#fff;
+  font-weight:900;
+}
+.btn-send:hover{
+  border-color:rgba(155,92,255,.6);
+  box-shadow:0 0 0 3px rgba(155,92,255,.14);
+}
+.btn-send .sub{
+  display:block;
+  margin-top:4px;
+  font-weight:600;
+  color:var(--dim);
+  font-size:.82rem;
+}
+.btn-send.oe{
+  background:linear-gradient(135deg, rgba(255,204,0,.95), rgba(255,92,119,.45));
+  color:#151923;
+  border-color:rgba(255,204,0,.55);
+}
+.modal-ta{
+  width:100%;
+  min-height:230px;
+  resize:vertical;
+  margin-top:10px;
+  padding:10px 11px;
+  border-radius:14px;
+  border:1px solid rgba(39,48,67,.95);
+  background:rgba(15,17,21,.65);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:.9rem;
+  line-height:1.35;
+}
+.modal-foot{
+  padding:10px 14px;
+  border-top:1px solid rgba(39,48,67,.85);
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+
+/* ===== Mode Toggle ===== */
+.modeToggle{
+  display:flex;
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  border-radius:999px;
+  padding:4px;
+  gap:4px;
+}
+.toggle-btn{
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:.82rem;
+  font-weight:900;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--dim);
+}
+.toggle-btn.active{
+  background:linear-gradient(135deg, rgba(155,92,255,.85), rgba(102,217,239,.35));
+  color:#fff;
+  border-color:rgba(155,92,255,.35);
+}
+.toggle-btn.completeHint{
+  position:relative;
+}
+@keyframes pulseGlow{
+  0%{ box-shadow:0 0 0 0 rgba(155,92,255,.0); transform:translateY(0); }
+  50%{ box-shadow:0 0 0 3px rgba(155,92,255,.18), 0 0 22px rgba(155,92,255,.12); transform:translateY(-1px); }
+  100%{ box-shadow:0 0 0 0 rgba(155,92,255,.0); transform:translateY(0); }
+}
+.toggle-btn.blink{
+  animation:pulseGlow 1.25s ease-in-out infinite;
+  color:#fff;
+}
+
+/* Simple/Complete visibility helpers */
+.completeOnly{ display:block; }
+.simpleOnly{ display:none; }
+
+/* ===== Modifiable Risk Score (compact) ===== */
+.scoreCard{
+  border:1px solid rgba(39,48,67,.9);
+  background:rgba(15,17,21,.55);
+  border-radius:14px;
+  padding:12px;
+}
+.scoreTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.scoreTitle{
+  font-weight:900;
+  color:#dfe7ff;
+  letter-spacing:.2px;
+  margin:0;
+  font-size:.95rem;
+}
+.scoreSub{
+  color:var(--dim);
+  font-size:.82rem;
+  margin-top:4px;
+  line-height:1.2rem;
+}
+.scoreBadge{
+  min-width:58px;
+  height:38px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:1.05rem;
+  background:rgba(17,21,33,.55);
+  border:1px solid rgba(39,48,67,.9);
+}
+.dotRow{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.dotRow .dotLabel{
+  font-size:.78rem;
+  color:var(--dim);
+  margin-right:6px;
+}
+.dotMini{
+  width:10px;height:10px;border-radius:999px;
+  border:1px solid rgba(154,166,178,.35);
+  background:transparent;
+}
+.dotMini.filled{
+  background:rgba(16,185,129,.95);
+  border-color:rgba(16,185,129,.95);
+}
+.scoreLocked{
+  margin-top:10px;
+  padding:10px 10px;
+  border-radius:12px;
+  border:1px dashed rgba(39,48,67,.9);
+  color:var(--dim);
+  font-size:.84rem;
+  line-height:1.2rem;
+  background:rgba(17,21,33,.35);
+}
+.meterWrap{ margin-top:12px; }
+.meter{
+  position:relative;
+  height:10px;
+  border-radius:999px;
+  background:rgba(17,21,33,.45);
+  border:1px solid rgba(39,48,67,.9);
+  overflow:hidden;
+}
+.meterFill{
+  position:absolute; inset:0;
+  width:0%;
+  background:linear-gradient(90deg, rgba(239,68,68,.9), rgba(245,158,11,.9), rgba(16,185,129,.9));
+  opacity:.35;
+}
+.meterDot{
+  position:absolute;
+  top:50%;
+  width:14px;height:14px;border-radius:999px;
+  transform:translate(-50%,-50%);
+  background:#e9eef7;
+  border:2px solid rgba(21,25,35,.95);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+  left:0%;
+  display:none;
+}
+.meterLegend{
+  display:flex;justify-content:space-between;
+  font-size:.74rem;color:var(--dim);
+  margin-top:6px;
+}
+.scoreInterp{
+  margin-top:8px;
+  font-size:.82rem;
+  color:var(--dim);
+  line-height:1.15rem;
+}
+.scoreInterp b{ color:#fff; }
+
+.reminder-qr-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  margin-top:20px;
+  text-align:center;
+}
+.qr-frame{
+  background:#fff;
+  padding:10px;
+  border-radius:12px;
+  display:inline-block;
+}
+.qr-frame img{
+  display:block;
+  width:160px;
+  height:160px;
+}
+.rem-link-box{
+  word-break:break-all;
+  font-family:var(--mono);
+  font-size:0.85rem;
+  background:rgba(0,0,0,0.3);
+  padding:10px;
+  border-radius:8px;
+  margin-top:8px;
+}
+
+@media(max-width:1080px){
+  .layout{grid-template-columns:1fr}
+  .panel{min-height:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>
+    Evidence-Based Health Plan — Prompt Builder
+    <span class="badge">GPT / Claude / Gemini / Copilot / Perplexity</span>
+    <span class="badge">⭐ OpenEvidence</span>
+    <span class="badge">Patient research starter</span>
+  </h1>
+
+  <div class="disclaimer">
+    <b>Important:</b> This tool is <b>NOT medical advice</b>. Do <b>not</b> act on outputs.
+    Use it only to <b>prepare questions</b> and bring results to your <b>physician/clinician</b> for review.
+    If you have urgent symptoms, seek immediate care.
+  </div>
+
+  <div class="small" style="margin-top:6px">
+    <span id="minReqText">Minimum required inputs: <b>Age + Sex at birth + BMI</b>.</span>
+    <b>Note:</b> highlighted cards are <i>best-effort</i> and can miss items if inputs are incomplete —
+    use the <b>LLM prompt</b> for the full, guideline-level review.
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- LEFT: Inputs -->
+  <section class="panel">
+    <div class="panel-header">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div class="panel-title">Inputs</div>
+
+        <div class="modeToggle" title="Simple = quick OpenEvidence prompt. Complete = full personalized prompt builder.">
+          <button id="btn_mode_simple" class="toggle-btn" type="button">Simple</button>
+          <button id="btn_mode_complete" class="toggle-btn completeHint" type="button">Complete</button>
+        </div>
+      </div>
+
+      <div class="hint" id="modeHint">Fill what you know → the app builds a research prompt</div>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Minimal always-on demographics -->
+      <fieldset>
+        <legend>Basics (required)</legend>
+        <div class="row">
+          <div>
+            <label>Age (years) <span class="req">Required</span></label>
+            <input id="age" type="number" min="0" max="120" step="1" placeholder="e.g., 58" />
+          </div>
+
+          <div>
+            <label>Sex at birth <span class="req">Required</span></label>
+            <select id="sex">
+              <option value="unknown" selected>Choose…</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="intersex">Intersex</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="small" style="margin-top:8px" id="simpleModeNote">
+          <b>Simple mode:</b> uses only <b>Age + Sex</b> and generates a <b>⭐ OpenEvidence-only</b> prompt.
+          For personalization, toggle <b>Complete</b>.
+        </div>
+      </fieldset>
+
+      <!-- Everything below here is COMPLETE MODE ONLY -->
+      <div class="completeOnly">
+
+        <fieldset>
+          <legend>Demographics (complete mode)</legend>
+          <div class="row">
+            <div>
+              <label>
+                Race / Ethnicity / Ancestry (dropdown)
+                <span class="tooltip" data-tip="Some screening and risk tools may incorporate ancestry (e.g., PSA nuance, cardiometabolic risk). Choose what fits best.">?</span>
+              </label>
+              <select id="race_sel">
+                <option value="Unknown" selected>Unknown / Prefer not to say</option>
+                <option value="White (non-Hispanic)">White (non-Hispanic)</option>
+                <option value="Black / African American">Black / African American</option>
+                <option value="Hispanic / Latino">Hispanic / Latino</option>
+                <option value="Asian (general)">Asian (general)</option>
+                <option value="South Asian (e.g., Indian, Pakistani, Bangladeshi, Sri Lankan)">South Asian</option>
+                <option value="East / Southeast Asian (e.g., Chinese, Korean, Vietnamese, Filipino)">East / Southeast Asian</option>
+                <option value="Native American / Alaska Native">Native American / Alaska Native</option>
+                <option value="Native Hawaiian / Pacific Islander">Native Hawaiian / Pacific Islander</option>
+                <option value="Middle Eastern / North African (MENA)">Middle Eastern / North African (MENA)</option>
+                <option value="Ashkenazi Jewish ancestry">Ashkenazi Jewish ancestry</option>
+                <option value="Multiracial / Mixed">Multiracial / Mixed</option>
+                <option value="Other (specify)">Other (specify)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div id="race_other_wrap" style="display:none">
+              <label>Other (specify)</label>
+              <input id="race_other" type="text" placeholder="e.g., Afro-Caribbean, Ethiopian, etc." />
+            </div>
+
+            <div style="grid-column:1/-1">
+              <label>
+                First-degree relative history (parent / sibling / child)
+                <span class="tooltip" data-tip="Family history can change screening age/timing. Check any known first-degree history.">?</span>
+              </label>
+              <div class="checkrow">
+                <label class="chk"><input type="checkbox" id="fh_breast" /> Breast cancer</label>
+                <label class="chk"><input type="checkbox" id="fh_colon" /> Colon cancer</label>
+                <label class="chk"><input type="checkbox" id="fh_prostate" /> Prostate cancer</label>
+                <label class="chk"><input type="checkbox" id="fh_melanoma" /> Skin cancer (melanoma)</label>
+              </div>
+              <div class="small" style="margin-top:6px">
+                If unsure, leave unchecked — the prompt will ask what missing info matters.
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Body & Vitals</legend>
+
+          <div class="row">
+            <div>
+              <label>Height (inches) (optional)</label>
+              <input id="height_in" type="number" min="0" max="96" step="0.1" placeholder="e.g., 70" />
+            </div>
+            <div>
+              <label>Weight (lb) (optional)</label>
+              <input id="weight_lb" type="number" min="0" max="700" step="0.1" placeholder="e.g., 190" />
+            </div>
+            <div>
+              <label>
+                BMI <span class="req" id="bmiReqTag">Required</span>
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="BMI is required in Complete mode. You can type BMI directly. If height+weight are entered, BMI auto-calculates (but you can still override it).">?</span>
+              </label>
+              <input id="bmi" type="number" min="10" max="80" step="0.1" placeholder="e.g., 27.3" />
+            </div>
+          </div>
+
+          <hr class="soft"/>
+
+          <div class="row">
+            <div>
+              <label>
+                Blood pressure — systolic (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="Entering BP helps the tool suggest guideline targets and urgency. If unknown, leave blank and discuss BP screening/logging with a clinician.">?</span>
+              </label>
+              <input id="sbp" type="number" min="50" max="260" step="1" placeholder="e.g., 138" />
+            </div>
+            <div>
+              <label>
+                Blood pressure — diastolic (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="BP targets vary by comorbidities (diabetes/CKD/ASCVD). The LLM prompt will summarize evidence-based ranges for discussion.">?</span>
+              </label>
+              <input id="dbp" type="number" min="30" max="160" step="1" placeholder="e.g., 84" />
+            </div>
+          </div>
+
+          <div class="kpi">
+            <span class="kchip"><strong>BMI:</strong> <span id="bmi_note">—</span></span>
+            <span class="kchip"><strong>BP:</strong> <span id="bp_note">—</span></span>
+            <span class="kchip"><strong>Quick flags:</strong> <span id="flag_note">—</span></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Lifestyle & Mental Health</legend>
+
+          <div class="row">
+            <div>
+              <label>
+                Smoking Status
+                <span class="tooltip" data-tip="Smoking status drives multiple prevention items (lung screening eligibility, cardiovascular risk, vaccines, cessation therapy discussions).">?</span>
+              </label>
+              <select id="smoke_now">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">Never</option>
+                <option value="former">Former (quit)</option>
+                <option value="yes">Current</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Hidden unless Current/Former -->
+          <div class="row" id="row_smoke_qty" style="display:none; margin-top:10px">
+            <div>
+              <label>
+                Cigarettes: packs/day
+                <span class="tooltip" data-tip="Pack-years = (packs/day) × (years smoked). Enter both packs/day and years smoked to calculate pack-years and confirm LDCT eligibility.">?</span>
+              </label>
+              <input id="packs_day" type="number" min="0" max="10" step="0.1" placeholder="e.g., 1.0" />
+            </div>
+            <div>
+              <label>
+                Years smoked (lifetime estimate)
+                <span class="tooltip" data-tip="Used with packs/day to compute pack-years. If you smoked at different rates, use a rough average or note uncertainty in your discussion with a clinician.">?</span>
+              </label>
+              <input id="years_smoked" type="number" min="0" max="80" step="1" placeholder="e.g., 20" />
+            </div>
+            <!-- Hidden unless Former -->
+            <div id="col_years_quit" style="display:none">
+              <label>
+                Years since quit (if former)
+                <span class="tooltip" data-tip="LDCT eligibility typically includes current smokers or those who quit within ~15 years (plus pack-year threshold).">?</span>
+              </label>
+              <input id="years_quit" type="number" min="0" max="80" step="1" placeholder="e.g., 8" />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label>
+                Alcohol: drinks/week (optional)
+                <span class="tooltip" data-tip="Helps guide risk discussions and screening. The LLM prompt will summarize evidence-based recommendations to discuss, not instructions.">?</span>
+              </label>
+              <input id="drinks_week" type="number" min="0" max="100" step="1" placeholder="e.g., 6" />
+            </div>
+            <div>
+              <label>
+                Cocaine use (current or recent)?
+                <span class="tooltip" data-tip="Important risk factor for cardiovascular events and BP. Leave unknown if not applicable.">?</span>
+              </label>
+              <select id="cocaine">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="kpi">
+            <span class="kchip">
+              <strong>Pack-years:</strong> <span id="py_note">—</span>
+              <span class="tooltip" data-tip="Pack-years = packs/day × years smoked. Often used to determine lung screening (LDCT) eligibility along with age and time since quitting.">?</span>
+            </span>
+            <span class="kchip">
+              <strong>LDCT status:</strong> <span id="ldct_note">—</span>
+              <span class="tooltip" data-tip="This is a best-effort check. If pack-years are missing, you may still be 'possibly eligible' based on age and smoking status. Use LLM prompt for full criteria discussion.">?</span>
+            </span>
+          </div>
+
+          <hr class="soft"/>
+
+          <div class="row">
+            <div>
+              <label>
+                Depression symptoms / mood (optional, required for score)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="Used for the (non-validated) Modifiable Risk Score. Also supports discussion about sleep/function and evidence-based options to discuss.">?</span>
+              </label>
+              <select id="mood">
+                <option value="unknown" selected>Unknown</option>
+                <option value="none">No concerns</option>
+                <option value="mild">Mild / occasional</option>
+                <option value="moderate">Moderate</option>
+                <option value="severe">Severe</option>
+              </select>
+            </div>
+            <div>
+              <label>
+                Sleep concern (optional)
+                <span class="tooltip" data-tip="Sleep affects cardiometabolic risk, mood, and function. Use this to prompt questions and evidence to discuss.">?</span>
+              </label>
+              <select id="sleep">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Medical Conditions</legend>
+          <div class="row">
+            <div>
+              <label>Diabetes?
+                <span class="tooltip" data-tip="If diabetes is present, targets and therapies can change (A1c goals, kidney protection, statins, BP targets).">?</span>
+              </label>
+              <select id="dm">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label>Hypertension (HTN)?
+                <span class="tooltip" data-tip="HTN changes BP targets and medication discussions. If unsure, leave unknown and discuss screening/logging.">?</span>
+              </label>
+              <select id="htn">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label>Heart failure (CHF)?
+                <span class="tooltip" data-tip="CHF changes medication priorities and BP targets. Use the LLM prompt to summarize evidence-based treatments to discuss.">?</span>
+              </label>
+              <select id="chf">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label>Chronic kidney disease (CKD)?
+                <span class="tooltip" data-tip="CKD changes BP targets, medication choices, and the importance of UACR and kidney-protective therapies.">?</span>
+              </label>
+              <select id="ckd">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label>ASCVD / prior heart attack / stroke?
+                <span class="tooltip" data-tip="ASCVD history shifts LDL targets and preventive medication discussions (secondary prevention).">?</span>
+              </label>
+              <select id="ascvd">
+                <option value="unknown" selected>Unknown</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Key Labs (optional)</legend>
+
+          <div class="row">
+            <div>
+              <label>HbA1c (%) (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="A1c helps classify diabetes/prediabetes and guides discussions of prevention, medications, and complication risk.">?</span>
+              </label>
+              <input id="a1c" type="number" min="3" max="20" step="0.1" placeholder="e.g., 6.8" />
+            </div>
+            <div>
+              <label>Urine Alb/Cr ratio (mg/g) (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="UACR is a kidney damage/risk marker. Used with BP/diabetes/CKD status to guide kidney-protective therapy discussions.">?</span>
+              </label>
+              <input id="uacr" type="number" min="0" max="10000" step="1" placeholder="e.g., 45" />
+            </div>
+            <div>
+              <label>Serum creatinine (mg/dL) (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="Creatinine helps estimate kidney function (eGFR). It can affect medication choices and monitoring.">?</span>
+              </label>
+              <input id="cr" type="number" min="0" max="20" step="0.01" placeholder="e.g., 1.2" />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label>LDL (mg/dL) (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+                <span class="tooltip" data-tip="LDL drives ASCVD prevention decisions. Targets differ for primary vs secondary prevention and high-risk conditions.">?</span>
+              </label>
+              <input id="ldl" type="number" min="0" max="400" step="1" placeholder="e.g., 112" />
+            </div>
+            <div>
+              <label>Total cholesterol (mg/dL) (optional)</label>
+              <input id="tc" type="number" min="0" max="600" step="1" placeholder="e.g., 198" />
+            </div>
+            <div>
+              <label>HDL (mg/dL) (optional)
+                <span class="s-star" title="Impacts Risk Score">★</span>
+              </label>
+              <input id="hdl" type="number" min="0" max="200" step="1" placeholder="e.g., 48" />
+            </div>
+            <div>
+              <label>Triglycerides (mg/dL) (optional)</label>
+              <input id="tg" type="number" min="0" max="2000" step="1" placeholder="e.g., 170" />
+            </div>
+          </div>
+
+          <div class="small" style="margin-top:8px">
+            Tip: the <b>Modifiable Risk Score</b> below unlocks only when BP + LDL + HDL + Cr + A1c + UACR + BMI + Mood are entered.
+          </div>
+        </fieldset>
+
+        <!-- ✅ Modifiable Risk Score (Integrated) -->
+        <fieldset>
+          <legend>Modifiable Risk Score (0–100) <span class="badge" style="margin-left:8px">prototype</span></legend>
+
+          <div class="scoreCard" id="mr_card">
+            <div class="scoreTop">
+              <div>
+                <div class="scoreTitle">Risk score (prototype, not validated)</div>
+                <div class="scoreSub">
+                  Score appears only when all dots are filled. Threshold-weighted:
+                  <b>SBP 150 ≠ 130</b>, <b>A1c 10–14 ≠ 4–8</b>, kidney values penalize nonlinearly.
+                </div>
+              </div>
+              <div class="scoreBadge" id="mr_badge" style="visibility:hidden;">—</div>
+            </div>
+
+            <div class="dotRow">
+              <span class="dotLabel">Unlock requirements:</span>
+              <span class="dotMini" id="mr_dot_bp" title="BP (SBP/DBP)"></span>
+              <span class="dotMini" id="mr_dot_ldl" title="LDL"></span>
+              <span class="dotMini" id="mr_dot_hdl" title="HDL"></span>
+              <span class="dotMini" id="mr_dot_cr" title="Creatinine"></span>
+              <span class="dotMini" id="mr_dot_a1c" title="HbA1c"></span>
+              <span class="dotMini" id="mr_dot_uacr" title="Urine Alb/Cr"></span>
+              <span class="dotMini" id="mr_dot_bmi" title="BMI"></span>
+              <span class="dotMini" id="mr_dot_mood" title="Mood"></span>
+            </div>
+
+            <div class="scoreLocked" id="mr_locked">
+              Hidden until all 8 inputs are present. This is a <b>conversation aid</b> only (not medical advice).
+            </div>
+
+            <div class="meterWrap" id="mr_meterWrap" style="display:none;">
+              <div class="meter">
+                <div class="meterFill" id="mr_fill"></div>
+                <div class="meterDot" id="mr_dot"></div>
+              </div>
+              <div class="meterLegend">
+                <span>0 (higher risk)</span>
+                <span>100 (lower risk)</span>
+              </div>
+              <div class="scoreInterp" id="mr_interp"></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Prompt Options</legend>
+          <div class="row">
+            <div>
+              <label>Mode
+                <span class="tooltip" data-tip="Deep mode is best for structured prioritization. OpenEvidence mode stays short and asks for citations/guidelines.">?</span>
+              </label>
+              <select id="mode">
+                <option value="deep" selected>Deep thinking (GPT / Claude / Gemini / Copilot)</option>
+                <option value="oe">⭐ OpenEvidence (short essentials)</option>
+                <option value="tight">Tight professional (shorter, general)</option>
+              </select>
+            </div>
+            <div>
+              <label>Output tone</label>
+              <select id="tone">
+                <option value="clin" selected>Clinician-professional</option>
+                <option value="pt">Patient-friendly + clinician-ready</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label>
+                Include "Deep research add-on" (NNT / life-years)
+                <span class="tooltip" data-tip="Adds a final request asking for ARR/NNT/life-years when evidence exists. Useful for high-level prioritization discussions.">?</span>
+              </label>
+              <select id="nnt_mode">
+                <option value="auto" selected>Auto (ON for Deep, OFF for ⭐ OpenEvidence)</option>
+                <option value="on">Always ON</option>
+                <option value="off">Always OFF</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="small" style="margin-top:10px;color:#ffd1da" id="completeReqNote">
+            Buttons unlock when <b>Age + Sex at birth + BMI</b> are entered.
+          </div>
+        </fieldset>
+
+      </div><!-- /completeOnly -->
+
+    </div>
+  </section>
+
+  <!-- RIGHT: Output -->
+  <section class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Quick topics + Generated Prompt</div>
+      <div class="btnbar">
+        <button id="btn_reminders" class="btn-dark" disabled>📅 Create Reminders</button>
+        <button id="gen_send" class="btn-primary" disabled>Generate & Actions…</button>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="quickbox" id="quickbox">
+        <h3 id="quickbox_title">Based on your inputs alone: topics to discuss / verify (not advice)</h3>
+        <div class="small" id="quickbox_sub">
+          Highlighted cards = “especially relevant now” based on your inputs.<br/>
+          <b>Reminder:</b> some cards may not light up if key inputs are missing (e.g., pack-years, BP readings).<br/>
+          Use the <b>Generate Prompt</b> + your clinician for the full review.
+        </div>
+
+        <div class="sectiontitle" id="quick_section1">Prevention / screening topics</div>
+        <div class="qgrid" id="quick_grid" style="margin-top:10px"></div>
+
+        <div class="sectiontitle" id="quick_section2">Screening bloodwork to consider (discussion list)</div>
+        <div class="qgrid" id="lab_grid" style="margin-top:10px"></div>
+      </div>
+
+      <div class="small" style="margin:0 0 8px;color:var(--dim)">
+        Use <b>⭐ OpenEvidence</b> for citation-heavy guideline support. Use <b>GPT/Claude/Gemini/Copilot</b> for structured prioritization.
+      </div>
+
+      <div id="out" class="output">Enter required fields to enable Generate.</div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- Modal: Copy & Send -->
+<div class="modal-overlay" id="modal_overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Copy and Send Prompt">
+    <div class="modal-hdr">
+      <div class="modal-title">Copy & Send Prompt</div>
+      <button class="btn-ghost" id="modal_close" type="button">Close</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-note">
+        ✅ Clicking a destination will <b>copy the prompt</b> and <b>open the site</b>.<br/>
+        When the chat opens, press <b>Ctrl+V</b> (or <b>⌘V</b>) to paste.
+      </div>
+
+      <div class="send-grid">
+        <button class="btn-send" id="send_gpt" type="button">GPT (ChatGPT)<span class="sub">Structured plan + reasoning</span></button>
+        <button class="btn-send" id="send_claude" type="button">Claude<span class="sub">Very good long-form synthesis</span></button>
+        <button class="btn-send" id="send_copilot" type="button">Copilot<span class="sub">Fast web-adjacent summaries</span></button>
+        <button class="btn-send" id="send_gemini" type="button">Gemini<span class="sub">Strong structured answers</span></button>
+        <button class="btn-send" id="send_perp" type="button">Perplexity<span class="sub">Source-forward research style</span></button>
+        <button class="btn-send oe" id="send_oe" type="button">★ OpenEvidence<span class="sub">Guidelines + citations</span></button>
+      </div>
+
+      <textarea id="modal_text" class="modal-ta" spellcheck="false"></textarea>
+      <div class="small" style="margin-top:8px">
+        If copy is blocked by your browser, click into the box above → <b>Ctrl+A</b> → <b>Ctrl+C</b>.
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn-ghost" id="modal_copy_only" type="button">Copy Only</button>
+      <button class="btn-primary" id="modal_copy_close" type="button">Copy & Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Reminders (Link + QR) -->
+<div class="modal-overlay" id="modal_reminders" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Reminder Calendar Tool">
+    <div class="modal-hdr">
+      <div class="modal-title">Calendar Reminders</div>
+      <button class="btn-ghost" id="reminders_close" type="button">Close</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-note">
+        <b>ReminderCal:</b> Scan this QR or click the link to open your personalized reminder checklist.<br/>
+        Add placeholders for exams (Colon, Mammogram, etc.) to your calendar (.ics).
+      </div>
+
+      <div class="reminder-qr-wrap">
+        <div class="qr-frame">
+          <img id="qr_img" src="" alt="QR Code" />
+        </div>
+        <div class="small" style="margin-top:-10px;color:var(--dim)">
+          Scan to open on phone
+        </div>
+        
+        <a id="rem_link" href="#" target="_blank" class="btn-primary" style="text-decoration:none">
+          Open Reminder Tool &rarr;
+        </a>
+        
+        <div class="rem-link-box" id="rem_url_text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* =============== Helpers =============== */
+const $ = (id) => document.getElementById(id);
+
+// CONFIG: Base URL for the ReminderCal tool.
+const REMINDER_BASE_URL = "https://dormantone.github.io/remindercal/"; 
+
+function toast(msg="OK", warn=false){
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.toggle("warn", !!warn);
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1400);
+}
+
+function clean(s){ return (s ?? "").toString().trim(); }
+function num(id){
+  const el = $(id);
+  if(!el) return null;
+  const v = parseFloat(clean(el.value));
+  return Number.isFinite(v) ? v : null;
+}
+function pick(id){
+  const el = $(id);
+  if(!el) return "unknown";
+  const v = clean(el.value);
+  return v || "unknown";
+}
+
+function bmiFrom(heightIn, weightLb){
+  if(!heightIn || !weightLb) return null;
+  const bmi = (weightLb / (heightIn * heightIn)) * 703;
+  if(!Number.isFinite(bmi)) return null;
+  return Math.round(bmi * 10) / 10;
+}
+
+function packYears(packsPerDay, yearsSmoked){
+  if(!packsPerDay || !yearsSmoked) return null;
+  const py = packsPerDay * yearsSmoked;
+  if(!Number.isFinite(py)) return null;
+  return Math.round(py * 10) / 10;
+}
+
+function bpText(sbp, dbp){
+  if(!sbp || !dbp) return "—";
+  return `${Math.round(sbp)}/${Math.round(dbp)}`;
+}
+
+/* =============== App Mode (Simple vs Complete) =============== */
+// let APP_MODE = localStorage.getItem("ebhp_app_mode") || "simple"; // "simple" | "complete"
+let APP_MODE = "simple";
+
+function setAppMode(mode){
+  APP_MODE = mode;
+  localStorage.setItem("ebhp_app_mode", mode);
+  updateModeUI();
+  regenerate();
+}
+
+function updateModeUI(){
+  const btnS = $("btn_mode_simple");
+  const btnC = $("btn_mode_complete");
+  btnS.classList.toggle("active", APP_MODE === "simple");
+  btnC.classList.toggle("active", APP_MODE === "complete");
+
+  // Blink "Complete" to invite upgrading from Simple
+  btnC.classList.toggle("blink", APP_MODE === "simple");
+
+  // Show/hide complete-only UI
+  document.querySelectorAll(".completeOnly").forEach(el=>{
+    el.style.display = (APP_MODE === "complete") ? "" : "none";
+  });
+
+  // Header notes
+  $("minReqText").innerHTML = (APP_MODE === "simple")
+    ? 'Minimum required inputs: <b>Age + Sex at birth</b> (Simple mode).'
+    : 'Minimum required inputs: <b>Age + Sex at birth + BMI</b> (Complete mode).';
+
+  $("modeHint").textContent = (APP_MODE === "simple")
+    ? "Simple → OpenEvidence-only prompt (fast, minimal inputs)"
+    : "Complete → personalized prompt builder (more inputs, better specificity)";
+
+  // Complete requirement note
+  const reqNote = $("completeReqNote");
+  if(reqNote){
+    reqNote.style.display = (APP_MODE === "complete") ? "" : "none";
+  }
+
+  // Quickbox text
+  $("quickbox_title").textContent = (APP_MODE === "simple")
+    ? "Simple mode: general screening topics to consider (not advice)"
+    : "Based on your inputs alone: topics to discuss / verify (not advice)";
+
+  $("quickbox_sub").innerHTML = (APP_MODE === "simple")
+    ? `<b>Simple mode uses only Age + Sex.</b> These are general. Toggle <b>Complete</b> for personalized flags.<br/>
+       Use <b>Generate Prompt</b> to get the current guideline summary with citations via <b>⭐ OpenEvidence</b>.`
+    : `Highlighted cards = “especially relevant now” based on your inputs.<br/>
+       <b>Reminder:</b> some cards may not light up if key inputs are missing (e.g., pack-years, BP readings).<br/>
+       Use the <b>Generate Prompt</b> + your clinician for the full review.`;
+
+  // Simple mode note under Basics
+  $("simpleModeNote").style.display = (APP_MODE === "simple") ? "" : "none";
+}
+
+/* =============== Required gating =============== */
+function validateRequired(data){
+  const ageOk = (data.age !== null && data.age >= 0 && data.age <= 120);
+  const sexOk = (data.sex !== "unknown");
+
+  // Complete mode requires BMI; simple mode does not
+  const bmiOk = (APP_MODE === "complete")
+    ? (data.bmi !== null && data.bmi >= 10 && data.bmi <= 80)
+    : true;
+
+  // Mark invalids
+  const ageEl = $("age");
+  const sexEl = $("sex");
+  ageEl.classList.toggle("invalid", !ageOk && clean(ageEl.value).length > 0);
+  sexEl.classList.toggle("invalid", !sexOk);
+
+  const bmiEl = $("bmi");
+  if(bmiEl){
+    // only show invalid BMI in complete mode
+    bmiEl.classList.toggle("invalid", (APP_MODE === "complete") && !bmiOk && clean(bmiEl.value).length > 0);
+  }
+
+  return ageOk && sexOk && bmiOk;
+}
+
+function setButtons(enabled){
+  const btn = $("gen_send");
+  if(btn) btn.disabled = !enabled;
+  const btnRem = $("btn_reminders");
+  if(btnRem) btnRem.disabled = !enabled;
+}
+
+/* =============== Eligibility / heuristics =============== */
+function isAdult(age){ return age !== null && age >= 18; }
+
+function eligibleColon(age, fhColon){
+  if(age === null) return false;
+  if(fhColon && age >= 40) return true;
+  return age >= 45;
+}
+function eligibleMammo(age, sex, fhBreast){
+  if(age === null) return false;
+  if(sex !== "female") return false;
+  if(fhBreast && age >= 35) return true;
+  return age >= 40;
+}
+function eligiblePSA(age, sex, fhProstate, race){
+  if(age === null) return false;
+  if(sex !== "male") return false;
+  if((fhProstate || (race || "").includes("Black")) && age >= 40) return true;
+  return age >= 55 && age <= 69;
+}
+function eligibleHepC(age){
+  if(age === null) return false;
+  return age >= 18 && age <= 79;
+}
+function eligibleHIV(age){
+  if(age === null) return false;
+  return age >= 15 && age <= 65;
+}
+function diabetesScreenRelevant(age, bmi, dmKnown){
+  if(dmKnown) return true;
+  if(age === null || bmi === null) return false;
+  return age >= 35 && age <= 70 && bmi >= 25;
+}
+function lipidScreenRelevant(age){
+  if(age === null) return false;
+  return age >= 20;
+}
+function eligibleLungCancerLDCT(age, packYearsVal, smokerNow, yearsQuitVal){
+  if(age === null) return false;
+  const ageOk = age >= 50 && age <= 80;
+  const pyOk = packYearsVal !== null && packYearsVal >= 20;
+  const quitOk = smokerNow || (yearsQuitVal !== null && yearsQuitVal <= 15);
+  return ageOk && pyOk && quitOk;
+}
+function eligibleDEXA(age, sex){
+  if(age === null) return false;
+  if(sex === "female" && age >= 65) return true;
+  if(sex === "male" && age >= 70) return true;
+  return false;
+}
+
+/* =============== Quick Suggestions =============== */
+function quickSuggestionsSimple(data){
+  const items = [];
+  const age = data.age;
+  const sex = data.sex;
+
+  function push(t, d, hot=false){
+    items.push({t,d,hot});
+  }
+
+  push("Blood pressure screening / targets",
+       "Confirm BP and discuss evidence-based target ranges based on risk profile.",
+       age !== null && age >= 40);
+
+  push("Lipids + ASCVD risk discussion",
+       "Consider lipid panel and ASCVD risk estimation; discuss statin thresholds if appropriate.",
+       age !== null && age >= 40);
+
+  push("Diabetes screening",
+       "Ask whether A1c or fasting glucose screening is appropriate for age and weight context.",
+       age !== null && age >= 35);
+
+  push("Colon cancer screening",
+       "Confirm you’re up to date and which modality fits best (stool test vs colonoscopy).",
+       age !== null && age >= 45);
+
+  if(sex === "male"){
+    push("Prostate cancer screening (PSA shared decision)",
+         "Discuss pros/cons and preference-sensitive screening decisions.",
+         age !== null && age >= 55 && age <= 69);
+  }
+  if(sex === "female"){
+    push("Breast cancer screening",
+         "Discuss mammogram interval and start age based on risk.",
+         age !== null && age >= 40);
+
+    push("Cervical cancer screening",
+         "Ask if you’re due for Pap / HPV testing based on age and prior results.",
+         age !== null && age >= 21 && age <= 65);
+    
+    push("Chlamydia / STI screening",
+         "Annual screening recommended for sexually active women < 25 or at increased risk.",
+         age !== null && age >= 16 && age <= 24);
+  }
+
+  push("Vaccinations (adult schedule)",
+       "Confirm flu/COVID updates and age-based vaccines (e.g., shingles, pneumococcal).",
+       age !== null && age >= 50);
+
+  push("Hepatitis C + HIV screening (baseline)",
+       "Discuss one-time HCV and baseline HIV screening if not previously done.",
+       eligibleHepC(age));
+
+  return items.slice(0, 10);
+}
+
+function quickSuggestionsComplete(data){
+  const items = [];
+  const age = data.age;
+  const sex = data.sex;
+  const bmi = data.bmi;
+
+  const smokerNow = data.smoke_now === "yes";
+  const py = data.pack_years;
+  const yearsQuit = data.years_quit;
+
+  const fhBreast = data.fh_breast;
+  const fhColon = data.fh_colon;
+  const fhProstate = data.fh_prostate;
+  const fhMelanoma = data.fh_melanoma;
+
+  const bpKnownHigh = (data.sbp !== null && data.dbp !== null) && (data.sbp >= 130 || data.dbp >= 80);
+  const hasHTN = data.htn === "yes";
+
+  function push(t, d, hot=false){
+    items.push({t,d,hot});
+  }
+
+  const bpHot = !!(bpKnownHigh || hasHTN || (age !== null && age >= 40) || smokerNow);
+  push("Blood pressure screening / targets",
+       "Discuss technique, home BP log, and evidence-based target ranges by risk profile.",
+       bpHot);
+
+  push("Diabetes screening / A1c discussion",
+       "Discuss A1c screening frequency and cardiometabolic risk assessment.",
+       diabetesScreenRelevant(age, bmi, data.dm === "yes"));
+
+  push("Lipids + ASCVD prevention planning",
+       "Discuss LDL goals and prevention strategy based on risk factors and conditions.",
+       lipidScreenRelevant(age) && (age >= 40 || data.ascvd === "yes" || data.dm === "yes" || data.ckd === "yes"));
+
+  push("Vaccinations (age-appropriate)",
+       "Confirm what you’re due for (flu, COVID, Tdap, shingles, pneumococcal, etc.).",
+       isAdult(age) && (age >= 50));
+
+  push("Colon cancer screening",
+       "Discuss colon screening options and interval (family history may change timing).",
+       eligibleColon(age, fhColon));
+
+  if(sex === "female"){
+    push("Breast cancer screening (mammogram)",
+         "Discuss start age, frequency, and whether family history changes your plan.",
+         eligibleMammo(age, sex, fhBreast));
+    if(age !== null && age >= 21 && age <= 65){
+      push("Cervical cancer screening",
+           "Ask if you’re due for Pap / HPV testing based on age and prior results.",
+           age >= 25);
+    }
+    if(age !== null && age >= 16 && age <= 24){
+      push("Chlamydia / STI screening",
+           "Annual screening recommended for sexually active women < 25 or at increased risk.",
+           true);
+    }
+  }
+
+  if(sex === "male"){
+    push("Prostate screening (PSA shared decision)",
+         "Discuss benefits/harms, false positives, and how race/family history may change timing.",
+         eligiblePSA(age, sex, fhProstate, data.race || ""));
+  }
+
+  const lungEligible = eligibleLungCancerLDCT(age, py, smokerNow, yearsQuit);
+  const lungPossible =
+    (age !== null && age >= 50 && age <= 80) &&
+    (smokerNow || (yearsQuit !== null && yearsQuit <= 15));
+
+  push("Lung cancer screening (LDCT) — eligibility check",
+       lungEligible
+         ? "You appear eligible based on age + smoking criteria. Discuss LDCT screening."
+         : "Eligibility depends on pack-years (packs/day × years). Enter smoking history to confirm.",
+       (lungEligible || lungPossible));
+
+  push("Bone health (DEXA / fracture prevention)",
+       "Discuss osteoporosis screening and fall/fracture prevention based on age/risk.",
+       eligibleDEXA(age, sex));
+
+  push("Skin cancer vigilance (melanoma risk)",
+       "Discuss skin exam guidance and warning signs, especially with family history.",
+       !!fhMelanoma);
+
+  push("Lifestyle levers (sleep/activity/nutrition)",
+       "High-impact levers for long-term health: sleep, activity, diet quality, tobacco/alcohol, mood.",
+       bmi !== null && bmi >= 25);
+
+  push("Mood / depression screening",
+       "Discuss screening tools and treatments that improve function and quality of life.",
+       data.mood && data.mood !== "unknown" && data.mood !== "none");
+
+  if(data.dm === "yes" || data.ckd === "yes"){
+    push("Kidney protection strategy",
+         "Ask about albumin testing, BP goals, and kidney-protective therapies if indicated.",
+         true);
+  }
+
+  return items.slice(0, 12);
+}
+
+function recommendedLabsSimple(data){
+  const labs = [];
+  const age = data.age;
+  function push(t,d,hot=false){ labs.push({t,d,hot}); }
+
+  push("Lipid panel",
+       "Total cholesterol, LDL, HDL, triglycerides for ASCVD prevention planning.",
+       lipidScreenRelevant(age));
+
+  push("HbA1c (or fasting glucose)",
+       "Assess diabetes / prediabetes risk; guides prevention and treatment discussions.",
+       age !== null && age >= 35);
+
+  push("Hepatitis C screen (one-time if not done)",
+       "Discuss whether you’ve ever been screened; common guideline pathways include adults 18–79.",
+       eligibleHepC(age));
+
+  push("HIV screen (baseline if not done)",
+       "Discuss if you’ve ever been screened; repeat depends on risk factors.",
+       eligibleHIV(age));
+
+  return labs;
+}
+
+function recommendedLabsComplete(data){
+  const labs = [];
+  const age = data.age;
+
+  function push(t,d,hot=false){
+    labs.push({t,d,hot});
+  }
+
+  push("Lipid panel",
+       "Total cholesterol, LDL, HDL, triglycerides for ASCVD prevention planning.",
+       lipidScreenRelevant(age));
+
+  push("HbA1c (or glucose screening)",
+       "Assess diabetes / prediabetes risk; guides prevention and treatment discussions.",
+       diabetesScreenRelevant(age, data.bmi, data.dm === "yes"));
+
+  push("Hepatitis C screen (one-time if not done)",
+       "Discuss whether you’ve ever been screened; common guideline pathways include adults 18–79.",
+       eligibleHepC(age));
+
+  push("HIV screen (baseline if not done)",
+       "Discuss if you’ve ever been screened; repeat depends on risk factors.",
+       eligibleHIV(age));
+
+  push("Basic metabolic panel / kidney function",
+       "Electrolytes and kidney function; can support BP/diabetes/med safety discussions.",
+       data.ckd === "yes" || data.htn === "yes" || data.dm === "yes");
+
+  push("Urine albumin/creatinine (UACR)",
+       "Helps assess kidney risk and guide therapy discussions (esp. diabetes/HTN/CKD).",
+       data.dm === "yes" || data.htn === "yes" || data.ckd === "yes");
+
+  return labs.slice(0, 10);
+}
+
+function renderGrid(items, wrapId){
+  const wrap = $(wrapId);
+  wrap.innerHTML = "";
+  items.forEach(it=>{
+    const div = document.createElement("div");
+    div.className = "qitem" + (it.hot ? " hot" : "");
+    div.innerHTML = `<div class="t">${it.t}</div><div class="d">${it.d}</div>`;
+    wrap.appendChild(div);
+  });
+}
+
+/* =============== Prompt Builder =============== */
+function gatherData(){
+  const age = num("age");
+
+  const heightIn = num("height_in");
+  const weightLb = num("weight_lb");
+
+  let bmiVal = num("bmi"); // Get current manual/existing value
+
+  // Auto-calculate if H+W are present
+  const autoBmi = bmiFrom(heightIn, weightLb);
+  if(autoBmi !== null){
+    bmiVal = autoBmi;
+    if($("bmi")) $("bmi").value = String(autoBmi);
+  }
+
+  const packs = num("packs_day");
+  const yrs = num("years_smoked");
+  const py = packYears(packs, yrs);
+
+  const raceSel = pick("race_sel");
+  const raceOther = clean($("race_other")?.value || "");
+  const race = (raceSel === "Other (specify)") ? (raceOther || "Other (unspecified)") : raceSel;
+
+  const data = {
+    age,
+    sex: pick("sex"),
+    race,
+
+    fh_breast: $("fh_breast") ? $("fh_breast").checked : false,
+    fh_colon: $("fh_colon") ? $("fh_colon").checked : false,
+    fh_prostate: $("fh_prostate") ? $("fh_prostate").checked : false,
+    fh_melanoma: $("fh_melanoma") ? $("fh_melanoma").checked : false,
+
+    height_in: heightIn,
+    weight_lb: weightLb,
+    bmi: bmiVal,
+
+    sbp: num("sbp"),
+    dbp: num("dbp"),
+    cr: num("cr"),
+
+    smoke_now: pick("smoke_now"),
+    packs_day: packs,
+    years_smoked: yrs,
+    years_quit: num("years_quit"),
+    pack_years: py,
+
+    drinks_week: num("drinks_week"),
+    cocaine: pick("cocaine"),
+    mood: pick("mood"),
+    sleep: pick("sleep"),
+
+    dm: pick("dm"),
+    htn: pick("htn"),
+    chf: pick("chf"),
+    ckd: pick("ckd"),
+    ascvd: pick("ascvd"),
+
+    a1c: num("a1c"),
+    uacr: num("uacr"),
+
+    ldl: num("ldl"),
+    tc: num("tc"),
+    hdl: num("hdl"),
+    tg: num("tg"),
+
+    mode: pick("mode"),
+    tone: pick("tone"),
+    nnt_mode: pick("nnt_mode"),
+  };
+  return data;
+}
+
+function summarizePatient(data){
+  const parts = [];
+  parts.push(`Age: ${data.age ?? "Unknown"}`);
+  parts.push(`Sex at birth: ${data.sex}`);
+
+  // In Simple mode we keep this short and avoid implying unknowns are known
+  if(APP_MODE === "simple"){
+    return parts.join("\n");
+  }
+
+  parts.push(`Race/Ancestry: ${data.race}`);
+  parts.push(`BMI: ${data.bmi ?? "Unknown"}`);
+
+  const bp = (data.sbp && data.dbp) ? `${Math.round(data.sbp)}/${Math.round(data.dbp)}` : "Unknown";
+  parts.push(`BP (if known): ${bp}`);
+
+  const fhs = [];
+  if(data.fh_breast) fhs.push("Breast CA");
+  if(data.fh_colon) fhs.push("Colon CA");
+  if(data.fh_prostate) fhs.push("Prostate CA");
+  if(data.fh_melanoma) fhs.push("Melanoma");
+  parts.push(`First-degree family history: ${fhs.length ? fhs.join(", ") : "None reported / Unknown"}`);
+
+  const smokeBits = [];
+  let sStatus = data.smoke_now;
+  if(sStatus === "no") sStatus = "Never";
+  if(sStatus === "yes") sStatus = "Current";
+  if(sStatus === "former") sStatus = "Former";
+  
+  smokeBits.push(`Smoking status: ${sStatus}`);
+  if(data.pack_years !== null) smokeBits.push(`Pack-years: ${data.pack_years}`);
+  if(data.years_quit !== null) smokeBits.push(`Years since quit: ${data.years_quit}`);
+  parts.push(`Smoking: ${smokeBits.join(" | ")}`);
+
+  parts.push(`Alcohol drinks/week: ${data.drinks_week ?? "Unknown"}`);
+  parts.push(`Cocaine use: ${data.cocaine}`);
+  parts.push(`Mood/depression symptoms: ${data.mood}`);
+
+  parts.push(`Diabetes: ${data.dm} | HTN: ${data.htn} | CHF: ${data.chf} | CKD: ${data.ckd} | ASCVD hx: ${data.ascvd}`);
+
+  const lab = [];
+  if(data.a1c !== null) lab.push(`HbA1c: ${data.a1c}%`);
+  if(data.uacr !== null) lab.push(`Urine Alb/Cr: ${data.uacr} mg/g`);
+  if(data.cr !== null) lab.push(`Creatinine: ${data.cr} mg/dL`);
+  if(data.ldl !== null) lab.push(`LDL: ${data.ldl} mg/dL`);
+  if(data.tc !== null) lab.push(`TC: ${data.tc} mg/dL`);
+  if(data.hdl !== null) lab.push(`HDL: ${data.hdl} mg/dL`);
+  if(data.tg !== null) lab.push(`TG: ${data.tg} mg/dL`);
+
+  parts.push(`Labs available: ${lab.length ? lab.join(" | ") : "None entered"}`);
+  return parts.join("\n");
+}
+
+function shouldIncludeNNT(data){
+  if(data.nnt_mode === "on") return true;
+  if(data.nnt_mode === "off") return false;
+  if(data.mode === "oe") return false;
+  return true;
+}
+
+function deepResearchAddon(){
+  return `\n\nOPTIONAL DEEP RESEARCH (quantify benefit)
+For each top recommendation above, if evidence exists:
+- report absolute risk reduction (ARR) and number-needed-to-treat (NNT) over a typical time horizon,
+- include any estimate of life-years gained / longevity impact when available,
+- cite the best sources and clearly state uncertainty if estimates vary.`;
+}
+
+function buildPromptSimpleOpenEvidence(data){
+  // Single payload prompt, OpenEvidence only, "consider the following"
+  const patient = summarizePatient(data);
+
+  return `NOT medical advice. I am preparing for a clinician visit.
+
+Use ⭐ OpenEvidence ONLY and cite your sources.
+Focus on the MOST CURRENT U.S. recommendations (USPSTF, ACIP/CDC, ACC/AHA, ADA, KDIGO as applicable).
+
+PATIENT (minimal inputs)
+${patient}
+
+TASK
+Provide a concise “Consider the following” list for a ${data.age ?? "?"}-year-old ${data.sex ?? "?"}:
+
+1) Top screening & prevention items to confirm (colon, breast/prostate if relevant, lung screening eligibility rules, vaccines, osteoporosis risk approach).
+2) Recommended baseline screening bloodwork to consider (lipids, A1c/glucose, Hep C, HIV) and why.
+3) BP and lipid discussion targets in general terms (acknowledge these become individualized with risk factors).
+4) A short list of the MOST IMPORTANT missing data points that would change recommendations (smoking pack-years, BP readings, BMI, family history, A1c, eGFR/UACR, meds).
+5) End with 8 smart questions to bring to the clinician.
+
+OUTPUT FORMAT
+- Use headings + bullets
+- Cite guidelines or high-quality evidence
+- Always phrase as “Discuss with clinician,” not instructions.`;
+}
+
+function buildPromptDeep(data){
+  const tone = data.tone === "pt"
+    ? "Write in patient-friendly language but keep it clinician-ready."
+    : "Write in clinician-professional language.";
+
+  const patient = summarizePatient(data);
+
+  let out = `SYSTEM / ROLE
+You are a clinical research assistant. Your job is NOT to give direct medical instructions.
+Your job IS to summarize guideline-based recommendations and evidence to support a conversation with a clinician.
+
+IMPORTANT SAFETY
+- This is NOT medical advice.
+- Do not diagnose.
+- Do not invent facts.
+- If a recommendation depends on missing info, say what is missing and why it matters.
+
+STYLE
+${tone}
+Be precise, professional, and cite sources (guidelines or high-quality reviews) when possible.
+
+PATIENT SUMMARY (self-entered; may be incomplete)
+${patient}
+
+TASK
+Using current U.S. guideline frameworks (e.g., USPSTF, ACC/AHA, ADA, KDIGO, ACIP, NCCN as applicable):
+1) Build a prioritized list of the TOP 10 actions to discuss, ordered by expected impact:
+   - mortality reduction
+   - functional improvement / quality of life
+   - cost / value
+   For each item: give (a) WHY it matters, (b) magnitude of benefit if known, (c) harms/tradeoffs, (d) cost considerations.
+
+2) Targets (evidence-based, individualized):
+   - Blood pressure target(s): suggest target range and rationale
+   - HbA1c target(s) if diabetes or elevated A1c: range + rationale
+   - Urine Alb/Cr interpretation if provided + what changes management
+   - LDL / lipid targets: include primary vs secondary prevention rationale
+
+3) Best treatments & mechanisms (high yield):
+   - Lifestyle (most effective levers first)
+   - Medications (if indicated): how they work + expected benefit + monitoring/side effects
+   - Kidney-protective and cardio-protective therapy considerations if DM/CKD/ASCVD/CHF present
+
+4) Screening & prevention checklist (tailored):
+   - Colon cancer
+   - Breast cancer (if relevant)
+   - Prostate cancer (if relevant; include race/family history nuance)
+   - Lung cancer (if smoking history suggests eligibility)
+   - Osteoporosis / DEXA
+   - Vaccinations (ACIP-style: flu, COVID, Tdap, shingles, pneumococcal, etc.)
+   - Skin cancer / melanoma awareness (if family history)
+
+5) Recommended screening bloodwork to consider (discussion list):
+   - Lipid panel
+   - HbA1c or glucose screening
+   - Hepatitis C screening
+   - HIV screening
+   - (Plus other high-yield labs as relevant; state why)
+
+6) Finish with a “Bring to your clinician” section:
+   - 8–12 smart questions to ask at the visit
+   - list the top missing data points to gather (e.g., BP log, A1c, eGFR, meds list, etc.)
+
+OUTPUT FORMAT
+- Use headings and bullet points.
+- Keep it actionable but always framed as: “Discuss with clinician,” not “Do this.”`;
+
+  if(shouldIncludeNNT(data)) out += deepResearchAddon();
+  return out;
+}
+
+function buildPromptTight(data){
+  const patient = summarizePatient(data);
+  let out = `You are helping me prepare for a clinician visit. This is NOT medical advice.
+
+PATIENT SUMMARY
+${patient}
+
+Please provide:
+1) A ranked list (top 7–10) of evidence-based prevention and treatment priorities for me.
+2) For each item: expected impact (mortality/function/cost), brief mechanism, key pros/cons.
+3) Suggested screening/vaccination items to confirm (colon/breast/prostate/lung/DEXA/skin/vaccines).
+4) Targets to discuss for BP, LDL, and (if relevant) HbA1c and urine Alb/Cr.
+5) Recommended screening bloodwork to consider (lipid, A1c, Hep C, HIV) + why it matters.
+6) 8–12 questions I should ask my physician.`;
+
+  if(shouldIncludeNNT(data)) out += deepResearchAddon();
+  return out;
+}
+
+function buildPromptOpenEvidence(data){
+  const patient = summarizePatient(data);
+
+  return `NOT medical advice. I want evidence/guideline support to discuss with my clinician.
+
+PATIENT SUMMARY
+${patient}
+
+Please answer with citations:
+1) Screening & prevention items I should confirm (colon, breast/prostate if relevant, lung if eligible, DEXA, skin/melanoma risk, vaccines).
+2) For BP / diabetes / kidney / lipids: recommended targets and best first-line treatments if indicated.
+3) Screening bloodwork to consider (lipid panel, HbA1c/glucose, Hep C, HIV) and why.
+4) Rank the most important actions by expected impact (mortality/function).`;
+}
+
+function buildPrompt(data){
+  if(APP_MODE === "simple"){
+    // Force OpenEvidence-only single payload prompt
+    return buildPromptSimpleOpenEvidence(data);
+  }
+
+  if(data.mode === "oe") return buildPromptOpenEvidence(data);
+  if(data.mode === "tight") return buildPromptTight(data);
+  return buildPromptDeep(data);
+}
+
+/* =============== UI updates =============== */
+function updateRaceOtherVisibility(){
+  const sel = pick("race_sel");
+  const wrap = $("race_other_wrap");
+  if(wrap) wrap.style.display = (sel === "Other (specify)") ? "block" : "none";
+}
+
+function updateSmokingVisibility(){
+  const val = pick("smoke_now");
+  const rowQty = $("row_smoke_qty");
+  const colQuit = $("col_years_quit");
+  
+  // Show qty row if Current (yes) or Former
+  if(val === "yes" || val === "former"){
+    rowQty.style.display = "grid";
+  } else {
+    rowQty.style.display = "none";
+  }
+  
+  // Show quit column ONLY if Former
+  if(val === "former"){
+    colQuit.style.display = "block";
+  } else {
+    colQuit.style.display = "none";
+  }
+}
+
+function updateKpis(data){
+  // Only meaningful in complete mode (BMI/BP fields may not be visible)
+  if(APP_MODE !== "complete") return;
+
+  const bmi = data.bmi;
+  if(bmi !== null){
+    $("bmi_note").textContent =
+      bmi >= 30 ? "obesity range" :
+      bmi >= 25 ? "overweight range" :
+      bmi >= 18.5 ? "healthy range" : "underweight range";
+  }else{
+    $("bmi_note").textContent = "—";
+  }
+
+  $("bp_note").textContent = bpText(data.sbp, data.dbp);
+
+  const flags = [];
+  if(data.dm === "yes") flags.push("diabetes");
+  if(data.htn === "yes") flags.push("HTN");
+  if(data.ckd === "yes") flags.push("CKD");
+  if(data.ascvd === "yes") flags.push("ASCVD hx");
+  
+  if(data.smoke_now === "yes") flags.push("current smoker");
+  if(data.smoke_now === "former") flags.push("former smoker");
+  
+  if(data.pack_years !== null && data.pack_years >= 20) flags.push("≥20 pack-yrs");
+  if(data.fh_colon) flags.push("FHx colon CA");
+  if(data.fh_breast) flags.push("FHx breast CA");
+  if(data.fh_prostate) flags.push("FHx prostate CA");
+  if(data.fh_melanoma) flags.push("FHx melanoma");
+
+  $("flag_note").textContent = flags.length ? flags.join(", ") : "none detected";
+
+  $("py_note").textContent = (data.pack_years !== null) ? String(data.pack_years) : "unknown (enter packs/day + years)";
+
+  const smokerNow = data.smoke_now === "yes";
+  const lungEligible = eligibleLungCancerLDCT(data.age, data.pack_years, smokerNow, data.years_quit);
+
+  if(lungEligible){
+    $("ldct_note").textContent = "appears eligible (best-effort)";
+  }else{
+    const possible =
+      (data.age !== null && data.age >= 50 && data.age <= 80) &&
+      (smokerNow || (data.years_quit !== null && data.years_quit <= 15));
+    $("ldct_note").textContent = possible ? "possible — confirm pack-years" : "not suggested by inputs";
+  }
+}
+
+/* =============== Modifiable Risk Score (prototype) =============== */
+const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+
+function setMiniDot(id, filled){
+  const el = $(id);
+  if(!el) return;
+  el.classList.toggle("filled", !!filled);
+}
+function scoreByBands(value, bands){
+  for(const b of bands){
+    if(value <= b.max) return b.score;
+  }
+  return bands[bands.length - 1].score;
+}
+
+function moodToNumeric(mood){
+  // Not validated: rough proxy for threshold behavior (worse mood = higher penalty)
+  // none ~2, mild ~7, moderate ~12, severe ~20, unknown -> null
+  if(mood === "none") return 2;
+  if(mood === "mild") return 7;
+  if(mood === "moderate") return 12;
+  if(mood === "severe") return 20;
+  return null;
+}
+
+function scoreBP(sbp, dbp){
+  if(sbp == null || dbp == null) return null;
+
+  const sbpScore = scoreByBands(sbp, [
+    {max: 119, score: 100},
+    {max: 129, score: 88},
+    {max: 139, score: 72},
+    {max: 159, score: 45},
+    {max: 1000, score: 20}
+  ]);
+
+  const dbpScore = scoreByBands(dbp, [
+    {max: 79, score: 100},
+    {max: 89, score: 72},
+    {max: 99, score: 45},
+    {max: 1000, score: 25}
+  ]);
+
+  return Math.min(sbpScore, dbpScore);
+}
+
+function scoreLipids(ldl, hdl){
+  if(ldl == null || hdl == null) return null;
+
+  const ldlScore = scoreByBands(ldl, [
+    {max: 69, score: 100},
+    {max: 99, score: 88},
+    {max: 129, score: 72},
+    {max: 159, score: 55},
+    {max: 189, score: 38},
+    {max: 1000, score: 20}
+  ]);
+
+  let hdlAdj = 0;
+  if(hdl >= 60) hdlAdj = +6;
+  else if(hdl >= 50) hdlAdj = +3;
+  else if(hdl >= 40) hdlAdj = 0;
+  else hdlAdj = -10;
+
+  return clamp(ldlScore + hdlAdj, 0, 100);
+}
+
+function scoreA1c(a1c){
+  if(a1c == null) return null;
+  return scoreByBands(a1c, [
+    {max: 5.6, score: 100},
+    {max: 6.4, score: 85},
+    {max: 7.0, score: 75},
+    {max: 7.9, score: 65},
+    {max: 8.9, score: 50},
+    {max: 9.9, score: 35},
+    {max: 1000, score: 15}
+  ]);
+}
+
+function scoreCreatinine(cr){
+  if(cr == null) return null;
+  return scoreByBands(cr, [
+    {max: 1.0, score: 100},
+    {max: 1.2, score: 88},
+    {max: 1.6, score: 70},
+    {max: 2.0, score: 50},
+    {max: 3.0, score: 30},
+    {max: 1000, score: 15}
+  ]);
+}
+
+function scoreUACR(uacr){
+  if(uacr == null) return null;
+  return scoreByBands(uacr, [
+    {max: 29, score: 100},
+    {max: 299, score: 70},
+    {max: 999, score: 40},
+    {max: 100000, score: 20}
+  ]);
+}
+
+function scoreBMI(bmi){
+  if(bmi == null) return null;
+  return scoreByBands(bmi, [
+    {max: 24.9, score: 100},
+    {max: 29.9, score: 85},
+    {max: 34.9, score: 70},
+    {max: 39.9, score: 55},
+    {max: 1000, score: 35}
+  ]);
+}
+
+function scoreMood(moodStr){
+  const phq = moodToNumeric(moodStr);
+  if(phq == null) return null;
+  return scoreByBands(phq, [
+    {max: 4, score: 100},
+    {max: 9, score: 85},
+    {max: 14, score: 65},
+    {max: 19, score: 45},
+    {max: 27, score: 25},
+    {max: 1000, score: 25}
+  ]);
+}
+
+function updateModifiableRiskScore(data){
+  // Only in complete mode (card is hidden otherwise)
+  if(APP_MODE !== "complete") return;
+
+  const sbp = data.sbp;
+  const dbp = data.dbp;
+  const ldl = data.ldl;
+  const hdl = data.hdl;
+  const cr  = data.cr;
+  const a1c = data.a1c;
+  const uacr = data.uacr;
+  const bmi = data.bmi;
+  const mood = data.mood;
+
+  const ok_bp = (sbp != null && dbp != null);
+  const ok_ldl = (ldl != null);
+  const ok_hdl = (hdl != null);
+  const ok_cr  = (cr != null);
+  const ok_a1c = (a1c != null);
+  const ok_uacr = (uacr != null);
+  const ok_bmi = (bmi != null);
+  const ok_mood = (mood != null && mood !== "unknown");
+
+  setMiniDot("mr_dot_bp", ok_bp);
+  setMiniDot("mr_dot_ldl", ok_ldl);
+  setMiniDot("mr_dot_hdl", ok_hdl);
+  setMiniDot("mr_dot_cr", ok_cr);
+  setMiniDot("mr_dot_a1c", ok_a1c);
+  setMiniDot("mr_dot_uacr", ok_uacr);
+  setMiniDot("mr_dot_bmi", ok_bmi);
+  setMiniDot("mr_dot_mood", ok_mood);
+
+  const allFilled = ok_bp && ok_ldl && ok_hdl && ok_cr && ok_a1c && ok_uacr && ok_bmi && ok_mood;
+
+  const badge = $("mr_badge");
+  const locked = $("mr_locked");
+  const wrap = $("mr_meterWrap");
+  const fill = $("mr_fill");
+  const dot = $("mr_dot");
+  const interp = $("mr_interp");
+
+  if(!allFilled){
+    badge.style.visibility = "hidden";
+    locked.style.display = "block";
+    wrap.style.display = "none";
+    dot.style.display = "none";
+    fill.style.width = "0%";
+    return;
+  }
+
+  // weights sum to 100
+  const W = { bp:18, lipids:18, a1c:15, cr:15, uacr:10, bmi:12, mood:12 };
+
+  const bpS = scoreBP(sbp, dbp);
+  const lipS = scoreLipids(ldl, hdl);
+  const a1cS = scoreA1c(a1c);
+  const crS = scoreCreatinine(cr);
+  const uacrS = scoreUACR(uacr);
+  const bmiS = scoreBMI(bmi);
+  const moodS = scoreMood(mood);
+
+  let total =
+    (bpS * W.bp) +
+    (lipS * W.lipids) +
+    (a1cS * W.a1c) +
+    (crS * W.cr) +
+    (uacrS * W.uacr) +
+    (bmiS * W.bmi) +
+    (moodS * W.mood);
+
+  total = Math.round(clamp(total / 100.0, 0, 100));
+
+  badge.style.visibility = "visible";
+  badge.textContent = String(total);
+
+  locked.style.display = "none";
+  wrap.style.display = "block";
+  dot.style.display = "block";
+
+  fill.style.width = total + "%";
+  dot.style.left = total + "%";
+
+  const penalties = [];
+  if(bpS < 60) penalties.push("BP");
+  if(lipS < 60) penalties.push("lipids");
+  if(a1cS < 60) penalties.push("A1c");
+  if(crS < 60) penalties.push("kidney (Cr)");
+  if(uacrS < 60) penalties.push("albuminuria (UACR)");
+  if(bmiS < 60) penalties.push("BMI");
+  if(moodS < 60) penalties.push("mood");
+
+  interp.innerHTML = `<b>Unlocked.</b> Prototype score only (not validated). Use as a discussion lens.
+    ${penalties.length ? `<br/>Largest penalties detected: <b>${penalties.join(", ")}</b>.` : ""}`;
+}
+
+/* =============== Copy / Modal Send =============== */
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch(e){
+    try{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e2){
+      return false;
+    }
+  }
+}
+
+function openSite(url){
+  window.open(url, "_blank");
+}
+
+const DESTS = {
+  gpt: { name:"GPT (ChatGPT)", url:"https://chatgpt.com/" },
+  claude: { name:"Claude", url:"https://claude.ai/" },
+  copilot: { name:"Copilot", url:"https://copilot.microsoft.com/" },
+  gemini: { name:"Gemini", url:"https://gemini.google.com/" },
+  perp: { name:"Perplexity", url:"https://www.perplexity.ai/" },
+  oe: { name:"OpenEvidence", url:"https://www.openevidence.com/" }
+};
+
+function showModal(text){
+  $("modal_text").value = text || "";
+  $("modal_overlay").style.display = "flex";
+  $("modal_overlay").setAttribute("aria-hidden","false");
+  setTimeout(()=>{ $("modal_text").focus(); }, 0);
+}
+
+function hideModal(){
+  $("modal_overlay").style.display = "none";
+  $("modal_overlay").setAttribute("aria-hidden","true");
+}
+
+/* =============== REMINDER MODAL LOGIC =============== */
+function buildReminderUrl(){
+  const data = gatherData();
+  const params = new URLSearchParams();
+  
+  if(data.age) params.set("age", data.age);
+  if(data.sex) params.set("sex", data.sex);
+  
+  // -- Flags --
+
+  // Colon
+  if(eligibleColon(data.age, data.fh_colon)){
+    params.set("colon", "1");
+  }
+  // Mammo
+  if(eligibleMammo(data.age, data.sex, data.fh_breast)){
+    params.set("mammo", "1");
+  }
+  // PSA
+  if(eligiblePSA(data.age, data.sex, data.fh_prostate, data.race)){
+    params.set("psa", "1");
+  }
+  // Pap / Cervical (Approx)
+  if(data.sex === "female" && data.age >= 21 && data.age <= 65){
+    params.set("pap", "1");
+  }
+  
+  // Logic: "if hgba1c over 6.5" or "dm=yes"
+  // This triggers diabetic eye exam, labs, urine, etc.
+  const hasDM = (data.dm === "yes");
+  const highA1c = (data.a1c !== null && data.a1c > 6.5);
+  const diabeticContext = (hasDM || highA1c);
+
+  // Eye Exam
+  if(diabeticContext || (data.age && data.age >= 60)){
+    params.set("eye", "1");
+  }
+  
+  // Diabetic Specifics
+  if(diabeticContext){
+    params.set("labs_dm", "1"); // Metabolic/A1c labs
+    params.set("uacr", "1");    // Urine microalbumin
+    // Enable medication flags if DM context exists
+    // (User can unclick in the reminder app if they don't take them)
+    params.set("meds_daily", "1");   // Triggers AM/PM med placeholders
+    params.set("meds_weekly", "1");  // Triggers GLP placeholder
+    params.set("meds_insulin", "1"); // Triggers Insulin placeholder
+  } else {
+    // If not diabetic context, check generic A1c screening
+    if(diabetesScreenRelevant(data.age, data.bmi, false)){
+      params.set("a1c_screen", "1"); // Generic screening
+    }
+  }
+
+  // Heart Failure context -> Meds
+  if(data.chf === "yes"){
+    params.set("meds_daily", "1"); // Ensure daily meds are triggered
+  }
+  
+  // Dentist (Universal)
+  params.set("dentist", "1");
+  
+  // Annual Wellness (Universal)
+  params.set("wellness", "1");
+  
+  // DEXA
+  if(eligibleDEXA(data.age, data.sex)){
+    params.set("dexa", "1");
+  }
+  
+  // Lung
+  const smokerNow = data.smoke_now === "yes";
+  const lungEligible = eligibleLungCancerLDCT(data.age, data.pack_years, smokerNow, data.years_quit);
+  if(lungEligible) params.set("lung", "1");
+
+  return REMINDER_BASE_URL + "?" + params.toString();
+}
+
+function showReminderModal(){
+  const url = buildReminderUrl();
+  const qrImg = $("qr_img");
+  const linkEl = $("rem_link");
+  const textEl = $("rem_url_text");
+
+  // Generate QR using public API (no library req)
+  qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}`;
+  linkEl.href = url;
+  textEl.textContent = url;
+
+  $("modal_reminders").style.display = "flex";
+  $("modal_reminders").setAttribute("aria-hidden","false");
+}
+
+function hideReminderModal(){
+  $("modal_reminders").style.display = "none";
+  $("modal_reminders").setAttribute("aria-hidden","true");
+}
+
+$("btn_reminders").addEventListener("click", showReminderModal);
+$("reminders_close").addEventListener("click", hideReminderModal);
+// Close when clicking overlay
+$("modal_reminders").addEventListener("click", (e)=>{
+  if(e.target === $("modal_reminders")) hideReminderModal();
+});
+
+
+/* =============== Send To Logic =============== */
+async function sendTo(destKey){
+  const text = clean($("modal_text").value);
+  if(!text){
+    toast("Nothing to copy", true);
+    return;
+  }
+  const ok = await copyText(text);
+  if(!ok){
+    toast("Copy blocked — use Ctrl+A then Ctrl+C", true);
+    return;
+  }
+  const d = DESTS[destKey];
+  openSite(d.url);
+  toast(`Copied ✔  Opened ${d.name} — paste (Ctrl+V)`);
+  
+  // Close the modal immediately so site data can be re-entered
+  hideModal();
+}
+
+/* =============== Main regenerate =============== */
+function regenerate(){
+  const data = gatherData();
+  updateRaceOtherVisibility();
+  
+  // New visibility check
+  updateSmokingVisibility();
+  
+  updateKpis(data);
+
+  // Quick topics/labs based on mode
+  const q = (APP_MODE === "simple") ? quickSuggestionsSimple(data) : quickSuggestionsComplete(data);
+  const l = (APP_MODE === "simple") ? recommendedLabsSimple(data) : recommendedLabsComplete(data);
+  renderGrid(q, "quick_grid");
+  renderGrid(l, "lab_grid");
+
+  // Update score card (complete mode only)
+  updateModifiableRiskScore(data);
+
+  const ok = validateRequired(data);
+  setButtons(ok);
+
+  if(ok){
+    const prompt = buildPrompt(data);
+    $("out").textContent = prompt;
+    return prompt;
+  }else{
+    $("out").textContent = (APP_MODE === "simple")
+      ? "Enter required fields (Age + Sex at birth) to enable Generate."
+      : "Enter required fields (Age + Sex at birth + BMI) to enable Generate.";
+    return "";
+  }
+}
+
+/* =============== Events =============== */
+$("btn_mode_simple").addEventListener("click", ()=>setAppMode("simple"));
+$("btn_mode_complete").addEventListener("click", ()=>setAppMode("complete"));
+
+// Consolidate functionality: Generate & Actions...
+$("gen_send").addEventListener("click", ()=>{
+  const text = regenerate();
+  if(!text) return toast("Enter required fields first", true);
+  showModal(text);
+});
+
+$("modal_close").addEventListener("click", hideModal);
+$("modal_overlay").addEventListener("click", (e)=>{
+  if(e.target === $("modal_overlay")) hideModal();
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape" && $("modal_overlay").style.display === "flex") hideModal();
+  if(e.key === "Escape" && $("modal_reminders").style.display === "flex") hideReminderModal();
+});
+
+$("modal_copy_only").addEventListener("click", async ()=>{
+  const text = clean($("modal_text").value);
+  if(!text) return toast("Nothing to copy", true);
+  const ok = await copyText(text);
+  toast(ok ? "Copied ✔" : "Copy blocked", !ok);
+});
+
+$("modal_copy_close").addEventListener("click", async ()=>{
+  const text = clean($("modal_text").value);
+  if(!text) return toast("Nothing to copy", true);
+  const ok = await copyText(text);
+  if(ok){
+    toast("Copied ✔");
+    hideModal();
+  }else{
+    toast("Copy blocked — use Ctrl+A then Ctrl+C", true);
+  }
+});
+
+$("send_gpt").addEventListener("click", ()=>sendTo("gpt"));
+$("send_claude").addEventListener("click", ()=>sendTo("claude"));
+$("send_copilot").addEventListener("click", ()=>sendTo("copilot"));
+$("send_gemini").addEventListener("click", ()=>sendTo("gemini"));
+$("send_perp").addEventListener("click", ()=>sendTo("perp"));
+
+// In Simple mode, OpenEvidence is the intended destination, but we don't block others
+$("send_oe").addEventListener("click", ()=>{
+  // If Complete mode: auto-set OE mode before sending
+  if(APP_MODE === "complete" && $("mode")) $("mode").value = "oe";
+  const text = regenerate();
+  $("modal_text").value = text || $("modal_text").value;
+  sendTo("oe");
+});
+
+// Bind inputs (some exist only in complete mode; check presence)
+[
+ "age","sex","race_sel","race_other",
+ "fh_breast","fh_colon","fh_prostate","fh_melanoma",
+ "height_in","weight_lb","bmi","sbp","dbp",
+ "smoke_now","packs_day","years_smoked","years_quit",
+ "drinks_week","cocaine","mood","sleep",
+ "dm","htn","chf","ckd","ascvd",
+ "a1c","uacr","cr","ldl","tc","hdl","tg",
+ "mode","tone","nnt_mode"
+].forEach(id=>{
+  const el = $(id);
+  if(!el) return;
+  el.addEventListener("input", regenerate);
+  el.addEventListener("change", regenerate);
+});
+
+/* =============== Init =============== */
+(function init(){
+  updateModeUI();
+  updateSmokingVisibility(); // Ensure correct initial state
+  regenerate();
+})();
+</script>
+
+</body>
+</html>
