@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prostate Surveillance Navigator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a463f; --ivory:#f4efe6; --paper:#fbf8f1;
+    --line:#d9d1c2; --teal:#0c5450; --teal-deep:#093d3a; --oxblood:#8a3324;
+    --amber:#9a6b13; --green:#356b3f; --shadow:rgba(28,26,23,.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ivory);
+    background-image:radial-gradient(circle at 18% 12%, rgba(12,84,80,.05), transparent 45%),
+                     radial-gradient(circle at 88% 88%, rgba(138,51,36,.05), transparent 50%);
+    color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; padding:28px 20px 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+  header.masthead{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin:0 0 6px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1.02;margin:0;letter-spacing:-.01em;}
+  .sub{font-size:14px;color:var(--ink-soft);margin:10px 0 0;max-width:64ch;}
+  .disclaimer{margin-top:16px;font-size:12.5px;color:var(--oxblood);background:rgba(138,51,36,.06);border:1px solid rgba(138,51,36,.25);border-radius:8px;padding:10px 13px;line-height:1.45;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:30px;}
+  @media(max-width:840px){.grid{grid-template-columns:1fr;}}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px 22px 24px;box-shadow:0 1px 0 var(--shadow);}
+  .panel h2{font-family:'Fraunces',serif;font-weight:600;font-size:21px;margin:0 0 4px;}
+  .panel .lead{font-size:12.5px;color:var(--ink-soft);margin:0 0 18px;}
+  .field{margin-bottom:15px;}
+  .grouplbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:22px 0 10px;border-top:1px solid var(--line);padding-top:14px;}
+  label.flbl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;margin-bottom:5px;}
+  .help{border:1px solid var(--teal);color:var(--teal);background:transparent;width:17px;height:17px;border-radius:50%;font-size:11px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;padding:0;flex:none;transition:.15s;}
+  .help:hover{background:var(--teal);color:#fff;}
+  input[type=number],select{width:100%;padding:9px 11px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);}
+  input:focus,select:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .checks{display:flex;flex-direction:column;gap:9px;}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .chk input{width:16px;height:16px;accent-color:var(--teal);}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+  .metric{border:1px solid var(--line);border-radius:9px;padding:11px 13px;background:#fff;}
+  .metric .mlbl{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;gap:5px;}
+  .metric .mval{font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin-top:3px;}
+  .metric .mtag{font-size:11px;font-weight:600;margin-top:2px;}
+  .t-low{color:var(--green);} .t-mid{color:var(--amber);} .t-high{color:var(--oxblood);} .t-na{color:var(--ink-soft);}
+  .formal{border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:9px;background:#fff;padding:15px 16px;margin-bottom:18px;}
+  .formal .fhead{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+  .formal .fprob{font-family:'Fraunces',serif;font-size:34px;font-weight:600;line-height:1;}
+  .formal .frange{font-size:12px;color:var(--ink-soft);margin-top:3px;}
+  .formal .fimp{font-size:13px;font-weight:600;margin-top:9px;line-height:1.4;}
+  .formal .fwork{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-soft);margin-top:8px;line-height:1.5;word-break:break-word;}
+  .formal .flink{font-size:11.5px;margin-top:8px;} .formal .flink a{color:var(--teal);}
+  .plan{font-size:13.5px;line-height:1.55;}
+  .plan h3{font-family:'IBM Plex Sans';font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin:18px 0 7px;font-weight:600;}
+  .plan ul{margin:0;padding-left:18px;} .plan li{margin-bottom:6px;}
+  .trig{list-style:none;padding:0;margin:0;}
+  .trig li{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;font-size:13px;}
+  .dot{flex:none;width:9px;height:9px;border-radius:50%;margin-top:5px;border:1px solid var(--line);}
+  .dot.on{background:var(--oxblood);border-color:var(--oxblood);} .dot.off{background:#fff;}
+  .met-flag{color:var(--oxblood);font-weight:600;}
+  .out-head{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:10px;}
+  .btn{font-family:'IBM Plex Sans';font-size:13px;font-weight:600;cursor:pointer;background:var(--teal);color:#fff;border:none;padding:9px 16px;border-radius:7px;transition:.15s;}
+  .btn:hover{background:var(--teal-deep);}
+  pre#outText{background:#fff;border:1px solid var(--line);border-radius:9px;padding:15px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.5;color:var(--ink);white-space:pre-wrap;word-break:break-word;max-height:320px;overflow:auto;margin-top:10px;}
+  .flash{font-size:12px;color:var(--green);font-weight:600;}
+  footer{margin-top:30px;font-size:11.5px;color:var(--ink-soft);text-align:center;line-height:1.5;}
+  .overlay{position:fixed;inset:0;background:rgba(28,26,23,.55);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--paper);border-radius:14px;max-width:500px;width:100%;padding:26px 26px 22px;box-shadow:0 24px 60px rgba(0,0,0,.3);border:1px solid var(--line);max-height:80vh;overflow:auto;}
+  .modal h4{font-family:'Fraunces',serif;font-size:22px;margin:0 0 4px;font-weight:600;}
+  .modal .term{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:0 0 12px;}
+  .modal p{font-size:14px;line-height:1.6;color:var(--ink-soft);margin:0 0 10px;}
+  .modal .closex{float:right;border:none;background:none;font-size:22px;cursor:pointer;color:var(--ink-soft);line-height:1;margin:-6px -6px 0 0;}
+  .modal .closex:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="kicker">Decision-support · prostate surveillance · v2</p>
+    <h1>Prostate Surveillance Navigator</h1>
+    <p class="sub">Turns your pathology, PSA dynamics, imaging, biomarkers, age and background into a monitoring cadence, re-biopsy triggers, and a <em>formal MRI-era probability estimate</em> — then packages it as a copy-paste query for Open Evidence. Tap any <span style="color:var(--teal);font-weight:600;">?</span> for plain-language detail.</p>
+    <div class="disclaimer"><strong>Not medical advice, not a validated calculator.</strong> The probability estimate is an <em>illustrative, literature-anchored</em> model (PSA-density + PI-RADS), not the proprietary PCPT/ERSPC/PBCG calculators, and outputs wide uncertainty bands by design. Use it to structure a conversation with a urologist and to vet against primary evidence.</div>
+  </header>
+
+  <div class="grid">
+    <!-- INPUTS -->
+    <section class="panel">
+      <h2>Your inputs</h2>
+      <p class="lead">Fill what you have. Blank fields are skipped.</p>
+
+      <div class="row2">
+        <div class="field"><label class="flbl">Age <button class="help" data-term="age">?</button></label><input type="number" id="age" min="30" max="100" placeholder="e.g. 58"></div>
+        <div class="field"><label class="flbl">On a 5-ARI? <button class="help" data-term="5ari">?</button></label><select id="ari"><option value="no">No</option><option value="yes">Yes</option></select></div>
+      </div>
+      <div class="field" id="ariDurWrap" style="display:none;"><label class="flbl">Months on the 5-ARI <button class="help" data-term="aridur">?</button></label><input type="number" id="aridur" step="1" placeholder="e.g. 12"></div>
+
+      <div class="grouplbl">PSA</div>
+      <div class="row2">
+        <div class="field"><label class="flbl">Current PSA <button class="help" data-term="psa">?</button></label><input type="number" id="psa" step="0.01" placeholder="ng/mL"></div>
+        <div class="field"><label class="flbl">Prostate volume <button class="help" data-term="vol">?</button></label><input type="number" id="vol" step="0.1" placeholder="cc (MRI/US)"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="flbl">Prior PSA <button class="help" data-term="velocity">?</button></label><input type="number" id="ppsa" step="0.01" placeholder="ng/mL (optional)"></div>
+        <div class="field"><label class="flbl">Months between PSAs</label><input type="number" id="pmonths" step="1" placeholder="e.g. 12"></div>
+      </div>
+      <div class="field"><label class="flbl">% free PSA, if measured <button class="help" data-term="freepsa">?</button></label><input type="number" id="freepsa" step="0.1" placeholder="% (scored only if total PSA 4–10)"></div>
+
+      <div class="grouplbl">Pathology & imaging</div>
+      <div class="field"><label class="flbl">Worst biopsy finding to date <button class="help" data-term="path">?</button></label>
+        <select id="path">
+          <option value="none">Never biopsied</option><option value="benign">Benign only</option>
+          <option value="fhgpin">Focal HGPIN (1 core)</option><option value="mhgpin">Multifocal HGPIN (≥2–3 cores)</option>
+          <option value="asap">ASAP (atypical, suspicious)</option><option value="aip">Atypical intraductal proliferation (AIP)</option>
+          <option value="gg1">Confirmed cancer — Grade Group 1</option><option value="gg2">Confirmed cancer — Grade Group ≥2</option>
+        </select></div>
+      <div class="field"><label class="flbl">Biopsy adequacy (most recent) <button class="help" data-term="adequacy">?</button></label>
+        <select id="adeq">
+          <option value="na">None / unknown</option><option value="sextant">Sextant (~6 core)</option>
+          <option value="std12">Systematic 12-core</option><option value="target">12-core + MRI-targeted</option>
+          <option value="sat">Saturation / template</option>
+        </select></div>
+      <div class="row2">
+        <div class="field"><label class="flbl">Latest mpMRI (PI-RADS) <button class="help" data-term="pirads">?</button></label>
+          <select id="pirads"><option value="na">Not done</option><option value="2">PI-RADS 1–2</option><option value="3">PI-RADS 3</option><option value="4">PI-RADS 4</option><option value="5">PI-RADS 5</option></select></div>
+        <div class="field"><label class="flbl">Dominant lesion zone <button class="help" data-term="zone">?</button></label>
+          <select id="zone"><option value="na">n/a</option><option value="pz">Peripheral (PZ)</option><option value="tz">Transition (TZ)</option></select></div>
+      </div>
+
+      <div class="grouplbl">Biomarker</div>
+      <div class="row2">
+        <div class="field"><label class="flbl">Test <button class="help" data-term="biomarker">?</button></label>
+          <select id="bioType"><option value="na">Not done</option><option value="PHI">PHI</option><option value="4Kscore">4Kscore</option><option value="MPS2">MPS2 (urine)</option><option value="other">Other</option></select></div>
+        <div class="field"><label class="flbl">Interpretation</label>
+          <select id="bio"><option value="na">—</option><option value="low">Low / negative</option><option value="int">Intermediate</option><option value="high">High / positive</option></select></div>
+      </div>
+      <div class="field"><label class="flbl">Numeric value, if any <button class="help" data-term="biomarkerval">?</button></label><input type="number" id="bioVal" step="0.1" placeholder="e.g. PHI 28, 4K 7%, MPS2 12"></div>
+
+      <div class="grouplbl">Background & exam</div>
+      <div class="field"><label class="flbl">Risk factors <button class="help" data-term="background">?</button></label>
+        <div class="checks">
+          <span class="chk"><input type="checkbox" id="fhx"> Family history of prostate cancer</span>
+          <span class="chk"><input type="checkbox" id="germ"> High-risk germline (e.g. BRCA2, Lynch)</span>
+          <span class="chk"><input type="checkbox" id="ancestry"> Black / African ancestry</span>
+          <span class="chk"><input type="checkbox" id="dre"> Abnormal / new DRE finding <button class="help" data-term="dre" style="margin-left:2px">?</button></span>
+        </div></div>
+      <div class="field"><label class="flbl">Months since last biopsy</label><input type="number" id="bxmonths" step="1" placeholder="optional"></div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="panel">
+      <h2>Suggested approach</h2>
+      <p class="lead">Updates live as you type.</p>
+
+      <div class="metrics">
+        <div class="metric"><div class="mlbl">PSA density <button class="help" data-term="density">?</button></div><div class="mval" id="mDensity">—</div><div class="mtag" id="tDensity"></div></div>
+        <div class="metric"><div class="mlbl">PSA velocity <button class="help" data-term="velocity">?</button></div><div class="mval" id="mVel">—</div><div class="mtag" id="tVel"></div></div>
+        <div class="metric"><div class="mlbl">Effective PSA <button class="help" data-term="effpsa">?</button></div><div class="mval" id="mEff">—</div><div class="mtag" id="tEff"></div></div>
+        <div class="metric"><div class="mlbl">Overall signal</div><div class="mval" id="mSig">—</div><div class="mtag" id="tSig"></div></div>
+      </div>
+
+      <div class="formal">
+        <div class="fhead">Formal risk estimate · MRI-era PSAD + PI-RADS <button class="help" data-term="formal">?</button></div>
+        <div class="fprob" id="fProb">—</div>
+        <div class="frange" id="fRange">enter PI-RADS, PSA and volume</div>
+        <div class="fimp" id="fImp"></div>
+        <div class="fwork" id="fWork"></div>
+        <div class="flink" id="fLink"></div>
+      </div>
+
+      <div class="plan">
+        <h3>Monitoring plan</h3>
+        <ul id="planList"><li>Enter your details to generate a plan.</li></ul>
+        <h3>Re-biopsy triggers <button class="help" data-term="rebiopsy">?</button></h3>
+        <ul class="trig" id="trigList"></ul>
+      </div>
+
+      <h3 class="plan" style="margin-top:22px;">Copy-paste for Open Evidence</h3>
+      <div class="out-head"><span class="flash" id="flash"></span><button class="btn" onclick="copyAndOpen()">Copy &amp; open Open Evidence ↗</button></div>
+      <pre id="outText">…</pre>
+      <p style="font-size:11.5px;color:var(--ink-soft);margin:8px 0 0;">Copies the block, then opens <a href="https://www.openevidence.com/" target="_blank" rel="noopener" style="color:var(--teal);">openevidence.com</a> in a new tab — paste into the search bar. (If the tab is blocked, use that link.)</p>
+    </section>
+  </div>
+
+  <footer>Framework reflects AUA/SUO Early Detection guidance, NCCN early-detection algorithm, PCPT/REDUCE chemoprevention data, and MRI-era PSAD/PI-RADS literature. The probability model is illustrative, not validated — for a calibrated number, run a validated calculator that includes volume (ERSPC/Rotterdam) or the PBCG model. Confirm everything with your clinician.</footer>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="closex" onclick="closeModal()" aria-label="Close">×</button>
+    <p class="term" id="mTerm">TERM</p><h4 id="mTitle">Title</h4><div id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const HELP = {
+  age:{t:"Age",k:"baseline risk",b:["Prostate-cancer risk rises with age, and so does the size of the prostate (which lifts PSA on its own). Age helps set screening frequency and interpret a borderline PSA.","Routine screening generally tapers when life expectancy is under ~10 years, because slow-growing cancers may never cause harm."]},
+  psa:{t:"PSA",k:"prostate-specific antigen",b:["A protein made by the prostate that leaks into the blood. A higher level can mean cancer — but it also rises with a bigger prostate (BPH), infection, recent ejaculation, a recent exam, or even cycling.","It's a clue, not a verdict. The numbers below — density, velocity, %free — exist to figure out <em>why</em> the PSA is up."]},
+  freepsa:{t:"% free PSA",k:"fractionated PSA",b:["PSA travels in the blood as 'free' (unbound) and protein-bound forms. Cancers tend to lower the free fraction, so a <strong>lower</strong> %free points toward cancer and a <strong>higher</strong> %free toward benign enlargement.","It is only well-validated when total PSA sits in the <strong>4–10 ng/mL</strong> range — so this tool only scores it inside that window. Outside it, the number is unreliable.","Recent ejaculation, a prostate exam, infection, or a 5-ARI can distort it, so draw timing matters."]},
+  vol:{t:"Prostate volume",k:"gland size",b:["Prostate size on MRI or ultrasound, in cc. Normal young gland ~25 cc; BPH can exceed 80–100 cc.","It's the denominator for PSA density, and it's the key variable the strongest validated calculator (ERSPC/Rotterdam) includes that the older PCPT calculator lacks."]},
+  density:{t:"PSA density",k:"PSA ÷ volume",b:["PSA divided by prostate volume — it corrects PSA for gland size, separating 'PSA is high because the prostate is big' from 'PSA is high for a worrying reason.'","Reading: <strong>below ~0.10</strong> reassuring, <strong>0.10–0.15</strong> gray zone, <strong>≥0.15</strong> (inclusive) raises concern and is a common threshold supporting biopsy.","On a 5-ARI your measured PSA is suppressed, so this tool computes density from the <em>doubled (effective)</em> PSA and labels it '5-ARI-adj' — otherwise density would be underestimated."]},
+  velocity:{t:"PSA velocity",k:"rate of rise",b:["How fast PSA climbs per year. ~<strong>0.27 ng/mL/yr</strong> is a lower screening-context flag; <strong>0.75 ng/mL/yr</strong> is the higher threshold linked to cancer mortality (Carter data).","Important caveat: the AUA/SUO guideline states velocity has limited independent value and <strong>should not be used on its own</strong> to trigger a biomarker, imaging, or biopsy — it's read alongside density and MRI. Infections and lab variation can fake a rise.","Enter a prior PSA and the months between draws to compute it."]},
+  effpsa:{t:"Effective PSA",k:"5-ARI adjustment",b:["A 5-ARI (finasteride/dutasteride) roughly <strong>halves</strong> measured PSA. To read it like a man not on the drug, you multiply the measured value by about 2 — shown here as 'effective PSA.'","The ×2 rule is most accurate after <strong>≥6 months</strong> of therapy; before that it's unreliable. The true factor can range ~<strong>×2.0–2.5</strong>, increasing with longer use.","The single most actionable signal on a 5-ARI is any confirmed <strong>rise above your lowest (nadir)</strong> value — treat that as a red flag regardless of the absolute number."]},
+  aridur:{t:"Months on 5-ARI",k:"affects the ×2 rule",b:["The PSA-halving effect builds over the first months of therapy. The ×2 correction is considered reliable only after about <strong>6 months</strong>.","If you've been on it less than 6 months, the tool flags that the effective-PSA correction may be inaccurate."]},
+  path:{t:"Biopsy pathology",k:"what the cores showed",b:["<strong>Benign</strong> — normal tissue.","<strong>Focal HGPIN (1 core)</strong> — pre-cancer cells inside the gland plumbing, single core; re-biopsy cancer risk ≈ a normal biopsy.","<strong>Multifocal HGPIN</strong> — same in several cores; higher risk (~30–40%), warrants additional testing.","<strong>ASAP</strong> — a suspicious cluster too small/unclear to call cancer; the finding most likely to prompt more testing (~30–50% cancer on re-biopsy, mostly low-grade).","<strong>AIP</strong> — atypical cells inside ducts, often linked to aggressive cancer nearby; prompts fairly prompt re-biopsy.","<strong>Grade Group 1</strong> — least aggressive confirmed cancer, often watched.","<strong>Grade Group ≥2</strong> — clinically significant; moves into treatment decisions."]},
+  adequacy:{t:"Biopsy adequacy",k:"how thoroughly sampled",b:["How well the prostate was sampled changes how much a <em>negative</em> biopsy reassures.","An old <strong>sextant (6-core)</strong> biopsy misses a lot; a <strong>systematic 12-core</strong> is the modern standard; <strong>12-core + MRI-targeted</strong> adds confidence; <strong>saturation/template</strong> samples most thoroughly.","A clean negative on a thorough, MRI-targeted biopsy lowers the chance a significant cancer was missed — the tool factors that into the estimate."]},
+  pirads:{t:"PI-RADS",k:"MRI suspicion score",b:["A 1–5 score for each suspicious area on prostate MRI. <strong>1–2</strong>: unlikely. <strong>3</strong>: uncertain. <strong>4–5</strong>: increasingly likely significant cancer.","PI-RADS 4 carries roughly a 40–60% chance of significant cancer; <strong>PI-RADS 5 ~70–90%</strong> — which is why a 5 is weighted very heavily here. A PI-RADS 1–2 is among the most reassuring inputs when deciding to <em>avoid</em> biopsy."]},
+  zone:{t:"Lesion zone",k:"PZ vs TZ",b:["Where the suspicious area sits. <strong>Peripheral zone (PZ)</strong> lesions of a given PI-RADS tend to harbor cancer more often than <strong>transition zone (TZ)</strong> lesions.","A PI-RADS 3 in the transition zone (common with BPH) carries a notably lower chance of significant cancer than a PI-RADS 3 in the peripheral zone — the tool nudges the estimate accordingly."]},
+  biomarker:{t:"Reflex biomarkers",k:"PHI · 4Kscore · MPS2",b:["Secondary tests for gray-zone PSA, to decide if biopsy is truly warranted.","<strong>PHI</strong> — blood test combining three PSA forms; higher = higher risk.","<strong>4Kscore</strong> — blood test of four proteins + clinical factors giving a % risk of aggressive (GG≥2) cancer.","<strong>MPS2</strong> — urine test of 18 genes; mainly a strong 'rule-out.'","Cut-points differ between tests, so record the test name and value — 'high for PHI' is not the same number as 'high for 4Kscore.'"]},
+  biomarkerval:{t:"Biomarker value",k:"record the number",b:["Enter the actual result so it travels into the Open Evidence query. Interpretation thresholds differ by test — e.g. PHI commonly uses cut-points around 27/36/55, 4Kscore reports a direct % risk, MPS2 reports a score where low strongly rules out significant cancer.","Your clinician/lab interprets the exact cut-point; the 'Interpretation' menu just feeds the tool's qualitative weighting."]},
+  background:{t:"Background risk",k:"who you are",b:["<strong>Family history</strong> (especially father/brother, or early onset) raises baseline risk.","<strong>High-risk germline</strong> (BRCA2, also BRCA1/ATM/Lynch) raises risk and argues for earlier, tighter screening.","<strong>Black / African ancestry</strong> is linked to higher incidence and more aggressive disease — favoring earlier screening and closer watching.","Any of these shifts the plan toward shorter intervals and nudges the estimate up."]},
+  dre:{t:"DRE",k:"digital rectal exam",b:["The clinician feels the prostate's back surface for hard spots, bumps, or asymmetry.","A suspicious DRE is an <strong>independent indication for biopsy</strong> regardless of PSA or MRI — so the tool weights it strongly and lists it as a standalone re-biopsy trigger."]},
+  rebiopsy:{t:"Re-biopsy triggers",k:"when to sample again",b:["After an atypical (ASAP/AIP) or multifocal-HGPIN finding, these events favor taking new tissue rather than continuing to watch:","• new PI-RADS 4–5 lesion; • PSA density ≥0.15; • positive/high biomarker; • abnormal DRE (independent indication); • for ASAP/AIP, the atypical focus itself (classically 3–6 mo); • on a 5-ARI, any PSA rise above nadir; • a fast PSA velocity — but per guideline, velocity should not be the <em>sole</em> trigger.","Filled red dots show which triggers your current inputs appear to meet."]},
+  "5ari":{t:"5-ARI",k:"finasteride / dutasteride",b:["Pills that shrink the prostate for BPH and modestly lower the chance of being <em>diagnosed</em> with low-grade prostate cancer (~25% in PCPT/REDUCE).","They roughly halve PSA, so you double the measured value to interpret it, and any rise above nadir is a flag.","An older signal of more high-grade cancers was, on 18-year PCPT follow-up, not borne out as a survival difference — but the drugs remain not FDA-approved specifically for cancer prevention."]},
+  formal:{t:"The formal estimate & the evolving landscape",k:"read this carefully",b:["This number is an <strong>illustrative model</strong>, not a validated calculator. It anchors a baseline chance of clinically significant (GG≥2) cancer to your PI-RADS category, then adjusts for PSA density, lesion zone, DRE, prior-biopsy adequacy, and background risk. The wide range reflects real uncertainty — treat the band, not the point.","Why not just use a validated calculator? The big validated ones diverge on what they include: <strong>PCPT 2.0</strong> (age, PSA, DRE, race, family history, prior biopsy, %free PSA) and the newer <strong>PBCG</strong> are validated on thousands of men but <em>do not include MRI</em>, and PCPT tends to <em>overestimate</em> risk near typical PSA thresholds. The <strong>ERSPC/Rotterdam</strong> calculator is generally the strongest because it <em>includes prostate volume</em> (effectively PSA density) — so for a calibrated number on a large gland like many BPH cases, ERSPC is the one to run.","The current frontier: combining <strong>PI-RADS + PSA density</strong> outperforms the older calculators in the MRI era (some MRI+PSAD nomograms report AUCs ~0.9 vs ~0.72–0.76 for PCPT/ERSPC) — yet no major validated calculator yet incorporates MRI. This tool deliberately mirrors that PI-RADS+PSAD approach, which is why it can't cite a single validated AUC. Bottom line: use this to frame the question, then run ERSPC (for a volume-aware probability) and confirm with your clinician."]}
+};
+function openModal(term){const h=HELP[term];if(!h)return;document.getElementById('mTerm').textContent=h.k;document.getElementById('mTitle').textContent=h.t;document.getElementById('mBody').innerHTML=h.b.map(p=>'<p>'+p+'</p>').join('');document.getElementById('overlay').classList.add('show');}
+function closeModal(){document.getElementById('overlay').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.querySelectorAll('.help').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.term)));
+
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?null:v;};
+
+function compute(){
+  const age=num('age'), psa=num('psa'), vol=num('vol'), ppsa=num('ppsa'), pmonths=num('pmonths'),
+        freepsa=num('freepsa'), ari=$('ari').value==='yes', aridur=num('aridur'),
+        path=$('path').value, adeq=$('adeq').value, pirads=$('pirads').value, zone=$('zone').value,
+        bioType=$('bioType').value, bio=$('bio').value, bioVal=num('bioVal'), bxmonths=num('bxmonths'),
+        fhx=$('fhx').checked, germ=$('germ').checked, ancestry=$('ancestry').checked, dre=$('dre').checked;
+
+  $('ariDurWrap').style.display = ari ? 'block':'none';
+
+  const ariReliable = !ari || (aridur!=null && aridur>=6);
+  const effPsa = (psa!=null && ari) ? psa*2 : psa;
+
+  // PSA density — uses effective PSA so 5-ARI doesn't underestimate
+  let density=null, dTier='', dCls='t-na', dAdj=(ari);
+  if(effPsa!=null && vol && vol>0){
+    density = effPsa/vol;
+    if(density<0.10){dTier='Low';dCls='t-low';}
+    else if(density<0.15){dTier='Borderline';dCls='t-mid';}
+    else {dTier='Elevated (≥0.15)';dCls='t-high';}
+  }
+  // velocity
+  let vel=null, vTier='', vCls='t-na';
+  if(psa!=null && ppsa!=null && pmonths && pmonths>0){
+    vel=(psa-ppsa)/(pmonths/12);
+    if(vel<0.27){vTier='Stable';vCls='t-low';}
+    else if(vel<0.75){vTier='Rising';vCls='t-mid';}
+    else {vTier='Fast rise';vCls='t-high';}
+  }
+  const scoreFree = (freepsa!=null && psa!=null && psa>=4 && psa<=10);
+
+  // additive signal (DRE & PI-RADS5 weighted up; free PSA conditional)
+  let push=0, reassure=0, pushNotes=[], reassureNotes=[];
+  if(density!=null){ if(density>=0.15){push++;pushNotes.push('PSA density ≥0.15');} else if(density<0.10){reassure++;reassureNotes.push('low PSA density');} }
+  if(vel!=null){ if(vel>=0.75){push++;pushNotes.push('fast PSA velocity (not sole trigger)');} else if(vel>=0.27){pushNotes.push('PSA velocity ≥0.27/yr (contextual only)');} else {reassure++;reassureNotes.push('stable velocity');} }
+  if(pirads==='5'){push+=3;pushNotes.push('PI-RADS 5 lesion');}
+  else if(pirads==='4'){push+=2;pushNotes.push('PI-RADS 4 lesion');}
+  else if(pirads==='2'){reassure+=2;reassureNotes.push('PI-RADS 1–2 MRI');}
+  if(bio==='high'){push+=2;pushNotes.push('positive biomarker');} else if(bio==='low'){reassure+=2;reassureNotes.push('negative biomarker');}
+  if(scoreFree){ if(freepsa<10){push++;pushNotes.push('low %free PSA');} else if(freepsa>=25){reassure++;reassureNotes.push('high %free PSA');} }
+  if(dre){push+=2;pushNotes.push('abnormal DRE (independent indication)');}
+  if(ari && psa!=null && ppsa!=null && psa>ppsa){push++;pushNotes.push('PSA rising on 5-ARI');}
+
+  const highBg=germ, anyBg=fhx||germ||ancestry;
+  let sig='Watchful', sCls='t-low'; const score=push-reassure;
+  if(path==='gg2'){sig='Treat-decision';sCls='t-high';}
+  else if(score>=3||pirads==='5'){sig='Investigate';sCls='t-high';}
+  else if(score>=1){sig='Heightened';sCls='t-mid';}
+  else {sig='Watchful';sCls='t-low';}
+
+  // ---- FORMAL MRI-era PSAD + PI-RADS estimate (illustrative) ----
+  let formal=null;
+  if(path==='gg2'){
+    formal={na:true,msg:'Cancer already confirmed (GG≥2) — a screening probability does not apply. This is a treatment-planning situation.'};
+  } else if(pirads==='na'){
+    formal={na:true,msg:'Add an mpMRI PI-RADS score for a formal estimate (MRI is the dominant variable in the MRI-era model).'};
+  } else if(density==null){
+    formal={na:true,msg:'Add current PSA and prostate volume so PSA density can be computed.'};
+  } else {
+    const base={'2':5,'3':12,'4':42,'5':78}[pirads];
+    let f=1, work=[];
+    work.push('PI-RADS '+(pirads==='2'?'1–2':pirads)+' base '+base+'%');
+    // PSA density
+    let pf = density<0.10?0.55:(density<0.15?1.0:1.7);
+    f*=pf; work.push('× PSAD '+(dAdj?'(5-ARI-adj) ':'')+density.toFixed(3)+' →'+pf);
+    // zone (mainly PI-RADS 3/4)
+    if(zone!=='na' && (pirads==='3'||pirads==='4')){
+      let zf = zone==='tz'?(pirads==='3'?0.65:0.9):(pirads==='3'?1.15:1.05);
+      f*=zf; work.push('× zone '+zone.toUpperCase()+' →'+zf);
+    }
+    if(dre){f*=1.4; work.push('× DRE abnormal →1.4');}
+    // prior clean negative reassurance only when pathology benign
+    if(path==='benign'){ let af = adeq==='sat'?0.6:(adeq==='target'?0.65:(adeq==='std12'?0.75:(adeq==='sextant'?0.95:0.9))); f*=af; work.push('× neg '+adeq+' →'+af); }
+    if(highBg){f*=1.5; work.push('× germline →1.5');} else if(fhx||ancestry){f*=1.2; work.push('× family/ancestry →1.2');}
+    if(age!=null){ if(age>=70){f*=1.1;work.push('× age≥70 →1.1');} else if(age<55){f*=0.9;work.push('× age<55 →0.9');} }
+    let pt = Math.max(2, Math.min(95, base*f/ (base/base) )); // base already in %, f multiplies
+    pt = Math.max(2, Math.min(95, base*f));
+    const lo=Math.max(1, Math.round(pt*0.6)), hi=Math.min(97, Math.round(pt*1.5));
+    let imp, iCls;
+    if(pt<10){imp='Below the common ~10% biopsy threshold — supports surveillance / deferring biopsy over immediate sampling.';iCls='t-low';}
+    else if(pt<20){imp='Intermediate — a shared-decision zone; a reflex biomarker or short-interval MRI/PSA recheck typically guides the call.';iCls='t-mid';}
+    else {imp='Above common biopsy thresholds — favors (MRI-targeted) biopsy, weighed against your preferences and life expectancy.';iCls='t-high';}
+    formal={na:false, pt:Math.round(pt), lo, hi, imp, iCls, work:work.join(' '), ariReliable};
+  }
+
+  const triggers=[
+    {label:'New PI-RADS 4–5 lesion on MRI', met:(pirads==='4'||pirads==='5')},
+    {label:'PSA density ≥0.15', met:(density!=null && density>=0.15)},
+    {label:'Positive / high reflex biomarker', met:(bio==='high')},
+    {label:'New abnormal DRE (independent indication)', met:dre},
+    {label:'Low %free PSA (<10%, only if PSA 4–10)', met:scoreFree && freepsa<10},
+    {label:'Atypical focus — ASAP/AIP (classically 3–6 mo)', met:(path==='asap'||path==='aip')},
+    {label:'On 5-ARI: PSA rising above nadir', met:(ari && psa!=null && ppsa!=null && psa>ppsa)},
+    {label:'Fast PSA velocity — contributory, not sole trigger', met:(vel!=null && vel>=0.75)}
+  ];
+
+  // ---- plan ----
+  let plan=[], baseLabel='';
+  switch(path){
+    case 'gg2': baseLabel='Confirmed clinically significant cancer';
+      plan=['Beyond a surveillance tool — Grade Group ≥2 is significant cancer. Care moves to urologic-oncology treatment discussion and staging, not a monitoring schedule.']; break;
+    case 'gg1': baseLabel='Active surveillance (Grade Group 1)';
+      plan=['PSA every 6 months.','mpMRI every 12–24 months.','Confirmatory biopsy within ~12 months, then surveillance biopsy roughly every 1–3 years (or MRI/biomarker-directed).','Move to treatment if grade rises to ≥ Grade Group 2.']; break;
+    case 'asap': case 'aip': baseLabel = path==='asap'?'Atypical focus (ASAP)':'Atypical intraductal proliferation (AIP)';
+      plan=['PSA + PSA density every 6 months; DRE at visits.','Obtain/repeat mpMRI if not current — it now strongly informs whether re-biopsy is needed.','Reflex a serum/urine biomarker (PHI, 4Kscore, or MPS2) to decide on re-biopsy non-invasively.',
+            (path==='aip'?'AIP classically prompts fairly prompt repeat biopsy given its link to aggressive cancer.':'Classic guidance re-samples ASAP within 3–6 months — but a reassuring MRI + low density can support active monitoring instead.')]; break;
+    case 'mhgpin': baseLabel='Multifocal HGPIN';
+      plan=['PSA + PSA density every 6–12 months.','mpMRI to risk-stratify; biomarker reflex reasonable.','No automatic re-biopsy — re-sample only on a trigger below.']; break;
+    case 'fhgpin': baseLabel='Focal HGPIN';
+      plan=['PSA every 6–12 months; track PSA density.','No routine re-biopsy for single-core HGPIN — cancer risk ≈ a benign biopsy.','Re-image / re-biopsy only if dynamics change or a trigger is met.']; break;
+    case 'benign': baseLabel='Benign biopsy, elevated PSA';
+      plan=['PSA every 12 months (6 if dynamics changing); track PSA density.','mpMRI if PSA stays elevated/rising; reflex biomarker for a gray-zone PSA.']; break;
+    default: baseLabel='No biopsy yet';
+      plan=['Establish PSA density (needs a prostate volume).','If PSA is persistently elevated for age, obtain mpMRI ± reflex biomarker before a first biopsy.','Otherwise routine PSA every ~1–2 years, adjusted for age and background.'];
+  }
+  if(anyBg && path!=='gg2') plan.push((highBg?'High-risk germline':'Family-history/ancestry risk')+': tighten intervals (shorter end) and start/continue MRI earlier.');
+  if(reassure>=3 && path!=='gg2' && path!=='gg1') plan.push('Multiple reassuring signals ('+reassureNotes.join(', ')+'): intervals can sit at the longer end; immediate re-biopsy is hard to justify.');
+  if(push>=3 && path!=='gg2') plan.push('Several signals favor sampling now ('+pushNotes.join(', ')+'): discuss MRI-targeted biopsy of any lesion plus the prior atypical site.');
+  if(ari){ plan.push('On a 5-ARI: read PSA as ~2× measured'+(ariReliable?'':' — but you are <6 months in, so the ×2 correction may be unreliable')+'; any rise above nadir is a flag.'); }
+  if(age!=null && age>=70) plan.push('At '+age+', weigh life expectancy — under ~10 years, the value of detecting indolent disease falls.');
+
+  return {age,psa,vol,ppsa,pmonths,freepsa,scoreFree,ari,aridur,ariReliable,effPsa,path,adeq,pirads,zone,
+          bioType,bio,bioVal,bxmonths,fhx,germ,ancestry,dre,density,dTier,dCls,dAdj,vel,vTier,vCls,
+          sig,sCls,plan,baseLabel,triggers,pushNotes,reassureNotes,formal};
+}
+
+const PATH_TXT={none:'Never biopsied',benign:'Benign only',fhgpin:'Focal HGPIN (1 core)',mhgpin:'Multifocal HGPIN',asap:'ASAP — atypical, suspicious for adenocarcinoma (no confirmed cancer, no Grade Group)',aip:'Atypical intraductal proliferation (AIP)',gg1:'Confirmed cancer, Grade Group 1',gg2:'Confirmed cancer, Grade Group ≥2'};
+const ADEQ_TXT={na:'unknown/none',sextant:'sextant ~6-core',std12:'systematic 12-core',target:'12-core + MRI-targeted',sat:'saturation/template'};
+const PIRADS_TXT={na:'not done','2':'PI-RADS 1–2 (cancer unlikely)','3':'PI-RADS 3 (equivocal)','4':'PI-RADS 4 (likely)','5':'PI-RADS 5 (highly likely)'};
+const ZONE_TXT={na:'',pz:'peripheral zone',tz:'transition zone'};
+const BIO_TXT={na:'',low:'low/negative',int:'intermediate',high:'high/positive'};
+
+function render(){
+  const r=compute();
+  $('mDensity').textContent = r.density!=null ? r.density.toFixed(3) : '—';
+  $('tDensity').textContent = r.density!=null ? (r.dTier+(r.dAdj?' · 5-ARI-adj':'')) : ''; $('tDensity').className='mtag '+r.dCls;
+  $('mVel').textContent = r.vel!=null ? (r.vel>=0?'+':'')+r.vel.toFixed(2)+'/yr' : '—';
+  $('tVel').textContent = r.vTier; $('tVel').className='mtag '+r.vCls;
+  $('mEff').textContent = r.effPsa!=null ? r.effPsa.toFixed(2) : '—';
+  $('tEff').textContent = r.ari ? ('2× measured'+(r.ariReliable?'':' · <6mo: unreliable')) : (r.psa!=null?'= measured':''); $('tEff').className='mtag '+(r.ari&&!r.ariReliable?'t-mid':'t-na');
+  $('mSig').textContent = r.sig; $('tSig').className='mtag '+r.sCls;
+  $('tSig').textContent = r.sCls==='t-low'?'continue watching':r.sCls==='t-mid'?'tighten / reflex test':'work up further';
+
+  // formal box
+  const F=r.formal;
+  if(!F){ $('fProb').textContent='—'; $('fRange').textContent='enter PI-RADS, PSA and volume'; $('fImp').textContent=''; $('fWork').textContent=''; $('fLink').innerHTML=''; }
+  else if(F.na){ $('fProb').textContent='—'; $('fRange').textContent=F.msg; $('fImp').textContent=''; $('fWork').textContent=''; $('fLink').innerHTML=''; }
+  else {
+    $('fProb').textContent='~'+F.pt+'%'; $('fProb').className='fprob '+F.iCls;
+    $('fRange').textContent='plausible range ≈ '+F.lo+'–'+F.hi+'% · chance of clinically significant (GG≥2) cancer';
+    $('fImp').textContent=F.imp; $('fImp').className='fimp '+F.iCls;
+    $('fWork').textContent='model: '+F.work+' = ~'+F.pt+'%  (illustrative, not validated)';
+    $('fLink').innerHTML='For a validated, volume-aware probability, run the <a href="https://www.prostatecancer-riskcalculator.com/seven-prostate-cancer-risk-calculators" target="_blank" rel="noopener">ERSPC/Rotterdam calculator</a>.';
+  }
+
+  $('planList').innerHTML = r.plan.map(p=>'<li>'+p+'</li>').join('');
+  $('trigList').innerHTML = r.triggers.map(t=>'<li><span class="dot '+(t.met?'on':'off')+'"></span><span'+(t.met?' class="met-flag"':'')+'>'+t.label+(t.met?' — currently met':'')+'</span></li>').join('');
+
+  // copy block
+  const bioStr = r.bioType==='na' ? 'not done'
+    : (r.bioType + (r.bioVal!=null?(' = '+r.bioVal):'') + (r.bio!=='na'?(' ('+BIO_TXT[r.bio]+')'):''));
+  const L=[];
+  L.push('PROSTATE SURVEILLANCE — DE-IDENTIFIED CASE FOR EVIDENCE REVIEW');
+  L.push('='.repeat(60));
+  L.push('CLINICAL CONTEXT');
+  L.push('- Sex: male'+(r.age!=null?'; Age: '+r.age:''));
+  let bg=[]; if(r.fhx)bg.push('family history'); if(r.germ)bg.push('high-risk germline (e.g. BRCA2)'); if(r.ancestry)bg.push('African ancestry');
+  L.push('- Background risk: '+(bg.length?bg.join(', '):'none reported'));
+  if(r.psa!=null) L.push('- Current PSA: '+r.psa.toFixed(2)+' ng/mL'+(r.ari?(' (on 5-ARI'+(r.aridur!=null?', '+r.aridur+' mo':'')+' → effective ≈ '+r.effPsa.toFixed(2)+(r.ariReliable?'':'; <6mo, correction uncertain')+')'):''));
+  if(r.density!=null) L.push('- PSA density: '+r.density.toFixed(3)+' ng/mL/cc'+(r.dAdj?' (5-ARI-adjusted)':'')+' (volume '+r.vol+' cc) — '+r.dTier);
+  if(r.vel!=null) L.push('- PSA velocity: '+(r.vel>=0?'+':'')+r.vel.toFixed(2)+' ng/mL/yr ('+r.ppsa+'→'+r.psa+' over '+r.pmonths+' mo) — '+r.vTier+' [note: not a sole trigger per AUA/SUO]');
+  if(r.freepsa!=null) L.push('- % free PSA: '+r.freepsa+'%'+(r.scoreFree?'':' (outside validated 4–10 PSA range — interpret with caution)'));
+  L.push('- On 5-ARI: '+(r.ari?('yes'+(r.aridur!=null?(', '+r.aridur+' months'):'')):'no'));
+  L.push('- Worst biopsy pathology: '+PATH_TXT[r.path]+'; sampling: '+ADEQ_TXT[r.adeq]);
+  L.push('- Latest mpMRI: '+PIRADS_TXT[r.pirads]+(r.zone!=='na'?(', '+ZONE_TXT[r.zone]):''));
+  L.push('- Reflex biomarker: '+bioStr);
+  if(r.bxmonths!=null) L.push('- Months since last biopsy: '+r.bxmonths);
+  L.push('- DRE: '+(r.dre?'abnormal/new finding (independent biopsy indication)':'unremarkable or not stated'));
+  if(F && !F.na && !F.na2){ L.push('- Illustrative MRI-era estimate (PSAD+PI-RADS): ~'+F.pt+'% GG≥2 (range '+F.lo+'–'+F.hi+'%) — NOT validated'); }
+  L.push('');
+  L.push('QUESTION FOR THE LITERATURE');
+  L.push('For a man with the profile above, what does current evidence (AUA/SUO early');
+  L.push('detection; NCCN early-detection algorithm) recommend for: (1) PSA / PSA-density');
+  L.push('monitoring interval; (2) role and interval of mpMRI; (3) role of reflex serum/');
+  L.push('urine biomarkers; and (4) the specific triggers that should prompt a repeat');
+  L.push('prostate biopsy'+((r.path==='asap'||r.path==='aip')?' after an atypical (ASAP/AIP) finding':'')+
+        ((r.path==='asap'||r.path==='aip')&&r.pirads==='2'?' with a subsequently negative (PI-RADS 1–2) MRI':'')+'?');
+  if(r.path==='fhgpin'||r.path==='mhgpin') L.push('Also: does '+(r.path==='fhgpin'?'focal':'multifocal')+' HGPIN warrant scheduled repeat biopsy?');
+  L.push('Also: (a) is a 5-ARI appropriate for BPH and/or chemoprevention, and how should');
+  L.push('PSA be interpreted on it? (b) How do validated calculators that include prostate');
+  L.push('volume (ERSPC/Rotterdam) or the PBCG model compare with an MRI-era PSAD+PI-RADS');
+  L.push('approach for the biopsy decision in this case?');
+  L.push('');
+  L.push('FRAMEWORK-SUGGESTED PLAN (to vet, NOT validated):');
+  L.push('Base pathway: '+r.baseLabel);
+  r.plan.forEach(p=>L.push('  - '+p.replace(/<[^>]+>/g,'')));
+  const metT=r.triggers.filter(t=>t.met).map(t=>t.label);
+  L.push('Re-biopsy triggers currently met: '+(metT.length?metT.join('; '):'none'));
+  L.push('');
+  L.push('[Educational framework + illustrative (non-validated) probability model. Not medical advice.]');
+  $('outText').textContent = L.join('\n');
+}
+
+function flash(msg){const f=$('flash');f.textContent=msg;setTimeout(()=>f.textContent='',2600);}
+async function copyOut(){
+  const txt=$('outText').textContent;
+  try{ await navigator.clipboard.writeText(txt); return true; }
+  catch(e){ try{ const pre=$('outText'),range=document.createRange(); range.selectNodeContents(pre);
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range); document.execCommand('copy'); return true;
+    }catch(e2){ return false; } }
+}
+async function copyAndOpen(){
+  const ok=await copyOut();
+  const win=window.open('https://www.openevidence.com/','_blank','noopener');
+  if(ok && win) flash('Copied — paste into Open Evidence');
+  else if(ok && !win) flash('Copied — pop-up blocked, use the link below');
+  else flash('Select the text and copy manually');
+}
+
+document.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',render);el.addEventListener('change',render);});
+render();
+</script>
+</body>
+</html>
