@@ -1,8 +1,101 @@
 {
-  "schema_version": "1.2",
+  "_llm_instructions": {
+    "_about": "This block is documentation for any LLM asked to UPDATE or VET this file. The runtime app ignores it. Preserve this block verbatim when you output a revised file — do not edit, summarize, reorder, or remove it.",
+    "purpose": "This file drives a patient-facing visit-prep tool. The runtime app reads `items` to surface preventive-care topics and to generate a research prompt that the patient takes to OpenEvidence and to their clinician. It is NOT medical advice.",
+    "your_job": [
+      "Read this entire _llm_instructions block first. Do not skim.",
+      "Use the deepest research mode available to you (deep research, web search, peer-reviewed and guideline-body sources). Do NOT answer from memory — preventive-care guidelines change, sometimes annually.",
+      "Cross-check every item against the current published version of its cited source. Verify age ranges, sex restrictions, intervals, modifiers (family history, smoking, etc.), and the source_year.",
+      "VET mode: confirm each item is still correct as-is. Flag drift in review_notes with one line per affected item.",
+      "UPDATE mode: add, remove, reword, or reorder items as evidence warrants. Document every change in review_notes with a one-line reason naming the source guideline.",
+      "Set last_reviewed to today's date in YYYY-MM-DD format. Set reviewer to identify yourself or your process.",
+      "Preserve this _llm_instructions block VERBATIM in your output. It must travel with the file forever.",
+      "Output the complete JSON file only. No markdown fences. No commentary before or after. No trailing text. Valid parseable JSON."
+    ],
+    "schema": {
+      "_llm_instructions": "this block — preserve verbatim",
+      "schema_version": "string, semver-ish (bump on breaking field changes)",
+      "last_reviewed": "YYYY-MM-DD of this review",
+      "reviewer": "string identifying the human or process",
+      "review_notes": "string summarizing what changed in this revision",
+      "category_order": "array of category keys, top-to-bottom display order",
+      "category_labels": "map from category key to patient-readable label",
+      "sources": "map from source short-name to canonical URL",
+      "items": "array of recommendation objects (see item_schema below)",
+      "_design_proposal_v1_2": "internal governance proposal — do not promote to live schema until resolved"
+    },
+    "item_schema": {
+      "id": "snake_case_unique_id",
+      "title": "patient-readable title, <= 60 chars",
+      "category": "one of category_order keys",
+      "source": "USPSTF | ACIP/CDC | ACC-AHA | ADA | KDIGO | AUA | NCCN | combinations",
+      "source_year": "YYYY of the cited published recommendation version",
+      "eligibility": "clause (see clause_grammar) — gates whether the item applies at all",
+      "priority_when": "clause group ({any_of:[...]} or {all_of:[...]}) — when matched, triggers the 'especially relevant' visual highlight",
+      "discussion": "1-2 sentences, plain language, ~8th-grade reading level. Always framed as something to discuss with a clinician. Never tells the patient what to do.",
+      "approved_by_openevidence": "{approved:bool, when:YYYY-MM-DD or '', explanation:string} — see _design_proposal_v1_2",
+      "approved_by_cmi_committee": "{approved:bool, when:YYYY-MM-DD or '', explanation:string} — see _design_proposal_v1_2"
+    },
+    "clause_grammar": {
+      "description": "A clause is an object. All present keys must match (logical AND within one clause).",
+      "keys": {
+        "age_min": "number — person.age must be >= this",
+        "age_max": "number — person.age must be <= this",
+        "sex": "'male' | 'female' | 'any'",
+        "condition": "'htn' | 'dm' | 'ckd' | 'ascvd' | 'chf' | 'smoking_current' | 'smoking_former'",
+        "family_history": "'fh_breast' | 'fh_colon' | 'fh_prostate' | 'fh_melanoma'",
+        "measure_high": "{key:<measure>, value:number} — matches when person.measures[key] >= value",
+        "mood_at_least": "'none' | 'mild' | 'moderate' | 'severe'",
+        "all_of": "array of clauses (logical AND across them)",
+        "any_of": "array of clauses (logical OR across them)"
+      },
+      "measure_keys": [
+        "bmi",
+        "sbp",
+        "dbp",
+        "a1c",
+        "ldl",
+        "hdl",
+        "tg",
+        "cr",
+        "uacr",
+        "pack_years"
+      ],
+      "top_level_note": "A top-level priority_when MUST be wrapped in {any_of:[...]} or {all_of:[...]}."
+    },
+    "categorization_rules": {
+      "cancer": "Any cancer screening (lung, colon, breast, cervical, prostate, skin/melanoma, etc.)",
+      "cardiometabolic": "Cardiovascular, diabetes, kidney, lipid, bone, vascular (BP, lipids, A1c, kidney protection, osteoporosis, AAA)",
+      "infection": "Communicable-disease screening and immunization (HIV, Hep C, STI, vaccinations)",
+      "lifestyle": "Behavioral and mental health (tobacco cessation, alcohol screening, depression screening, sleep)"
+    },
+    "ordering_rule": "Within each category, place items in DESCENDING order of expected population health benefit = impact × prevalence × strength of evidence in the general U.S. adult population. Justify any reorder in review_notes.",
+    "sources_to_consult": {
+      "USPSTF": "https://www.uspreventiveservicestaskforce.org/",
+      "ACIP/CDC": "https://www.cdc.gov/vaccines/acip/",
+      "ACC/AHA": "https://www.acc.org/guidelines",
+      "ADA": "https://diabetesjournals.org/care/issue/standards-of-care",
+      "KDIGO": "https://kdigo.org/guidelines/",
+      "AUA": "https://www.auanet.org/guidelines",
+      "NCCN": "https://www.nccn.org/"
+    },
+    "policies": {
+      "approval_fields": "approved_by_openevidence and approved_by_cmi_committee must be present on every item. Set approved=false until formally validated, with when='' and explanation noting why pending. When approved=true, include the date and a one-sentence explanation of what was checked.",
+      "discussion_field": "1-2 sentences, plain language, ~8th-grade reading level. Frame as something to discuss with a clinician. Never instruct the patient.",
+      "patient_safety": "If a recommendation depends on missing data, the runtime app will surface that. Do not invent eligibility logic to compensate — the prompt asks the LLM downstream to flag missing data points."
+    },
+    "output_contract": [
+      "Return the complete, valid, parseable JSON file.",
+      "Preserve this _llm_instructions block verbatim at the top.",
+      "Update last_reviewed to today, reviewer to identify yourself.",
+      "Update review_notes with a one-line entry per change, citing the source guideline.",
+      "No markdown fences, no commentary, no trailing text. JSON only."
+    ]
+  },
+  "schema_version": "1.3",
   "last_reviewed": "2026-05-28",
   "reviewer": "—",
-  "review_notes": "v1.2: split categories from 3 → 4. 'metabolic' renamed to 'cardiometabolic' (more honest about scope — covers BP, lipids, diabetes, kidney, bone, vascular). Communicable-disease screening and immunization split out of 'lifestyle' into a new 'infection' bucket. Remaining lifestyle items: tobacco, depression, alcohol. Within-category ordering unchanged where possible; infection bucket ordered vaccinations → Hep C → HIV → STI by impact × prevalence.",
+  "review_notes": "v1.3: moved deep LLM update/vet instructions to top of file as _llm_instructions (self-describing — travels with the file). Removed duplicate build_prompt from _design_proposal_v1_2.",
   "category_order": [
     "cancer",
     "cardiometabolic",
@@ -522,7 +615,7 @@
   ],
   "_design_proposal_v1_2": {
     "status": "not_resolved",
-    "summary": "Adds a two-gate governance trail to every item: OpenEvidence validation + CMI committee approval, each with date and explanation. This block is documentation only — the runtime app does NOT read these fields yet.",
+    "summary": "Adds a two-gate governance trail to every item: OpenEvidence validation + CMI committee approval, each with date and explanation. This block is documentation only — the runtime app does NOT read these fields yet. Schema and update instructions for LLMs now live at the top in _llm_instructions.",
     "rationale": "Patients act on the framing in this tool. As the JSON becomes the source of truth for what patients see, every recommendation should pass two review gates before being published. (1) OpenEvidence validation confirms the wording and source citation match current evidence. (2) CMI committee approval confirms clinical framing, tone, and patient-facing appropriateness. Both gates record date and a brief explanation so changes are auditable. An item with either gate unapproved should be hidden in production or flagged in the UI as 'pending review.'",
     "proposed_item_fields": {
       "approved_by_openevidence": {
@@ -540,7 +633,6 @@
       "Should items missing approval be hidden, shown with a 'pending' badge, or shown normally with provenance available on tap?",
       "Do approvals expire (e.g., re-review required every 12 months)? If so, the rules engine should treat stale approvals as not-approved.",
       "Should we record reviewer initials on each approval, or is the committee-level record enough?"
-    ],
-    "build_prompt_for_gpt_deep_research": "You are maintaining guidelines.json for a patient-facing visit-prep tool. The tool generates research prompts for OpenEvidence and is NOT medical advice. Your output must be a complete, valid, parseable JSON file conforming exactly to the schema below, with no markdown fences, no commentary, no trailing text.\n\nSCHEMA\n{\n  \"schema_version\": \"1.2\",\n  \"last_reviewed\": \"<today, YYYY-MM-DD>\",\n  \"reviewer\": \"<your name or 'GPT deep research'>\",\n  \"review_notes\": \"<summarize what changed since the previous version provided>\",\n  \"category_order\": [\"cancer\", \"cardiometabolic\", \"infection\", \"lifestyle\"],\n  \"category_labels\": {\n    \"cancer\": \"Cancer screening\",\n    \"cardiometabolic\": \"Cardiometabolic & chronic disease\",\n    \"infection\": \"Infection prevention & vaccines\",\n    \"lifestyle\": \"Lifestyle & mental health\"\n  },\n  \"sources\": { ...links to guideline bodies... },\n  \"items\": [\n    {\n      \"id\": \"snake_case_unique_id\",\n      \"title\": \"<patient-readable title, ≤60 chars>\",\n      \"category\": \"cancer\" | \"cardiometabolic\" | \"infection\" | \"lifestyle\",\n      \"source\": \"USPSTF\" | \"ACIP/CDC\" | \"ACC-AHA\" | \"ADA\" | \"KDIGO\" | \"AUA\" | combinations,\n      \"source_year\": <YYYY of the cited recommendation>,\n      \"eligibility\": <clause — see grammar>,\n      \"priority_when\": <clause group — see grammar>,\n      \"discussion\": \"<1–2 sentence patient-facing note. Always framed as something to discuss with a clinician. Never imply the tool is giving instructions.>\",\n      \"approved_by_openevidence\": { \"approved\": <bool>, \"when\": \"<YYYY-MM-DD or empty>\", \"explanation\": \"<why approved or why pending>\" },\n      \"approved_by_cmi_committee\": { \"approved\": <bool>, \"when\": \"<YYYY-MM-DD or empty>\", \"explanation\": \"<why approved or why pending>\" }\n    }\n  ]\n}\n\nCLAUSE GRAMMAR (used in eligibility and priority_when)\nA clause is an object that may include any of:\n  age_min: number\n  age_max: number\n  sex: \"male\" | \"female\" | \"any\"\n  condition: \"htn\" | \"dm\" | \"ckd\" | \"ascvd\" | \"chf\" | \"smoking_current\" | \"smoking_former\"\n  family_history: \"fh_breast\" | \"fh_colon\" | \"fh_prostate\" | \"fh_melanoma\"\n  measure_high: { \"key\": <measure>, \"value\": number }   // matches if person's measure >= value\n  mood_at_least: \"none\" | \"mild\" | \"moderate\" | \"severe\"\n  all_of: [clauses]   // logical AND across nested clauses\n  any_of: [clauses]   // logical OR across nested clauses\nMeasure keys available at runtime: bmi, sbp, dbp, a1c, ldl, hdl, tg, cr, uacr, pack_years.\nA priority_when block at the top level must be { \"any_of\": [...] } or { \"all_of\": [...] }.\n\nCATEGORIZATION RULES (4 buckets)\n  cancer          — any cancer screening (lung, colon, breast, cervical, prostate, skin/melanoma, etc.)\n  cardiometabolic — cardiovascular, diabetes, kidney, lipid, bone, vascular (BP, lipids, A1c, kidney protection, osteoporosis, AAA)\n  infection       — communicable-disease screening and immunization (HIV, Hep C, STI, vaccinations)\n  lifestyle       — behavioral and mental health (tobacco cessation, alcohol screening, depression screening, sleep, etc.)\n\nORDERING RULE\nWithin each category, place items in descending order of expected population health benefit = impact × prevalence × strength of evidence in the general U.S. adult population. Justify any change to the prior ordering in review_notes.\n\nSOURCES TO USE (always cite the current published version)\n  USPSTF (uspreventiveservicestaskforce.org)\n  ACIP/CDC adult immunization schedule\n  ACC/AHA cardiovascular prevention guidelines\n  ADA Standards of Care\n  KDIGO CKD guidelines\n  AUA / NCCN for prostate context\n\nDISCUSSION FIELD STANDARDS\n  1–2 sentences, plain language, ~8th-grade reading level.\n  Always frames the item as something to discuss with a clinician.\n  Never tells the patient what to do.\n\nAPPROVAL FIELDS (REQUIRED ON EVERY ITEM)\n  approved_by_openevidence and approved_by_cmi_committee must both be present on every item.\n  Set approved=false until formally validated, with when=\"\" and explanation noting why pending.\n  When approved=true, include the date and a 1-sentence explanation of what was checked.\n\nDELIVERABLE\nReturn the complete updated guidelines.json. Update last_reviewed to today. In review_notes, list every item that was added, removed, reworded, or reordered, with a one-line reason citing the source guideline that drove the change. Do not output anything other than the JSON.\n"
+    ]
   }
 }
