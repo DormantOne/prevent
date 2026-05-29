@@ -1,0 +1,1961 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+<meta name="theme-color" content="#faf7f2" />
+<title>Visit Prep — Evidence-Based Questions for Your Clinician</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* light, calm clinical palette */
+  --bg: #faf7f2;
+  --paper: #ffffff;
+  --paper-2: #f4efe7;
+  --ink: #1a1f2e;
+  --ink-soft: #4a5266;
+  --muted: #8a8f9c;
+  --line: #e6e0d3;
+  --line-strong: #d6cebc;
+
+  --accent: #0e6e5e;       /* deep teal — primary action */
+  --accent-soft: #d4e4de;
+  --accent-ink: #0a4a3f;
+
+  --warm: #b45309;         /* warning accent — burnt amber */
+  --warm-soft: #fbe8cc;
+
+  --danger: #9f1239;
+  --danger-soft: #fce2e8;
+
+  --ok: #166534;
+  --ok-soft: #dcefdc;
+
+  --display: "Fraunces", "Iowan Old Style", "Georgia", serif;
+  --body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --r-sm: 10px;
+  --r: 14px;
+  --r-lg: 20px;
+
+  --shadow-sm: 0 1px 2px rgba(26,31,46,0.04), 0 1px 0 rgba(26,31,46,0.04);
+  --shadow: 0 4px 16px rgba(26,31,46,0.06), 0 1px 2px rgba(26,31,46,0.04);
+  --shadow-lg: 0 12px 40px rgba(26,31,46,0.10);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  background-image:
+    radial-gradient(1100px 500px at 100% -10%, rgba(14,110,94,0.05), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(180,83,9,0.04), transparent 60%);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.45;
+  min-height:100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============ Header ============ */
+header.app{
+  position:sticky; top:0; z-index:30;
+  background:rgba(250,247,242,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--line);
+  padding: max(env(safe-area-inset-top), 10px) 16px 10px;
+}
+.brand{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.brand h1{
+  margin:0;
+  font-family:var(--display);
+  font-weight:500;
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+  font-size: 1.25rem;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+}
+.brand h1 em{
+  font-style:italic;
+  color:var(--accent);
+  font-weight:500;
+}
+.brand .pill{
+  font-size:.7rem;
+  font-weight:600;
+  color:var(--ink-soft);
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:4px 10px;
+  border-radius:999px;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+.info-btn{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  color:var(--ink-soft);
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:600;
+  font-size:1rem;
+}
+.info-btn:hover{ border-color:var(--accent); color:var(--accent); }
+
+.disclaimer{
+  margin-top:10px;
+  background:var(--danger-soft);
+  border:1px solid #f5c6d0;
+  color:#7a0e2f;
+  padding:10px 12px;
+  border-radius:var(--r);
+  font-size:.86rem;
+  line-height:1.4;
+  display:none;
+}
+.disclaimer.show{ display:block; }
+.disclaimer b{ color:#5a0a23; }
+
+/* ============ Tabs ============ */
+nav.tabs{
+  position:sticky;
+  top: calc(max(env(safe-area-inset-top), 10px) + 56px);
+  z-index:20;
+  background:rgba(250,247,242,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--line);
+  padding: 8px 12px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width: none;
+}
+nav.tabs::-webkit-scrollbar{ display:none; }
+.tablist{
+  display:flex;
+  gap:6px;
+  min-width: max-content;
+}
+.tab-btn{
+  font-family:var(--body);
+  font-weight:600;
+  font-size:.9rem;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--ink-soft);
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  transition: all .15s ease;
+}
+.tab-btn:hover{ background:var(--paper); color:var(--ink); }
+.tab-btn.active{
+  background:var(--ink);
+  color:var(--bg);
+  border-color:var(--ink);
+}
+.tab-btn .num{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:500;
+  font-size:.78rem;
+  opacity:.7;
+}
+.tab-btn.active .num{ opacity:.9; }
+
+/* ============ Layout / Cards ============ */
+main{
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 120px; /* room for sticky CTA */
+}
+
+.tab-panel{ display:none; }
+.tab-panel.active{ display:block; animation: fadeIn .22s ease; }
+
+@keyframes fadeIn{
+  from{ opacity:0; transform: translateY(4px); }
+  to{ opacity:1; transform:none; }
+}
+
+.intro{
+  font-family:var(--display);
+  font-weight:400;
+  font-variation-settings: "opsz" 64;
+  font-size: clamp(1.4rem, 5vw, 1.85rem);
+  line-height:1.15;
+  letter-spacing:-0.015em;
+  color:var(--ink);
+  margin: 8px 0 6px;
+}
+.intro em{
+  font-style:italic;
+  color:var(--accent);
+}
+.intro-sub{
+  color:var(--ink-soft);
+  font-size:.95rem;
+  margin-bottom:18px;
+  line-height:1.5;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow-sm);
+}
+.card-title{
+  font-family:var(--display);
+  font-weight:500;
+  font-size:1.05rem;
+  letter-spacing:-0.01em;
+  margin: 0 0 4px;
+}
+.card-sub{
+  font-size:.84rem;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+/* ============ Inputs ============ */
+.field{ margin-bottom: 12px; }
+.field:last-child{ margin-bottom:0; }
+.field label{
+  display:block;
+  font-size:.83rem;
+  font-weight:600;
+  color:var(--ink-soft);
+  margin-bottom:6px;
+  letter-spacing:.01em;
+}
+.field label .req{
+  color:var(--danger);
+  font-weight:700;
+  margin-left:2px;
+}
+.field .hint{
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.input, .select{
+  width:100%;
+  font-family:var(--body);
+  font-size:1rem;
+  font-weight:500;
+  color:var(--ink);
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:12px 14px;
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+  min-height:48px; /* tap target */
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.input:focus, .select:focus{
+  border-color:var(--accent);
+  background:var(--paper);
+  box-shadow: 0 0 0 4px rgba(14,110,94,0.10);
+}
+.input::placeholder{ color:var(--muted); font-weight:400; }
+.input.invalid{ border-color:var(--danger); background:var(--danger-soft); }
+
+.select{
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%234a5266' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+.row-3{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:10px;
+}
+@media (max-width: 420px){
+  .row-3{ grid-template-columns: 1fr 1fr; }
+}
+
+/* Segmented control */
+.seg{
+  display:flex;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:3px;
+  gap:3px;
+}
+.seg button{
+  flex:1;
+  font-family:var(--body);
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--ink-soft);
+  background:transparent;
+  border:none;
+  padding:10px 8px;
+  border-radius: calc(var(--r) - 4px);
+  cursor:pointer;
+  min-height:40px;
+  transition: all .12s ease;
+}
+.seg button.active{
+  background:var(--paper);
+  color:var(--ink);
+  box-shadow:var(--shadow-sm);
+}
+
+/* Check chips */
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 14px;
+  cursor:pointer;
+  font-size:.86rem;
+  font-weight:500;
+  color:var(--ink-soft);
+  min-height:40px;
+  user-select:none;
+  transition: all .12s ease;
+}
+.chip:hover{ border-color:var(--line-strong); }
+.chip input{
+  appearance:none; -webkit-appearance:none;
+  width:16px; height:16px;
+  border:1.5px solid var(--line-strong);
+  border-radius:5px;
+  background:var(--paper);
+  display:inline-block;
+  position:relative;
+  cursor:pointer;
+  margin:0;
+}
+.chip input:checked{
+  background:var(--accent);
+  border-color:var(--accent);
+}
+.chip input:checked::after{
+  content:"";
+  position:absolute;
+  left:4px; top:1px;
+  width:5px; height:9px;
+  border:solid white;
+  border-width: 0 2px 2px 0;
+  transform:rotate(45deg);
+}
+.chip:has(input:checked){
+  background:var(--accent-soft);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+/* ============ Suggestion cards ============ */
+.suggest-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.sug{
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:12px 14px;
+  background:var(--paper);
+  transition: border-color .15s, background .15s;
+}
+.sug-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+}
+.sug-title{
+  font-weight:600;
+  font-size:.95rem;
+  color:var(--ink);
+  letter-spacing:-0.005em;
+}
+.sug-source{
+  font-size:.72rem;
+  color:var(--muted);
+  font-family:var(--mono);
+  white-space:nowrap;
+}
+.sug-discussion{
+  font-size:.84rem;
+  color:var(--ink-soft);
+  margin-top:6px;
+  line-height:1.4;
+}
+.sug.priority{
+  border-color:var(--accent);
+  background: linear-gradient(180deg, var(--accent-soft), var(--paper) 80%);
+}
+.sug.priority .sug-title::before{
+  content:"●";
+  color:var(--accent);
+  margin-right:6px;
+  font-size:.7rem;
+  vertical-align: middle;
+}
+
+.cat-section{
+  margin-bottom: 14px;
+}
+.cat-section:last-child{ margin-bottom: 0; }
+.cat-section .suggest-list,
+.cat-section + .cat-section{
+  margin-top: 6px;
+}
+.cat-header{
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: .78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  margin: 14px 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.cat-section:first-child .cat-header{
+  margin-top: 0;
+}
+.cat-section .sug{
+  margin-bottom: 6px;
+}
+.cat-section .sug:last-child{ margin-bottom: 0; }
+
+.empty-state{
+  text-align:center;
+  padding:24px 16px;
+  color:var(--muted);
+  font-size:.9rem;
+  font-style:italic;
+  font-family:var(--display);
+}
+
+/* ============ Sticky CTA ============ */
+.cta-wrap{
+  position:fixed;
+  bottom:0; left:0; right:0;
+  background: linear-gradient(180deg, rgba(250,247,242,0) 0%, rgba(250,247,242,0.95) 30%, rgba(250,247,242,1) 100%);
+  padding: 20px 16px max(16px, env(safe-area-inset-bottom));
+  z-index:25;
+  pointer-events:none;
+}
+.cta-wrap > *{ pointer-events:auto; }
+.cta-inner{
+  max-width:720px;
+  margin:0 auto;
+}
+.btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  font-family:var(--body);
+  font-weight:700;
+  font-size:.98rem;
+  letter-spacing:.005em;
+  border-radius:var(--r);
+  border:none;
+  padding:14px 16px;
+  cursor:pointer;
+  min-height:52px;
+  transition: transform .08s, filter .15s, opacity .15s;
+}
+.btn:active{ transform: scale(0.98); }
+.btn:disabled{ opacity:.5; cursor:not-allowed; }
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow: 0 6px 20px rgba(14,110,94,0.25);
+}
+.btn-primary:hover:not(:disabled){ filter: brightness(1.05); }
+.btn-secondary{
+  background:var(--paper);
+  border:1px solid var(--line-strong);
+  color:var(--ink);
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+}
+.btn-row{
+  display:flex; gap:8px;
+}
+
+.cta-meta{
+  text-align:center;
+  font-size:.74rem;
+  color:var(--muted);
+  margin-top:8px;
+  font-family:var(--mono);
+}
+
+/* ============ Prompt preview ============ */
+.prompt-box{
+  font-family:var(--mono);
+  font-size:.82rem;
+  line-height:1.55;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:14px;
+  max-height: 240px;
+  overflow-y:auto;
+  white-space:pre-wrap;
+  color:var(--ink-soft);
+}
+
+/* ============ Calendar tab ============ */
+.cal-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+  gap:12px;
+}
+.cal-item:last-child{ border-bottom:none; }
+.cal-info{ flex:1; min-width:0; }
+.cal-info .t{
+  font-weight:600;
+  font-size:.94rem;
+  color:var(--ink);
+}
+.cal-info .d{
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:2px;
+}
+.toggle{
+  position:relative;
+  width:44px; height:26px;
+  background:var(--line-strong);
+  border-radius:999px;
+  cursor:pointer;
+  transition: background .15s;
+  flex-shrink:0;
+}
+.toggle::after{
+  content:"";
+  position:absolute;
+  top:3px; left:3px;
+  width:20px; height:20px;
+  background:#fff;
+  border-radius:999px;
+  transition: transform .18s ease;
+  box-shadow:0 2px 4px rgba(0,0,0,0.15);
+}
+.toggle.on{ background:var(--accent); }
+.toggle.on::after{ transform: translateX(18px); }
+
+.qr-card{
+  text-align:center;
+  padding:20px;
+}
+.qr-frame{
+  display:inline-block;
+  padding:16px;
+  background:#fff;
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  margin-bottom:14px;
+}
+#qrcode > canvas, #qrcode > img{
+  display:block !important;
+  width:200px !important;
+  height:200px !important;
+}
+.qr-url{
+  font-family:var(--mono);
+  font-size:.72rem;
+  color:var(--muted);
+  word-break:break-all;
+  background:var(--paper-2);
+  padding:10px;
+  border-radius:var(--r-sm);
+  margin-top:10px;
+  border:1px solid var(--line);
+}
+
+/* ============ Toast ============ */
+.toast{
+  position:fixed;
+  bottom: calc(100px + env(safe-area-inset-bottom));
+  left:50%;
+  transform: translateX(-50%) translateY(20px);
+  background:var(--ink);
+  color:var(--bg);
+  padding:12px 20px;
+  border-radius:999px;
+  font-size:.88rem;
+  font-weight:600;
+  opacity:0;
+  transition: opacity .2s, transform .2s;
+  z-index:50;
+  pointer-events:none;
+  box-shadow:var(--shadow-lg);
+}
+.toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+.toast.warn{ background:var(--danger); }
+
+/* ============ Meta info ============ */
+.meta-strip{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size:.74rem;
+  color:var(--muted);
+  font-family:var(--mono);
+  margin-top:14px;
+  padding:8px 12px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-sm);
+}
+.meta-strip .dot{
+  display:inline-block;
+  width:6px; height:6px;
+  background:var(--ok);
+  border-radius:999px;
+  margin-right:6px;
+}
+
+/* Larger screens */
+@media (min-width: 600px){
+  .brand h1{ font-size:1.4rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ====== Header ====== -->
+<header class="app">
+  <div class="brand">
+    <h1>Visit <em>Prep</em></h1>
+    <button class="info-btn" id="info-btn" aria-label="About this tool" title="About">i</button>
+  </div>
+  <div class="disclaimer" id="disclaimer">
+    <b>Not medical advice.</b> This tool helps you build research questions to bring
+    to a clinician. Don't act on outputs alone. For urgent symptoms, seek care.
+    Recommendations are summarized from public guidelines (USPSTF, ACIP, ACC/AHA, ADA, KDIGO)
+    and are reviewed periodically — see the date at the bottom of each tab.
+  </div>
+</header>
+
+<!-- ====== Tabs ====== -->
+<nav class="tabs" role="tablist">
+  <div class="tablist">
+    <button class="tab-btn active" data-tab="quick" role="tab"><span class="num">01</span> Quick</button>
+    <button class="tab-btn" data-tab="basic" role="tab"><span class="num">02</span> Basic</button>
+    <button class="tab-btn" data-tab="detailed" role="tab"><span class="num">03</span> Detailed</button>
+    <button class="tab-btn" data-tab="calendar" role="tab"><span class="num">04</span> Calendar</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===================== QUICK ===================== -->
+  <section class="tab-panel active" data-tab="quick">
+    <h2 class="intro">Two answers, <em>one prompt.</em></h2>
+    <p class="intro-sub">
+      The fastest path. Enter age and sex at birth — we'll generate an
+      OpenEvidence research prompt covering general screening for you to discuss.
+    </p>
+
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label>Age <span class="req">*</span></label>
+          <input type="number" class="input" id="q_age" min="0" max="120" placeholder="e.g., 58" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Sex at birth <span class="req">*</span></label>
+          <select class="select" id="q_sex">
+            <option value="">Choose…</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="intersex">Intersex</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What you'll get</div>
+      <div class="card-sub">Best-effort preview from your inputs. Full review happens via OpenEvidence.</div>
+      <div class="suggest-list" id="quick_suggest"></div>
+    </div>
+
+    <div class="meta-strip" id="meta_quick">
+      <span><span class="dot"></span>Guidelines reviewed: <b id="rev_date_1">—</b></span>
+      <span>Quick mode</span>
+    </div>
+  </section>
+
+  <!-- ===================== BASIC ===================== -->
+  <section class="tab-panel" data-tab="basic">
+    <h2 class="intro">A little more, <em>much sharper.</em></h2>
+    <p class="intro-sub">
+      Add a few key fields to personalize the prompt — BMI, smoking,
+      common conditions, and first-degree family history.
+    </p>
+
+    <div class="card">
+      <div class="card-title">About you</div>
+      <div class="row">
+        <div class="field">
+          <label>Age <span class="req">*</span></label>
+          <input type="number" class="input" id="b_age" min="0" max="120" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Sex at birth <span class="req">*</span></label>
+          <select class="select" id="b_sex">
+            <option value="">Choose…</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="intersex">Intersex</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label>Height (in)</label>
+          <input type="number" class="input" id="b_height" min="0" max="96" step="0.1" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>Weight (lb)</label>
+          <input type="number" class="input" id="b_weight" min="0" max="700" step="0.1" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>BMI</label>
+          <input type="number" class="input" id="b_bmi" min="10" max="80" step="0.1" inputmode="decimal" />
+          <div class="hint" id="b_bmi_note">Auto-fills from height + weight.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Smoking</div>
+      <div class="field">
+        <div class="seg" data-field="b_smoke">
+          <button data-val="never">Never</button>
+          <button data-val="former">Former</button>
+          <button data-val="current">Current</button>
+        </div>
+      </div>
+      <div class="row" id="b_smoke_qty" style="display:none">
+        <div class="field">
+          <label>Packs / day</label>
+          <input type="number" class="input" id="b_packs" min="0" max="10" step="0.1" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>Years smoked</label>
+          <input type="number" class="input" id="b_years" min="0" max="80" inputmode="numeric" />
+        </div>
+      </div>
+      <div class="field" id="b_quit_wrap" style="display:none">
+        <label>Years since quit</label>
+        <input type="number" class="input" id="b_quit" min="0" max="80" inputmode="numeric" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Known conditions</div>
+      <div class="card-sub">Check anything you've been diagnosed with.</div>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" data-cond="htn" /> Hypertension</label>
+        <label class="chip"><input type="checkbox" data-cond="dm" /> Diabetes</label>
+        <label class="chip"><input type="checkbox" data-cond="ckd" /> Kidney disease</label>
+        <label class="chip"><input type="checkbox" data-cond="ascvd" /> Heart attack / stroke history</label>
+        <label class="chip"><input type="checkbox" data-cond="chf" /> Heart failure</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Family history</div>
+      <div class="card-sub">First-degree (parent, sibling, or child).</div>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" data-fh="fh_breast" /> Breast cancer</label>
+        <label class="chip"><input type="checkbox" data-fh="fh_colon" /> Colon cancer</label>
+        <label class="chip"><input type="checkbox" data-fh="fh_prostate" /> Prostate cancer</label>
+        <label class="chip"><input type="checkbox" data-fh="fh_melanoma" /> Melanoma</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Preview</div>
+      <div class="card-sub">Topics flagged as priority appear highlighted.</div>
+      <div class="suggest-list" id="basic_suggest"></div>
+    </div>
+
+    <div class="meta-strip">
+      <span><span class="dot"></span>Guidelines reviewed: <b id="rev_date_2">—</b></span>
+      <span>Basic mode</span>
+    </div>
+  </section>
+
+  <!-- ===================== DETAILED ===================== -->
+  <section class="tab-panel" data-tab="detailed">
+    <h2 class="intro">Full picture, <em>tightest prompt.</em></h2>
+    <p class="intro-sub">
+      Add blood pressure, recent labs, and mood. Optional — but every field
+      sharpens the questions OpenEvidence will help answer.
+    </p>
+
+    <div class="card">
+      <div class="card-title">Vital signs</div>
+      <div class="row">
+        <div class="field">
+          <label>Systolic BP</label>
+          <input type="number" class="input" id="d_sbp" min="50" max="260" inputmode="numeric" placeholder="e.g., 138" />
+        </div>
+        <div class="field">
+          <label>Diastolic BP</label>
+          <input type="number" class="input" id="d_dbp" min="30" max="160" inputmode="numeric" placeholder="e.g., 84" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Labs (if available)</div>
+      <div class="card-sub">Leave blank if you don't know — that gets flagged as a missing data point.</div>
+      <div class="row">
+        <div class="field">
+          <label>HbA1c (%)</label>
+          <input type="number" class="input" id="d_a1c" min="3" max="20" step="0.1" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>Creatinine (mg/dL)</label>
+          <input type="number" class="input" id="d_cr" min="0" max="20" step="0.01" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>LDL (mg/dL)</label>
+          <input type="number" class="input" id="d_ldl" min="0" max="400" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>HDL (mg/dL)</label>
+          <input type="number" class="input" id="d_hdl" min="0" max="200" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Triglycerides</label>
+          <input type="number" class="input" id="d_tg" min="0" max="2000" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Urine Alb/Cr</label>
+          <input type="number" class="input" id="d_uacr" min="0" max="10000" inputmode="numeric" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Mood & lifestyle</div>
+      <div class="field">
+        <label>Mood / depression symptoms</label>
+        <div class="seg" data-field="d_mood">
+          <button data-val="none">None</button>
+          <button data-val="mild">Mild</button>
+          <button data-val="moderate">Moderate</button>
+          <button data-val="severe">Severe</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Drinks / week</label>
+          <input type="number" class="input" id="d_alcohol" min="0" max="100" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>Sleep concern?</label>
+          <select class="select" id="d_sleep">
+            <option value="">—</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Prompt preview</div>
+      <div class="card-sub">This is what gets sent to OpenEvidence.</div>
+      <div class="prompt-box" id="detailed_prompt_preview">Fill required fields to preview…</div>
+    </div>
+
+    <div class="meta-strip">
+      <span><span class="dot"></span>Guidelines reviewed: <b id="rev_date_3">—</b></span>
+      <span>Detailed mode</span>
+    </div>
+  </section>
+
+  <!-- ===================== CALENDAR ===================== -->
+  <section class="tab-panel" data-tab="calendar">
+    <h2 class="intro">Reminders for <em>what's due.</em></h2>
+    <p class="intro-sub">
+      Based on your inputs, here are the screening items to schedule.
+      Toggle what you want included, then scan the QR or download the calendar file.
+    </p>
+
+    <div class="card">
+      <div class="card-title">Eligible reminders</div>
+      <div class="card-sub" id="cal_summary">—</div>
+      <div id="cal_list"></div>
+    </div>
+
+    <div class="card qr-card" id="qr_card" style="display:none">
+      <div class="card-title" style="text-align:left">Scan or open</div>
+      <div class="card-sub" style="text-align:left">QR is generated on your device — no third party sees your data.</div>
+      <div class="qr-frame">
+        <div id="qrcode"></div>
+      </div>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn btn-secondary" id="cal_open">Open in browser</button>
+        <button class="btn btn-ghost" id="cal_ics">Download .ics</button>
+      </div>
+      <div class="qr-url" id="qr_url"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ====== Sticky CTA ====== -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <button class="btn btn-primary" id="cta_main" disabled>
+      Open in OpenEvidence
+    </button>
+    <div class="cta-meta" id="cta_meta">Fill required fields to continue</div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<!-- Guidelines are loaded from ./guidelines.json — edit that file to update.
+     See GUIDELINES_URL below to point at a different location. -->
+
+<!-- QR generator: client-side, no third party -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+/* =========================================================
+   APP STATE
+   ========================================================= */
+const $ = (id) => document.getElementById(id);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+const STORAGE_KEY = 'visit-prep-v2';
+
+const state = {
+  // basics
+  age: null, sex: '',
+  // body
+  height_in: null, weight_lb: null, bmi: null,
+  // smoking
+  smoke: '', packs: null, years_smoked: null, years_quit: null,
+  // conditions / fh
+  conditions: new Set(),
+  family_history: new Set(),
+  // vitals
+  sbp: null, dbp: null,
+  // labs
+  a1c: null, cr: null, ldl: null, hdl: null, tg: null, uacr: null,
+  // lifestyle/mood
+  mood: '', alcohol: null, sleep: '',
+  // active tab
+  tab: 'quick',
+  // calendar selections
+  cal_selected: new Set()
+};
+
+/* =========================================================
+   CONFIG — future API integration
+   ========================================================= */
+const OE_CONFIG = {
+  webUrl: 'https://www.openevidence.com/',
+  // TODO: When OpenEvidence API access is available:
+  // apiKey: null,            // read from settings UI
+  // apiEndpoint: null,       // POST prompt here
+  // model: 'oe-clinical-v1'  // or whatever they expose
+};
+
+const REMINDER_BASE_URL = 'https://dormantone.github.io/remindercal/';
+
+// Default path: same folder as the HTML. Change this to a full URL if you
+// want to host the guidelines centrally (e.g., a GitHub raw URL).
+const GUIDELINES_URL = './guidelines.json';
+
+/* =========================================================
+   GUIDELINES — loaded from external JSON
+   ========================================================= */
+let GUIDELINES = null;
+
+async function loadGuidelines(){
+  try {
+    const res = await fetch(GUIDELINES_URL, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    GUIDELINES = await res.json();
+  } catch (err) {
+    showLoadError(err);
+    throw err;
+  }
+}
+
+function showLoadError(err){
+  const main = document.querySelector('main');
+  if (!main) return;
+  const isFile = location.protocol === 'file:';
+  main.innerHTML = `
+    <div class="card" style="border-color:var(--danger); background:var(--danger-soft);">
+      <div class="card-title" style="color:#7a0e2f;">Can't load guidelines.json</div>
+      <div class="card-sub" style="color:#7a0e2f;">
+        ${isFile
+          ? 'Browsers block <code>fetch()</code> on <code>file://</code>. Either serve this folder with a local web server (e.g., <code>python3 -m http.server</code>) or host it (GitHub Pages, etc.).'
+          : `The app tried to load <code>${escapeHtml(GUIDELINES_URL)}</code> but failed: ${escapeHtml(String(err.message || err))}. Make sure the file exists in the same folder and is reachable.`
+        }
+      </div>
+    </div>
+  `;
+  $('cta_main').disabled = true;
+  $('cta_meta').textContent = 'Guidelines file missing.';
+}
+
+/* =========================================================
+   PERSON OBJECT — normalized view for the rules engine
+   ========================================================= */
+function buildPerson(){
+  const conditions = new Set(state.conditions);
+  if (state.smoke === 'current') conditions.add('smoking_current');
+  if (state.smoke === 'former') conditions.add('smoking_former');
+
+  const pack_years = (state.packs && state.years_smoked)
+    ? Math.round(state.packs * state.years_smoked * 10) / 10
+    : null;
+
+  return {
+    age: state.age,
+    sex: state.sex,
+    conditions,
+    family_history: new Set(state.family_history),
+    mood: state.mood,
+    measures: {
+      bmi: state.bmi,
+      sbp: state.sbp, dbp: state.dbp,
+      a1c: state.a1c, cr: state.cr, ldl: state.ldl, hdl: state.hdl,
+      tg: state.tg, uacr: state.uacr,
+      pack_years
+    }
+  };
+}
+
+/* =========================================================
+   RULES ENGINE
+   ========================================================= */
+const MOOD_RANK = { none: 0, mild: 1, moderate: 2, severe: 3 };
+
+function checkClause(c, p){
+  // age
+  if (c.age_min != null){
+    if (p.age == null || p.age < c.age_min) return false;
+  }
+  if (c.age_max != null){
+    if (p.age == null || p.age > c.age_max) return false;
+  }
+  // sex
+  if (c.sex){
+    if (c.sex === 'any') { /* ok */ }
+    else if (p.sex !== c.sex) return false;
+  }
+  // condition
+  if (c.condition){
+    if (!p.conditions.has(c.condition)) return false;
+  }
+  // family history
+  if (c.family_history){
+    if (!p.family_history.has(c.family_history)) return false;
+  }
+  // measure threshold
+  if (c.measure_high){
+    const v = p.measures[c.measure_high.key];
+    if (v == null || v < c.measure_high.value) return false;
+  }
+  // mood
+  if (c.mood_at_least){
+    const need = MOOD_RANK[c.mood_at_least];
+    const have = MOOD_RANK[p.mood] ?? -1;
+    if (have < need) return false;
+  }
+  // nested all_of inside a clause
+  if (c.all_of){
+    if (!c.all_of.every(x => checkClause(x, p))) return false;
+  }
+  if (c.any_of){
+    if (!c.any_of.some(x => checkClause(x, p))) return false;
+  }
+  // any clauses set? at least one constraint had to match — if none of the
+  // recognized keys were present, treat as a pass (empty clause = always true)
+  return true;
+}
+
+function evalClauseGroup(group, p){
+  if (!group) return false;
+  if (group.any_of) return group.any_of.some(c => checkClause(c, p));
+  if (group.all_of) return group.all_of.every(c => checkClause(c, p));
+  return checkClause(group, p);
+}
+
+function isEligible(item, p){
+  if (!item.eligibility) return true;
+  return checkClause(item.eligibility, p);
+}
+
+function isPriority(item, p){
+  return evalClauseGroup(item.priority_when, p);
+}
+
+function relevantItems(p){
+  if (!GUIDELINES) return { eligible: [], priority: [] };
+  const eligible = GUIDELINES.items.filter(it => isEligible(it, p));
+  const priority = eligible.filter(it => isPriority(it, p));
+  return { eligible, priority };
+}
+
+/* =========================================================
+   RENDER — suggestion lists
+   ========================================================= */
+function renderSuggestions(targetId, limit=null){
+  const p = buildPerson();
+  const { eligible, priority } = relevantItems(p);
+  const prioritySet = new Set(priority.map(x => x.id));
+
+  const container = $(targetId);
+  if (!container) return;
+
+  if (!eligible.length){
+    container.innerHTML = `<div class="empty-state">Enter age and sex to see suggestions.</div>`;
+    return;
+  }
+
+  // Group eligible items by category, preserving JSON order within each.
+  // Category sections appear in GUIDELINES.category_order.
+  const catOrder = GUIDELINES.category_order || ['cancer', 'cardiometabolic', 'infection', 'lifestyle'];
+  const catLabels = GUIDELINES.category_labels || {};
+
+  const grouped = {};
+  for (const c of catOrder) grouped[c] = [];
+  for (const it of eligible){
+    const c = it.category || 'lifestyle';
+    if (!grouped[c]) grouped[c] = [];
+    grouped[c].push(it);
+  }
+
+  // Apply optional limit by walking categories in order and taking until limit hit.
+  // This guarantees Quick mode still shows the top of each category, not just cancer.
+  let remaining = limit ?? Infinity;
+  const sections = [];
+  for (const c of catOrder){
+    if (!grouped[c]?.length) continue;
+    if (remaining <= 0) break;
+    const slice = grouped[c].slice(0, remaining);
+    sections.push({ cat: c, items: slice });
+    remaining -= slice.length;
+  }
+
+  container.innerHTML = sections.map(sec => {
+    const header = catLabels[sec.cat] || sec.cat;
+    const cards = sec.items.map(item => {
+      const isPrio = prioritySet.has(item.id);
+      return `
+        <div class="sug ${isPrio ? 'priority' : ''}">
+          <div class="sug-head">
+            <div class="sug-title">${escapeHtml(item.title)}</div>
+            <div class="sug-source">${escapeHtml(item.source)} '${String(item.source_year).slice(-2)}</div>
+          </div>
+          <div class="sug-discussion">${escapeHtml(item.discussion)}</div>
+        </div>
+      `;
+    }).join('');
+    return `
+      <div class="cat-section">
+        <h4 class="cat-header">${escapeHtml(header)}</h4>
+        ${cards}
+      </div>
+    `;
+  }).join('');
+}
+
+function escapeHtml(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+
+/* =========================================================
+   PATIENT SUMMARY for prompt
+   ========================================================= */
+function summarizePatient(){
+  const p = buildPerson();
+  const lines = [];
+
+  lines.push(`Age: ${state.age ?? 'unknown'}`);
+  lines.push(`Sex at birth: ${state.sex || 'unknown'}`);
+
+  // Body
+  if (state.bmi != null) lines.push(`BMI: ${state.bmi}`);
+
+  // Vitals
+  if (state.sbp != null && state.dbp != null){
+    lines.push(`BP: ${state.sbp}/${state.dbp}`);
+  }
+
+  // Conditions
+  const condList = Array.from(state.conditions);
+  if (condList.length){
+    lines.push(`Conditions: ${condList.map(c => CONDITION_LABEL[c] || c).join(', ')}`);
+  }
+
+  // Smoking
+  if (state.smoke){
+    const bits = [state.smoke];
+    if (p.measures.pack_years != null) bits.push(`${p.measures.pack_years} pack-years`);
+    if (state.smoke === 'former' && state.years_quit != null) bits.push(`quit ${state.years_quit}y ago`);
+    lines.push(`Smoking: ${bits.join(' | ')}`);
+  }
+
+  // Family history
+  const fh = Array.from(state.family_history);
+  if (fh.length){
+    lines.push(`Family history (1st degree): ${fh.map(c => FH_LABEL[c] || c).join(', ')}`);
+  }
+
+  // Labs
+  const labs = [];
+  if (state.a1c != null) labs.push(`A1c ${state.a1c}%`);
+  if (state.ldl != null) labs.push(`LDL ${state.ldl}`);
+  if (state.hdl != null) labs.push(`HDL ${state.hdl}`);
+  if (state.tg != null) labs.push(`TG ${state.tg}`);
+  if (state.cr != null) labs.push(`Cr ${state.cr}`);
+  if (state.uacr != null) labs.push(`UACR ${state.uacr}`);
+  if (labs.length) lines.push(`Labs: ${labs.join(' | ')}`);
+
+  // Mood + lifestyle
+  if (state.mood) lines.push(`Mood: ${state.mood}`);
+  if (state.alcohol != null) lines.push(`Alcohol: ${state.alcohol} drinks/week`);
+  if (state.sleep) lines.push(`Sleep concern: ${state.sleep}`);
+
+  return lines.join('\n');
+}
+
+const CONDITION_LABEL = {
+  htn: 'hypertension', dm: 'diabetes', ckd: 'CKD',
+  ascvd: 'ASCVD history', chf: 'heart failure'
+};
+const FH_LABEL = {
+  fh_breast: 'breast CA', fh_colon: 'colon CA',
+  fh_prostate: 'prostate CA', fh_melanoma: 'melanoma'
+};
+
+/* =========================================================
+   PROMPT BUILDER — OpenEvidence-only, mode-aware
+   ========================================================= */
+function buildPrompt(mode){
+  const patient = summarizePatient();
+  const reviewDate = GUIDELINES?.last_reviewed ?? 'recent';
+
+  if (mode === 'quick'){
+    return `NOT medical advice — preparing for a clinician visit.
+
+Use OpenEvidence and cite current U.S. guidelines (USPSTF, ACIP/CDC, ACC/AHA, ADA, KDIGO as applicable).
+
+PATIENT (minimal)
+${patient}
+
+TASK
+For this ${state.age}-year-old ${state.sex}, provide a concise "Consider the following":
+
+1) Top screening & prevention items to confirm given age and sex (colon, breast/prostate if relevant, lung screening eligibility, vaccines, osteoporosis).
+2) Recommended baseline screening labs to consider (lipid panel, A1c/glucose, Hep C, HIV) and why.
+3) The MOST IMPORTANT missing data points that would change recommendations (smoking pack-years, BP, BMI, family history, A1c, eGFR/UACR, current meds).
+4) Eight smart questions to bring to the clinician.
+
+Use headings + bullets. Cite guidelines. Phrase every recommendation as "Discuss with clinician," not as instructions.`;
+  }
+
+  if (mode === 'basic'){
+    return `NOT medical advice — preparing for a clinician visit.
+
+Use OpenEvidence and cite current U.S. guidelines.
+
+PATIENT
+${patient}
+
+TASK
+For this person, given the inputs above:
+
+1) Prioritize the TOP screening & prevention items they should discuss, ordered by expected impact. For each: WHY it matters, magnitude of benefit if known, harms/tradeoffs.
+2) Lifestyle levers most likely to matter for them (smoking, weight, activity, sleep, alcohol).
+3) Recommended baseline labs to consider (lipid panel, A1c, Hep C, HIV; plus kidney function if relevant).
+4) Vaccinations to verify per ACIP.
+5) Missing data that would sharpen the plan.
+6) Eight questions to bring to the clinician.
+
+Use headings + bullets. Cite guidelines. Phrase every item as "Discuss with clinician," not as instructions.`;
+  }
+
+  // detailed
+  return `NOT medical advice — preparing for a clinician visit.
+
+Use OpenEvidence and cite current U.S. guidelines (USPSTF, ACIP/CDC, ACC/AHA, ADA, KDIGO, NCCN as applicable).
+
+PATIENT
+${patient}
+
+TASK
+Build a prioritized plan ranking the TOP 10 items to discuss, ordered by expected impact on mortality and quality of life:
+
+For each item, include:
+- WHY (mechanism / guideline rationale)
+- Magnitude of benefit (ARR/NNT when evidence exists; longevity impact when available)
+- Harms / tradeoffs
+- Cost considerations
+
+Then provide:
+
+1) Targets to discuss
+   - BP target range and rationale
+   - HbA1c target (if relevant) and rationale
+   - LDL goals (primary vs secondary prevention)
+   - UACR interpretation and what changes management
+
+2) Highest-yield therapies (when indicated)
+   - Lifestyle (highest-impact levers first)
+   - Medications: mechanism, expected benefit, monitoring, side effects
+   - Cardio- and kidney-protective options if DM/CKD/ASCVD/CHF present
+
+3) Screening checklist (tailored)
+
+4) Recommended labs to consider
+
+5) Missing data points that would change recommendations
+
+6) Twelve smart questions to bring to the clinician
+
+Use headings + bullets. Cite guidelines. Phrase every item as "Discuss with clinician," not as instructions.`;
+}
+
+function activePromptMode(){
+  return state.tab === 'calendar' ? 'detailed' : state.tab;
+}
+
+/* =========================================================
+   OPENEVIDENCE INTEGRATION
+   - Today: copy prompt + open OE web
+   - Future: direct API call (see OE_CONFIG)
+   ========================================================= */
+async function sendToOpenEvidence(prompt){
+  // FUTURE: if (OE_CONFIG.apiKey && OE_CONFIG.apiEndpoint) {
+  //   const res = await fetch(OE_CONFIG.apiEndpoint, {
+  //     method: 'POST',
+  //     headers: { 'Authorization': `Bearer ${OE_CONFIG.apiKey}`, 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ prompt, model: OE_CONFIG.model })
+  //   });
+  //   return res.json(); // render in-app
+  // }
+
+  const ok = await copyText(prompt);
+  if (!ok){
+    toast('Copy blocked — long-press the preview to copy manually', true);
+    return;
+  }
+  window.open(OE_CONFIG.webUrl, '_blank', 'noopener');
+  toast('Copied — paste in OpenEvidence');
+}
+
+async function copyText(text){
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch(e){
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e2){ return false; }
+  }
+}
+
+function toast(msg, warn=false){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.toggle('warn', !!warn);
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+/* =========================================================
+   CALENDAR — reminder URL + client-side QR + .ics
+   ========================================================= */
+function buildReminderUrl(){
+  const params = new URLSearchParams();
+  if (state.age) params.set('age', state.age);
+  if (state.sex) params.set('sex', state.sex);
+
+  // Map selected guideline ids → reminder param keys.
+  // Defaults for remindercal compatibility; expand as needed.
+  const KEY_MAP = {
+    colon_cancer: 'colon',
+    breast_cancer: 'mammo',
+    cervical_cancer: 'pap',
+    prostate_cancer: 'psa',
+    lung_cancer_ldct: 'lung',
+    osteoporosis_dexa: 'dexa',
+    aaa_screen: 'aaa',
+    hep_c_screen: 'hepc',
+    hiv_screen: 'hiv',
+    vaccinations: 'vax',
+    skin_melanoma: 'skin',
+    kidney_uacr: 'uacr',
+    bp_screening: 'bp',
+    lipid_panel: 'lipids',
+    diabetes_screen: 'a1c'
+  };
+
+  for (const id of state.cal_selected){
+    const k = KEY_MAP[id] || id;
+    params.set(k, '1');
+  }
+
+  // Always-on items in the original tool
+  params.set('wellness', '1');
+  params.set('dentist', '1');
+
+  return REMINDER_BASE_URL + '?' + params.toString();
+}
+
+function renderCalendar(){
+  const p = buildPerson();
+  const { priority, eligible } = relevantItems(p);
+  const prioritySet = new Set(priority.map(x => x.id));
+  const calEligible = eligible.filter(it => CALENDAR_CATEGORY.has(it.id));
+
+  const list = $('cal_list');
+  if (!calEligible.length){
+    list.innerHTML = `<div class="empty-state">Enter age and sex in the Quick or Basic tab to see eligible reminders.</div>`;
+    $('cal_summary').textContent = 'No eligible reminders yet.';
+    $('qr_card').style.display = 'none';
+    return;
+  }
+
+  // Auto-select priority items by default if user hasn't touched anything
+  if (state.cal_selected.size === 0){
+    for (const it of priority){
+      if (CALENDAR_CATEGORY.has(it.id)) state.cal_selected.add(it.id);
+    }
+  }
+
+  // Group by category in fixed order, preserving JSON order within each
+  const catOrder = GUIDELINES.category_order || ['cancer', 'cardiometabolic', 'infection', 'lifestyle'];
+  const catLabels = GUIDELINES.category_labels || {};
+  const grouped = {};
+  for (const c of catOrder) grouped[c] = [];
+  for (const it of calEligible){
+    const c = it.category || 'lifestyle';
+    if (!grouped[c]) grouped[c] = [];
+    grouped[c].push(it);
+  }
+
+  list.innerHTML = catOrder.map(cat => {
+    if (!grouped[cat]?.length) return '';
+    const header = catLabels[cat] || cat;
+    const rows = grouped[cat].map(it => {
+      const checked = state.cal_selected.has(it.id);
+      const isPrio = prioritySet.has(it.id);
+      return `
+        <div class="cal-item">
+          <div class="cal-info">
+            <div class="t">${escapeHtml(it.title)}${isPrio ? ' •' : ''}</div>
+            <div class="d">${escapeHtml(it.source)} '${String(it.source_year).slice(-2)} · ${escapeHtml(CAL_INTERVAL[it.id] || 'as recommended')}</div>
+          </div>
+          <div class="toggle ${checked ? 'on' : ''}" data-cal-toggle="${it.id}" role="switch" aria-checked="${checked}"></div>
+        </div>
+      `;
+    }).join('');
+    return `
+      <div class="cat-section">
+        <h4 class="cat-header">${escapeHtml(header)}</h4>
+        ${rows}
+      </div>
+    `;
+  }).join('');
+
+  // Wire toggles
+  $$('.toggle[data-cal-toggle]', list).forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.calToggle;
+      if (state.cal_selected.has(id)) state.cal_selected.delete(id);
+      else state.cal_selected.add(id);
+      saveState();
+      renderCalendar();
+    });
+  });
+
+  $('cal_summary').textContent = `${state.cal_selected.size} selected of ${calEligible.length} eligible`;
+
+  // Render QR
+  renderQR();
+}
+
+const CALENDAR_CATEGORY = new Set([
+  'colon_cancer', 'breast_cancer', 'cervical_cancer', 'prostate_cancer',
+  'lung_cancer_ldct', 'osteoporosis_dexa', 'aaa_screen', 'hep_c_screen',
+  'hiv_screen', 'vaccinations', 'skin_melanoma', 'kidney_uacr',
+  'bp_screening', 'lipid_panel', 'diabetes_screen'
+]);
+
+const CAL_INTERVAL = {
+  colon_cancer: 'every 10y (colonoscopy) or as advised',
+  breast_cancer: 'every 2y',
+  cervical_cancer: 'every 3–5y per modality',
+  prostate_cancer: 'every 1–2y (shared decision)',
+  lung_cancer_ldct: 'annual',
+  osteoporosis_dexa: 'every 2y',
+  aaa_screen: 'one-time',
+  hep_c_screen: 'one-time',
+  hiv_screen: 'baseline, repeat per risk',
+  vaccinations: 'per ACIP schedule',
+  skin_melanoma: 'annual',
+  kidney_uacr: 'annual',
+  bp_screening: 'annual (or per BP)',
+  lipid_panel: 'every 4–6y baseline',
+  diabetes_screen: 'every 3y if normal'
+};
+
+let qrInstance = null;
+function renderQR(){
+  if (!state.cal_selected.size){
+    $('qr_card').style.display = 'none';
+    return;
+  }
+  const url = buildReminderUrl();
+  $('qr_card').style.display = '';
+  $('qr_url').textContent = url;
+
+  // Re-render QR (qrcodejs replaces children)
+  const el = $('qrcode');
+  el.innerHTML = '';
+  qrInstance = new QRCode(el, {
+    text: url,
+    width: 200,
+    height: 200,
+    colorDark: '#1a1f2e',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
+
+/* ICS generator — minimal, all-day yearly reminders */
+function generateICS(){
+  const today = new Date();
+  const events = [];
+  const sel = Array.from(state.cal_selected)
+    .map(id => GUIDELINES.items.find(it => it.id === id))
+    .filter(Boolean);
+
+  if (!sel.length) return null;
+
+  // schedule each starting next month, 9am, recurring per simple rule
+  const pad = (n) => String(n).padStart(2,'0');
+  const fmt = (d) => `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Visit Prep//Reminders//EN',
+    'CALSCALE:GREGORIAN'
+  ];
+
+  let offset = 0;
+  for (const it of sel){
+    const start = new Date(today);
+    start.setMonth(start.getMonth() + 1 + offset);
+    start.setHours(9, 0, 0, 0);
+    const end = new Date(start);
+    end.setHours(10, 0, 0, 0);
+
+    const uid = `visit-prep-${it.id}-${Date.now()}-${offset}@local`;
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${uid}`,
+      `DTSTAMP:${fmt(new Date())}`,
+      `DTSTART:${fmt(start)}`,
+      `DTEND:${fmt(end)}`,
+      `SUMMARY:${it.title} — discuss with clinician`,
+      `DESCRIPTION:${it.discussion.replace(/\n/g, '\\n')} (Source: ${it.source} ${it.source_year})`,
+      'RRULE:FREQ=YEARLY',
+      'END:VEVENT'
+    );
+    offset++;
+  }
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
+function downloadICS(){
+  const ics = generateICS();
+  if (!ics){ toast('Select at least one reminder', true); return; }
+  const blob = new Blob([ics], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'visit-prep-reminders.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast('Calendar file downloaded');
+}
+
+/* =========================================================
+   STATE — persist
+   ========================================================= */
+function saveState(){
+  try {
+    const s = {
+      ...state,
+      conditions: Array.from(state.conditions),
+      family_history: Array.from(state.family_history),
+      cal_selected: Array.from(state.cal_selected)
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+  } catch(e){ /* ignore */ }
+}
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    Object.assign(state, s);
+    state.conditions = new Set(s.conditions || []);
+    state.family_history = new Set(s.family_history || []);
+    state.cal_selected = new Set(s.cal_selected || []);
+  } catch(e){ /* ignore */ }
+}
+
+function hydrateUI(){
+  // Quick
+  if (state.age != null) $('q_age').value = state.age;
+  if (state.sex) $('q_sex').value = state.sex;
+  // Basic
+  if (state.age != null) $('b_age').value = state.age;
+  if (state.sex) $('b_sex').value = state.sex;
+  if (state.height_in != null) $('b_height').value = state.height_in;
+  if (state.weight_lb != null) $('b_weight').value = state.weight_lb;
+  if (state.bmi != null) $('b_bmi').value = state.bmi;
+  // Smoke seg
+  $$('.seg[data-field="b_smoke"] button').forEach(b => b.classList.toggle('active', b.dataset.val === state.smoke));
+  if (state.smoke === 'current' || state.smoke === 'former'){
+    $('b_smoke_qty').style.display = '';
+    if (state.packs != null) $('b_packs').value = state.packs;
+    if (state.years_smoked != null) $('b_years').value = state.years_smoked;
+  }
+  if (state.smoke === 'former'){
+    $('b_quit_wrap').style.display = '';
+    if (state.years_quit != null) $('b_quit').value = state.years_quit;
+  }
+  // Conditions
+  $$('[data-cond]').forEach(el => { el.checked = state.conditions.has(el.dataset.cond); });
+  // FH
+  $$('[data-fh]').forEach(el => { el.checked = state.family_history.has(el.dataset.fh); });
+
+  // Detailed
+  if (state.sbp != null) $('d_sbp').value = state.sbp;
+  if (state.dbp != null) $('d_dbp').value = state.dbp;
+  if (state.a1c != null) $('d_a1c').value = state.a1c;
+  if (state.cr != null) $('d_cr').value = state.cr;
+  if (state.ldl != null) $('d_ldl').value = state.ldl;
+  if (state.hdl != null) $('d_hdl').value = state.hdl;
+  if (state.tg != null) $('d_tg').value = state.tg;
+  if (state.uacr != null) $('d_uacr').value = state.uacr;
+  $$('.seg[data-field="d_mood"] button').forEach(b => b.classList.toggle('active', b.dataset.val === state.mood));
+  if (state.alcohol != null) $('d_alcohol').value = state.alcohol;
+  if (state.sleep) $('d_sleep').value = state.sleep;
+}
+
+/* =========================================================
+   VALIDATION + CTA
+   ========================================================= */
+function isReady(){
+  return state.age != null && state.age >= 0 && state.age <= 120 && !!state.sex;
+}
+
+function updateCTA(){
+  const ready = isReady();
+  const btn = $('cta_main');
+  btn.disabled = !ready;
+
+  if (state.tab === 'calendar'){
+    btn.textContent = state.cal_selected.size
+      ? `Download .ics (${state.cal_selected.size} items)`
+      : 'Select reminders to download';
+    btn.disabled = !state.cal_selected.size;
+    $('cta_meta').textContent = ready
+      ? 'Reminders are based on your inputs.'
+      : 'Fill required fields first.';
+  } else {
+    btn.textContent = 'Open in OpenEvidence';
+    $('cta_meta').textContent = ready
+      ? 'Prompt will be copied — paste into OpenEvidence.'
+      : 'Fill age and sex to continue.';
+  }
+}
+
+/* =========================================================
+   TAB SWITCHING
+   ========================================================= */
+function setTab(name){
+  state.tab = name;
+  $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  $$('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === name));
+
+  if (name === 'quick'){
+    renderSuggestions('quick_suggest', 8);
+  } else if (name === 'basic'){
+    renderSuggestions('basic_suggest');
+  } else if (name === 'detailed'){
+    $('detailed_prompt_preview').textContent = isReady() ? buildPrompt('detailed') : 'Fill required fields to preview…';
+  } else if (name === 'calendar'){
+    renderCalendar();
+  }
+  updateCTA();
+  saveState();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =========================================================
+   FIELD BINDINGS
+   ========================================================= */
+function bindNumeric(id, key){
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    const v = el.value.trim();
+    state[key] = v === '' ? null : parseFloat(v);
+    if (Number.isNaN(state[key])) state[key] = null;
+    afterChange();
+  });
+}
+
+function bindSelect(id, key){
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('change', () => {
+    state[key] = el.value || '';
+    afterChange();
+  });
+}
+
+function afterChange(){
+  // sync age/sex across tabs
+  const aQ = $('q_age').value, aB = $('b_age').value;
+  if (document.activeElement === $('q_age')){ $('b_age').value = aQ; }
+  else if (document.activeElement === $('b_age')){ $('q_age').value = aB; }
+
+  const sQ = $('q_sex').value, sB = $('b_sex').value;
+  if (document.activeElement === $('q_sex')){ $('b_sex').value = sQ; }
+  else if (document.activeElement === $('b_sex')){ $('q_sex').value = sB; }
+
+  // auto-calc BMI
+  if (state.height_in && state.weight_lb){
+    const bmi = (state.weight_lb / (state.height_in * state.height_in)) * 703;
+    if (Number.isFinite(bmi)){
+      state.bmi = Math.round(bmi * 10) / 10;
+      $('b_bmi').value = state.bmi;
+    }
+  }
+
+  // refresh whichever tab is active
+  if (state.tab === 'quick') renderSuggestions('quick_suggest', 8);
+  else if (state.tab === 'basic') renderSuggestions('basic_suggest');
+  else if (state.tab === 'detailed'){
+    $('detailed_prompt_preview').textContent = isReady() ? buildPrompt('detailed') : 'Fill required fields to preview…';
+  } else if (state.tab === 'calendar') renderCalendar();
+
+  updateCTA();
+  saveState();
+}
+
+function bindAll(){
+  // Tabs
+  $$('.tab-btn').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+  // Info button
+  $('info-btn').addEventListener('click', () => {
+    $('disclaimer').classList.toggle('show');
+  });
+
+  // QUICK
+  bindNumeric('q_age', 'age');
+  bindSelect('q_sex', 'sex');
+
+  // BASIC
+  bindNumeric('b_age', 'age');
+  bindSelect('b_sex', 'sex');
+  bindNumeric('b_height', 'height_in');
+  bindNumeric('b_weight', 'weight_lb');
+  bindNumeric('b_bmi', 'bmi');
+
+  // Smoking segmented
+  $$('.seg[data-field="b_smoke"] button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.val;
+      state.smoke = state.smoke === v ? '' : v;
+      $$('.seg[data-field="b_smoke"] button').forEach(b => b.classList.toggle('active', b.dataset.val === state.smoke));
+      $('b_smoke_qty').style.display = (state.smoke === 'current' || state.smoke === 'former') ? '' : 'none';
+      $('b_quit_wrap').style.display = (state.smoke === 'former') ? '' : 'none';
+      // clear hidden quantities when "Never"
+      if (!state.smoke || state.smoke === 'never'){
+        state.packs = null; state.years_smoked = null; state.years_quit = null;
+        $('b_packs').value = ''; $('b_years').value = ''; $('b_quit').value = '';
+      }
+      if (state.smoke !== 'former'){
+        state.years_quit = null; $('b_quit').value = '';
+      }
+      afterChange();
+    });
+  });
+  bindNumeric('b_packs', 'packs');
+  bindNumeric('b_years', 'years_smoked');
+  bindNumeric('b_quit', 'years_quit');
+
+  // Conditions
+  $$('[data-cond]').forEach(el => {
+    el.addEventListener('change', () => {
+      const c = el.dataset.cond;
+      if (el.checked) state.conditions.add(c);
+      else state.conditions.delete(c);
+      afterChange();
+    });
+  });
+
+  // Family history
+  $$('[data-fh]').forEach(el => {
+    el.addEventListener('change', () => {
+      const f = el.dataset.fh;
+      if (el.checked) state.family_history.add(f);
+      else state.family_history.delete(f);
+      afterChange();
+    });
+  });
+
+  // DETAILED
+  bindNumeric('d_sbp', 'sbp');
+  bindNumeric('d_dbp', 'dbp');
+  bindNumeric('d_a1c', 'a1c');
+  bindNumeric('d_cr', 'cr');
+  bindNumeric('d_ldl', 'ldl');
+  bindNumeric('d_hdl', 'hdl');
+  bindNumeric('d_tg', 'tg');
+  bindNumeric('d_uacr', 'uacr');
+  bindNumeric('d_alcohol', 'alcohol');
+  bindSelect('d_sleep', 'sleep');
+
+  $$('.seg[data-field="d_mood"] button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.val;
+      state.mood = state.mood === v ? '' : v;
+      $$('.seg[data-field="d_mood"] button').forEach(b => b.classList.toggle('active', b.dataset.val === state.mood));
+      afterChange();
+    });
+  });
+
+  // CALENDAR actions
+  $('cal_open').addEventListener('click', () => {
+    const url = buildReminderUrl();
+    window.open(url, '_blank', 'noopener');
+  });
+  $('cal_ics').addEventListener('click', downloadICS);
+
+  // CTA
+  $('cta_main').addEventListener('click', () => {
+    if (state.tab === 'calendar'){
+      downloadICS();
+    } else {
+      const mode = activePromptMode();
+      const prompt = buildPrompt(mode);
+      sendToOpenEvidence(prompt);
+    }
+  });
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+async function init(){
+  try {
+    await loadGuidelines();
+  } catch (err) {
+    // loadGuidelines already rendered an error UI; bail out.
+    return;
+  }
+  loadState();
+  hydrateUI();
+
+  const rev = GUIDELINES?.last_reviewed ?? '—';
+  $('rev_date_1').textContent = rev;
+  $('rev_date_2').textContent = rev;
+  $('rev_date_3').textContent = rev;
+
+  bindAll();
+  setTab(state.tab || 'quick');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
