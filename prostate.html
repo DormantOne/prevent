@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +51,9 @@
   .metric .mval{font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin-top:3px;}
   .metric .mtag{font-size:11px;font-weight:600;margin-top:2px;}
   .t-low{color:var(--green);} .t-mid{color:var(--amber);} .t-high{color:var(--oxblood);} .t-na{color:var(--ink-soft);}
+  .volwarn{display:none;align-items:flex-start;gap:7px;background:rgba(154,107,19,.09);border:1px solid rgba(154,107,19,.35);color:var(--amber);border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.4;margin-bottom:16px;font-weight:500;}
+  .volwarn .help{border-color:var(--amber);color:var(--amber);}
+  .volwarn .help:hover{background:var(--amber);color:#fff;}
   .formal{border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:9px;background:#fff;padding:15px 16px;margin-bottom:18px;}
   .formal .fhead{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
   .formal .fprob{font-family:'Fraunces',serif;font-size:34px;font-weight:600;line-height:1;}
@@ -166,6 +170,8 @@
         <div class="metric"><div class="mlbl">Overall signal</div><div class="mval" id="mSig">—</div><div class="mtag" id="tSig"></div></div>
       </div>
 
+      <div class="volwarn" id="volWarn"><span>⚠</span><span id="volWarnTxt"></span><button class="help" data-term="largevol">?</button></div>
+
       <div class="formal">
         <div class="fhead">Formal risk estimate · MRI-era PSAD + PI-RADS <button class="help" data-term="formal">?</button></div>
         <div class="fprob" id="fProb">—</div>
@@ -219,7 +225,8 @@ const HELP = {
   dre:{t:"DRE",k:"digital rectal exam",b:["The clinician feels the prostate's back surface for hard spots, bumps, or asymmetry.","A suspicious DRE is an <strong>independent indication for biopsy</strong> regardless of PSA or MRI — so the tool weights it strongly and lists it as a standalone re-biopsy trigger."]},
   rebiopsy:{t:"Re-biopsy triggers",k:"when to sample again",b:["After an atypical (ASAP/AIP) or multifocal-HGPIN finding, these events favor taking new tissue rather than continuing to watch:","• new PI-RADS 4–5 lesion; • PSA density ≥0.15; • positive/high biomarker; • abnormal DRE (independent indication); • for ASAP/AIP, the atypical focus itself (classically 3–6 mo); • on a 5-ARI, any PSA rise above nadir; • a fast PSA velocity — but per guideline, velocity should not be the <em>sole</em> trigger.","Filled red dots show which triggers your current inputs appear to meet."]},
   "5ari":{t:"5-ARI",k:"finasteride / dutasteride",b:["Pills that shrink the prostate for BPH and modestly lower the chance of being <em>diagnosed</em> with low-grade prostate cancer (~25% in PCPT/REDUCE).","They roughly halve PSA, so you double the measured value to interpret it, and any rise above nadir is a flag.","An older signal of more high-grade cancers was, on 18-year PCPT follow-up, not borne out as a survival difference — but the drugs remain not FDA-approved specifically for cancer prevention."]},
-  formal:{t:"The formal estimate & the evolving landscape",k:"read this carefully",b:["This number is an <strong>illustrative model</strong>, not a validated calculator. It anchors a baseline chance of clinically significant (GG≥2) cancer to your PI-RADS category, then adjusts for PSA density, lesion zone, DRE, prior-biopsy adequacy, and background risk. The wide range reflects real uncertainty — treat the band, not the point.","Why not just use a validated calculator? The big validated ones diverge on what they include: <strong>PCPT 2.0</strong> (age, PSA, DRE, race, family history, prior biopsy, %free PSA) and the newer <strong>PBCG</strong> are validated on thousands of men but <em>do not include MRI</em>, and PCPT tends to <em>overestimate</em> risk near typical PSA thresholds. The <strong>ERSPC/Rotterdam</strong> calculator is generally the strongest because it <em>includes prostate volume</em> (effectively PSA density) — so for a calibrated number on a large gland like many BPH cases, ERSPC is the one to run.","The current frontier: combining <strong>PI-RADS + PSA density</strong> outperforms the older calculators in the MRI era (some MRI+PSAD nomograms report AUCs ~0.9 vs ~0.72–0.76 for PCPT/ERSPC) — yet no major validated calculator yet incorporates MRI. This tool deliberately mirrors that PI-RADS+PSAD approach, which is why it can't cite a single validated AUC. Bottom line: use this to frame the question, then run ERSPC (for a volume-aware probability) and confirm with your clinician."]}
+  formal:{t:"The formal estimate & the evolving landscape",k:"read this carefully",b:["This number is an <strong>illustrative model</strong>, not a validated calculator. It anchors a baseline chance of clinically significant (GG≥2) cancer to your PI-RADS category, then adjusts for PSA density, lesion zone, DRE, prior-biopsy adequacy, and background risk. The wide range reflects real uncertainty — treat the band, not the point.","Why not just use a validated calculator? The big validated ones diverge on what they include: <strong>PCPT 2.0</strong> (age, PSA, DRE, race, family history, prior biopsy, %free PSA) and the newer <strong>PBCG</strong> are validated on thousands of men but <em>do not include MRI</em>, and PCPT tends to <em>overestimate</em> risk near typical PSA thresholds. The <strong>ERSPC/Rotterdam</strong> calculator is generally the strongest because it <em>includes prostate volume</em> (effectively PSA density) — so for a calibrated number on a large gland like many BPH cases, ERSPC is the one to run.","The current frontier: combining <strong>PI-RADS + PSA density</strong> outperforms the older calculators in the MRI era (some MRI+PSAD nomograms report AUCs ~0.9 vs ~0.72–0.76 for PCPT/ERSPC) — yet no major validated calculator yet incorporates MRI. This tool deliberately mirrors that PI-RADS+PSAD approach, which is why it can't cite a single validated AUC. Bottom line: use this to frame the question, then run ERSPC (for a volume-aware probability) and confirm with your clinician."]},
+  largevol:{t:"PSA density in a large prostate",k:"the >60 cc caveat",b:["PSA density loses accuracy in big glands. In a 2026 study, PSAD discriminated significant cancer far better in small prostates (AUC ~0.84 at ≤40 cc) than large ones (AUC ~0.70 at ≥60 cc).","Crucially, a <em>low</em> PSAD is less reassuring when the gland is large: only ~22% of men who had significant cancer <em>and</em> a ≥60 cc gland reached PSAD ≥0.15, versus ~79% of men with ≤40 cc glands. So the standard ≥0.15 cut-point misses far more cancers in big prostates.","Practical upshot above ~60 cc: don't lean on a low PSAD to rule cancer out — weight PI-RADS, biomarkers, and MRI-targeted sampling more heavily. This tool softens the low-PSAD 'reassurance' and widens the uncertainty band for large glands, but it deliberately does not invent a precise volume-specific threshold — ask your clinician about a lower PSAD cut-point for a gland this size."]}
 };
 function openModal(term){const h=HELP[term];if(!h)return;document.getElementById('mTerm').textContent=h.k;document.getElementById('mTitle').textContent=h.t;document.getElementById('mBody').innerHTML=h.b.map(p=>'<p>'+p+'</p>').join('');document.getElementById('overlay').classList.add('show');}
 function closeModal(){document.getElementById('overlay').classList.remove('show');}
@@ -239,6 +246,7 @@ function compute(){
   $('ariDurWrap').style.display = ari ? 'block':'none';
 
   const ariReliable = !ari || (aridur!=null && aridur>=6);
+  const bigGland = (vol!=null && vol>=60);
   const effPsa = (psa!=null && ari) ? psa*2 : psa;
 
   // PSA density — uses effective PSA so 5-ARI doesn't underestimate
@@ -290,9 +298,12 @@ function compute(){
     const base={'2':5,'3':12,'4':42,'5':78}[pirads];
     let f=1, work=[];
     work.push('PI-RADS '+(pirads==='2'?'1–2':pirads)+' base '+base+'%');
-    // PSA density
-    let pf = density<0.10?0.55:(density<0.15?1.0:1.7);
-    f*=pf; work.push('× PSAD '+(dAdj?'(5-ARI-adj) ':'')+density.toFixed(3)+' →'+pf);
+    // PSA density (low-PSAD reassurance softened in large glands, where PSAD underperforms)
+    let pf;
+    if(density<0.10) pf = bigGland?0.75:0.55;
+    else if(density<0.15) pf = 1.0;
+    else pf = 1.7;
+    f*=pf; work.push('× PSAD '+(dAdj?'(5-ARI-adj) ':'')+density.toFixed(3)+' →'+pf+(bigGland?' (large-gland softened)':''));
     // zone (mainly PI-RADS 3/4)
     if(zone!=='na' && (pirads==='3'||pirads==='4')){
       let zf = zone==='tz'?(pirads==='3'?0.65:0.9):(pirads==='3'?1.15:1.05);
@@ -303,14 +314,14 @@ function compute(){
     if(path==='benign'){ let af = adeq==='sat'?0.6:(adeq==='target'?0.65:(adeq==='std12'?0.75:(adeq==='sextant'?0.95:0.9))); f*=af; work.push('× neg '+adeq+' →'+af); }
     if(highBg){f*=1.5; work.push('× germline →1.5');} else if(fhx||ancestry){f*=1.2; work.push('× family/ancestry →1.2');}
     if(age!=null){ if(age>=70){f*=1.1;work.push('× age≥70 →1.1');} else if(age<55){f*=0.9;work.push('× age<55 →0.9');} }
-    let pt = Math.max(2, Math.min(95, base*f/ (base/base) )); // base already in %, f multiplies
-    pt = Math.max(2, Math.min(95, base*f));
-    const lo=Math.max(1, Math.round(pt*0.6)), hi=Math.min(97, Math.round(pt*1.5));
+    let pt = Math.max(2, Math.min(95, base*f));
+    const sLo=bigGland?0.5:0.6, sHi=bigGland?1.7:1.5;
+    const lo=Math.max(1, Math.round(pt*sLo)), hi=Math.min(97, Math.round(pt*sHi));
     let imp, iCls;
     if(pt<10){imp='Below the common ~10% biopsy threshold — supports surveillance / deferring biopsy over immediate sampling.';iCls='t-low';}
     else if(pt<20){imp='Intermediate — a shared-decision zone; a reflex biomarker or short-interval MRI/PSA recheck typically guides the call.';iCls='t-mid';}
     else {imp='Above common biopsy thresholds — favors (MRI-targeted) biopsy, weighed against your preferences and life expectancy.';iCls='t-high';}
-    formal={na:false, pt:Math.round(pt), lo, hi, imp, iCls, work:work.join(' '), ariReliable};
+    formal={na:false, pt:Math.round(pt), lo, hi, imp, iCls, work:work.join(' '), ariReliable, bigGland};
   }
 
   const triggers=[
@@ -348,8 +359,9 @@ function compute(){
   if(push>=3 && path!=='gg2') plan.push('Several signals favor sampling now ('+pushNotes.join(', ')+'): discuss MRI-targeted biopsy of any lesion plus the prior atypical site.');
   if(ari){ plan.push('On a 5-ARI: read PSA as ~2× measured'+(ariReliable?'':' — but you are <6 months in, so the ×2 correction may be unreliable')+'; any rise above nadir is a flag.'); }
   if(age!=null && age>=70) plan.push('At '+age+', weigh life expectancy — under ~10 years, the value of detecting indolent disease falls.');
+  if(bigGland && density!=null && path!=='gg2') plan.push('Large prostate ('+vol+' cc): PSA density is less reliable above ~60 cc — a low value misses more significant cancers than in a small gland, and the standard ≥0.15 cut-point underperforms here. Lean on PI-RADS, biomarkers, and MRI-targeted sampling rather than density reassurance alone.');
 
-  return {age,psa,vol,ppsa,pmonths,freepsa,scoreFree,ari,aridur,ariReliable,effPsa,path,adeq,pirads,zone,
+  return {age,psa,vol,ppsa,pmonths,freepsa,scoreFree,ari,aridur,ariReliable,bigGland,effPsa,path,adeq,pirads,zone,
           bioType,bio,bioVal,bxmonths,fhx,germ,ancestry,dre,density,dTier,dCls,dAdj,vel,vTier,vCls,
           sig,sCls,plan,baseLabel,triggers,pushNotes,reassureNotes,formal};
 }
@@ -363,7 +375,9 @@ const BIO_TXT={na:'',low:'low/negative',int:'intermediate',high:'high/positive'}
 function render(){
   const r=compute();
   $('mDensity').textContent = r.density!=null ? r.density.toFixed(3) : '—';
-  $('tDensity').textContent = r.density!=null ? (r.dTier+(r.dAdj?' · 5-ARI-adj':'')) : ''; $('tDensity').className='mtag '+r.dCls;
+  $('tDensity').textContent = r.density!=null ? (r.dTier+(r.dAdj?' · 5-ARI-adj':'')+(r.bigGland?' · large gland':'')) : ''; $('tDensity').className='mtag '+r.dCls;
+  if(r.bigGland && r.density!=null){ $('volWarn').style.display='flex'; $('volWarnTxt').textContent='Large prostate ('+r.vol+' cc): PSA-density reassurance is less reliable above ~60 cc — standard cut-points miss more cancers in big glands. Weight PI-RADS, biomarkers, and targeted sampling.'; }
+  else { $('volWarn').style.display='none'; }
   $('mVel').textContent = r.vel!=null ? (r.vel>=0?'+':'')+r.vel.toFixed(2)+'/yr' : '—';
   $('tVel').textContent = r.vTier; $('tVel').className='mtag '+r.vCls;
   $('mEff').textContent = r.effPsa!=null ? r.effPsa.toFixed(2) : '—';
@@ -398,6 +412,7 @@ function render(){
   L.push('- Background risk: '+(bg.length?bg.join(', '):'none reported'));
   if(r.psa!=null) L.push('- Current PSA: '+r.psa.toFixed(2)+' ng/mL'+(r.ari?(' (on 5-ARI'+(r.aridur!=null?', '+r.aridur+' mo':'')+' → effective ≈ '+r.effPsa.toFixed(2)+(r.ariReliable?'':'; <6mo, correction uncertain')+')'):''));
   if(r.density!=null) L.push('- PSA density: '+r.density.toFixed(3)+' ng/mL/cc'+(r.dAdj?' (5-ARI-adjusted)':'')+' (volume '+r.vol+' cc) — '+r.dTier);
+  if(r.bigGland && r.density!=null) L.push('  · CAVEAT: gland '+r.vol+' cc (>60) — PSAD reliability reduced (AUC ~0.70 vs ~0.84 in small glands); a low value does NOT exclude significant cancer well, and the standard ≥0.15 cut-point underperforms in large prostates.');
   if(r.vel!=null) L.push('- PSA velocity: '+(r.vel>=0?'+':'')+r.vel.toFixed(2)+' ng/mL/yr ('+r.ppsa+'→'+r.psa+' over '+r.pmonths+' mo) — '+r.vTier+' [note: not a sole trigger per AUA/SUO]');
   if(r.freepsa!=null) L.push('- % free PSA: '+r.freepsa+'%'+(r.scoreFree?'':' (outside validated 4–10 PSA range — interpret with caution)'));
   L.push('- On 5-ARI: '+(r.ari?('yes'+(r.aridur!=null?(', '+r.aridur+' months'):'')):'no'));
@@ -420,6 +435,7 @@ function render(){
   L.push('PSA be interpreted on it? (b) How do validated calculators that include prostate');
   L.push('volume (ERSPC/Rotterdam) or the PBCG model compare with an MRI-era PSAD+PI-RADS');
   L.push('approach for the biopsy decision in this case?');
+  if(r.bigGland) L.push('(c) In a large prostate (>60 cc), what PSA-density threshold should guide the biopsy decision, given evidence that the standard ≥0.15 cut-point underperforms (lower sensitivity) in big glands?');
   L.push('');
   L.push('FRAMEWORK-SUGGESTED PLAN (to vet, NOT validated):');
   L.push('Base pathway: '+r.baseLabel);
