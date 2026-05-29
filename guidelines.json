@@ -1,0 +1,546 @@
+{
+  "schema_version": "1.2",
+  "last_reviewed": "2026-05-28",
+  "reviewer": "—",
+  "review_notes": "v1.2: split categories from 3 → 4. 'metabolic' renamed to 'cardiometabolic' (more honest about scope — covers BP, lipids, diabetes, kidney, bone, vascular). Communicable-disease screening and immunization split out of 'lifestyle' into a new 'infection' bucket. Remaining lifestyle items: tobacco, depression, alcohol. Within-category ordering unchanged where possible; infection bucket ordered vaccinations → Hep C → HIV → STI by impact × prevalence.",
+  "category_order": [
+    "cancer",
+    "cardiometabolic",
+    "infection",
+    "lifestyle"
+  ],
+  "category_labels": {
+    "cancer": "Cancer screening",
+    "cardiometabolic": "Cardiometabolic & chronic disease",
+    "infection": "Infection prevention & vaccines",
+    "lifestyle": "Lifestyle & mental health"
+  },
+  "sources": {
+    "USPSTF": "https://www.uspreventiveservicestaskforce.org/",
+    "ACIP/CDC": "https://www.cdc.gov/vaccines/acip/",
+    "ACC/AHA": "https://www.acc.org/guidelines",
+    "ADA": "https://diabetesjournals.org/care/issue/standards-of-care",
+    "KDIGO": "https://kdigo.org/guidelines/",
+    "AUA": "https://www.auanet.org/guidelines"
+  },
+  "items": [
+    {
+      "id": "colon_cancer",
+      "title": "Colon cancer screening",
+      "category": "cancer",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 45,
+        "age_max": 75
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 45
+          },
+          {
+            "family_history": "fh_colon"
+          }
+        ]
+      },
+      "discussion": "Discuss modality (stool tests vs colonoscopy) and interval. Family history may move start age earlier."
+    },
+    {
+      "id": "breast_cancer",
+      "title": "Breast cancer screening (mammogram)",
+      "category": "cancer",
+      "source": "USPSTF",
+      "source_year": 2024,
+      "eligibility": {
+        "age_min": 40,
+        "age_max": 74,
+        "sex": "female"
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 40
+          },
+          {
+            "family_history": "fh_breast"
+          }
+        ]
+      },
+      "discussion": "Current USPSTF recommends biennial mammography 40–74 for average risk. Family history may change timing."
+    },
+    {
+      "id": "lung_cancer_ldct",
+      "title": "Lung cancer screening (low-dose CT)",
+      "category": "cancer",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 50,
+        "age_max": 80
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "all_of": [
+              {
+                "condition": "smoking_current"
+              },
+              {
+                "measure_high": {
+                  "key": "pack_years",
+                  "value": 20
+                }
+              }
+            ]
+          },
+          {
+            "all_of": [
+              {
+                "condition": "smoking_former"
+              },
+              {
+                "measure_high": {
+                  "key": "pack_years",
+                  "value": 20
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "discussion": "Annual LDCT for 50–80 with ≥20 pack-years if currently smoking or quit within 15 years."
+    },
+    {
+      "id": "prostate_cancer",
+      "title": "Prostate cancer screening (shared decision)",
+      "category": "cancer",
+      "source": "USPSTF / AUA",
+      "source_year": 2018,
+      "eligibility": {
+        "age_min": 40,
+        "age_max": 75,
+        "sex": "male"
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "all_of": [
+              {
+                "age_min": 55
+              },
+              {
+                "age_max": 69
+              }
+            ]
+          },
+          {
+            "all_of": [
+              {
+                "age_min": 40
+              },
+              {
+                "family_history": "fh_prostate"
+              }
+            ]
+          }
+        ]
+      },
+      "discussion": "PSA is preference-sensitive. Black men and those with family history may be encouraged to start earlier discussion."
+    },
+    {
+      "id": "cervical_cancer",
+      "title": "Cervical cancer screening (Pap / HPV)",
+      "category": "cancer",
+      "source": "USPSTF",
+      "source_year": 2018,
+      "eligibility": {
+        "age_min": 21,
+        "age_max": 65,
+        "sex": "female"
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 25
+          }
+        ]
+      },
+      "discussion": "Cytology, HPV, or co-testing depending on age — confirm interval and most recent result."
+    },
+    {
+      "id": "skin_melanoma",
+      "title": "Skin / melanoma vigilance",
+      "category": "cancer",
+      "source": "USPSTF / dermatology guidance",
+      "source_year": 2023,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "family_history": "fh_melanoma"
+          }
+        ]
+      },
+      "discussion": "Discuss warning signs (ABCDE) and whether routine skin exams make sense given your risk."
+    },
+    {
+      "id": "bp_screening",
+      "title": "Blood pressure check & target discussion",
+      "category": "cardiometabolic",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 40
+          },
+          {
+            "condition": "htn"
+          },
+          {
+            "condition": "dm"
+          },
+          {
+            "condition": "ckd"
+          },
+          {
+            "measure_high": {
+              "key": "sbp",
+              "value": 130
+            }
+          },
+          {
+            "measure_high": {
+              "key": "dbp",
+              "value": 80
+            }
+          }
+        ]
+      },
+      "discussion": "Confirm proper technique, consider home BP log, and discuss target based on overall risk."
+    },
+    {
+      "id": "lipid_panel",
+      "title": "Lipid panel & ASCVD risk",
+      "category": "cardiometabolic",
+      "source": "USPSTF / ACC-AHA",
+      "source_year": 2022,
+      "eligibility": {
+        "age_min": 20
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 40
+          },
+          {
+            "condition": "dm"
+          },
+          {
+            "condition": "ascvd"
+          },
+          {
+            "condition": "ckd"
+          },
+          {
+            "measure_high": {
+              "key": "ldl",
+              "value": 160
+            }
+          }
+        ]
+      },
+      "discussion": "Discuss LDL goals (different for primary vs secondary prevention) and whether statins are appropriate."
+    },
+    {
+      "id": "diabetes_screen",
+      "title": "Diabetes / prediabetes screening",
+      "category": "cardiometabolic",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "all_of": [
+              {
+                "age_min": 35
+              },
+              {
+                "age_max": 70
+              },
+              {
+                "measure_high": {
+                  "key": "bmi",
+                  "value": 25
+                }
+              }
+            ]
+          },
+          {
+            "condition": "dm"
+          },
+          {
+            "measure_high": {
+              "key": "a1c",
+              "value": 5.7
+            }
+          }
+        ]
+      },
+      "discussion": "Confirm whether HbA1c or fasting glucose is appropriate; discuss prevention if prediabetic."
+    },
+    {
+      "id": "kidney_uacr",
+      "title": "Kidney protection (UACR, eGFR, BP targets)",
+      "category": "cardiometabolic",
+      "source": "KDIGO / ADA",
+      "source_year": 2024,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "condition": "dm"
+          },
+          {
+            "condition": "ckd"
+          },
+          {
+            "condition": "htn"
+          },
+          {
+            "measure_high": {
+              "key": "uacr",
+              "value": 30
+            }
+          }
+        ]
+      },
+      "discussion": "Discuss UACR, eGFR, BP targets, and kidney-protective therapies (e.g., ACEi/ARB, SGLT2i if indicated)."
+    },
+    {
+      "id": "osteoporosis_dexa",
+      "title": "Osteoporosis screening (DEXA)",
+      "category": "cardiometabolic",
+      "source": "USPSTF",
+      "source_year": 2018,
+      "eligibility": {
+        "age_min": 50
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "all_of": [
+              {
+                "sex": "female"
+              },
+              {
+                "age_min": 65
+              }
+            ]
+          },
+          {
+            "all_of": [
+              {
+                "sex": "male"
+              },
+              {
+                "age_min": 70
+              }
+            ]
+          }
+        ]
+      },
+      "discussion": "Discuss DEXA timing and fall/fracture prevention. Earlier if other osteoporosis risk factors."
+    },
+    {
+      "id": "aaa_screen",
+      "title": "Abdominal aortic aneurysm screening (one-time)",
+      "category": "cardiometabolic",
+      "source": "USPSTF",
+      "source_year": 2019,
+      "eligibility": {
+        "age_min": 65,
+        "age_max": 75,
+        "sex": "male"
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "condition": "smoking_former"
+          },
+          {
+            "condition": "smoking_current"
+          }
+        ]
+      },
+      "discussion": "One-time ultrasound for men 65–75 who have ever smoked."
+    },
+    {
+      "id": "vaccinations",
+      "title": "Vaccinations (age-appropriate)",
+      "category": "infection",
+      "source": "ACIP / CDC",
+      "source_year": 2025,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 50
+          }
+        ]
+      },
+      "discussion": "Confirm flu, COVID, Tdap; shingles (50+); pneumococcal (per ACIP); RSV (60+ per shared decision)."
+    },
+    {
+      "id": "hep_c_screen",
+      "title": "Hepatitis C screening (one-time)",
+      "category": "infection",
+      "source": "USPSTF",
+      "source_year": 2020,
+      "eligibility": {
+        "age_min": 18,
+        "age_max": 79
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 18
+          }
+        ]
+      },
+      "discussion": "Confirm whether you've ever been screened; one-time screening recommended for adults 18–79."
+    },
+    {
+      "id": "hiv_screen",
+      "title": "HIV screening (baseline)",
+      "category": "infection",
+      "source": "USPSTF",
+      "source_year": 2019,
+      "eligibility": {
+        "age_min": 15,
+        "age_max": 65
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 15
+          }
+        ]
+      },
+      "discussion": "Baseline screening for all adolescents and adults 15–65; repeat based on risk."
+    },
+    {
+      "id": "chlamydia_sti",
+      "title": "Chlamydia & STI screening",
+      "category": "infection",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 15,
+        "age_max": 24,
+        "sex": "female"
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 15
+          }
+        ]
+      },
+      "discussion": "Annual screening for sexually active women under 25; risk-based screening for older women."
+    },
+    {
+      "id": "tobacco_cessation",
+      "title": "Tobacco cessation support",
+      "category": "lifestyle",
+      "source": "USPSTF",
+      "source_year": 2021,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "condition": "smoking_current"
+          }
+        ]
+      },
+      "discussion": "Behavioral support plus FDA-approved pharmacotherapy is the highest-leverage intervention for smokers."
+    },
+    {
+      "id": "depression_screen",
+      "title": "Depression / mood screening",
+      "category": "lifestyle",
+      "source": "USPSTF",
+      "source_year": 2023,
+      "eligibility": {
+        "age_min": 12
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "mood_at_least": "mild"
+          },
+          {
+            "age_min": 18
+          }
+        ]
+      },
+      "discussion": "Use validated screen (e.g., PHQ-9) and discuss treatment options that improve function."
+    },
+    {
+      "id": "alcohol_screen",
+      "title": "Unhealthy alcohol use screening",
+      "category": "lifestyle",
+      "source": "USPSTF",
+      "source_year": 2018,
+      "eligibility": {
+        "age_min": 18
+      },
+      "priority_when": {
+        "any_of": [
+          {
+            "age_min": 18
+          }
+        ]
+      },
+      "discussion": "AUDIT-C or similar; brief counseling if positive."
+    }
+  ],
+  "_design_proposal_v1_2": {
+    "status": "not_resolved",
+    "summary": "Adds a two-gate governance trail to every item: OpenEvidence validation + CMI committee approval, each with date and explanation. This block is documentation only — the runtime app does NOT read these fields yet.",
+    "rationale": "Patients act on the framing in this tool. As the JSON becomes the source of truth for what patients see, every recommendation should pass two review gates before being published. (1) OpenEvidence validation confirms the wording and source citation match current evidence. (2) CMI committee approval confirms clinical framing, tone, and patient-facing appropriateness. Both gates record date and a brief explanation so changes are auditable. An item with either gate unapproved should be hidden in production or flagged in the UI as 'pending review.'",
+    "proposed_item_fields": {
+      "approved_by_openevidence": {
+        "approved": false,
+        "when": "",
+        "explanation": "Pending review against current OpenEvidence summary."
+      },
+      "approved_by_cmi_committee": {
+        "approved": false,
+        "when": "",
+        "explanation": "Pending CMI committee review of patient-facing wording."
+      }
+    },
+    "open_questions": [
+      "Should items missing approval be hidden, shown with a 'pending' badge, or shown normally with provenance available on tap?",
+      "Do approvals expire (e.g., re-review required every 12 months)? If so, the rules engine should treat stale approvals as not-approved.",
+      "Should we record reviewer initials on each approval, or is the committee-level record enough?"
+    ],
+    "build_prompt_for_gpt_deep_research": "You are maintaining guidelines.json for a patient-facing visit-prep tool. The tool generates research prompts for OpenEvidence and is NOT medical advice. Your output must be a complete, valid, parseable JSON file conforming exactly to the schema below, with no markdown fences, no commentary, no trailing text.\n\nSCHEMA\n{\n  \"schema_version\": \"1.2\",\n  \"last_reviewed\": \"<today, YYYY-MM-DD>\",\n  \"reviewer\": \"<your name or 'GPT deep research'>\",\n  \"review_notes\": \"<summarize what changed since the previous version provided>\",\n  \"category_order\": [\"cancer\", \"cardiometabolic\", \"infection\", \"lifestyle\"],\n  \"category_labels\": {\n    \"cancer\": \"Cancer screening\",\n    \"cardiometabolic\": \"Cardiometabolic & chronic disease\",\n    \"infection\": \"Infection prevention & vaccines\",\n    \"lifestyle\": \"Lifestyle & mental health\"\n  },\n  \"sources\": { ...links to guideline bodies... },\n  \"items\": [\n    {\n      \"id\": \"snake_case_unique_id\",\n      \"title\": \"<patient-readable title, ≤60 chars>\",\n      \"category\": \"cancer\" | \"cardiometabolic\" | \"infection\" | \"lifestyle\",\n      \"source\": \"USPSTF\" | \"ACIP/CDC\" | \"ACC-AHA\" | \"ADA\" | \"KDIGO\" | \"AUA\" | combinations,\n      \"source_year\": <YYYY of the cited recommendation>,\n      \"eligibility\": <clause — see grammar>,\n      \"priority_when\": <clause group — see grammar>,\n      \"discussion\": \"<1–2 sentence patient-facing note. Always framed as something to discuss with a clinician. Never imply the tool is giving instructions.>\",\n      \"approved_by_openevidence\": { \"approved\": <bool>, \"when\": \"<YYYY-MM-DD or empty>\", \"explanation\": \"<why approved or why pending>\" },\n      \"approved_by_cmi_committee\": { \"approved\": <bool>, \"when\": \"<YYYY-MM-DD or empty>\", \"explanation\": \"<why approved or why pending>\" }\n    }\n  ]\n}\n\nCLAUSE GRAMMAR (used in eligibility and priority_when)\nA clause is an object that may include any of:\n  age_min: number\n  age_max: number\n  sex: \"male\" | \"female\" | \"any\"\n  condition: \"htn\" | \"dm\" | \"ckd\" | \"ascvd\" | \"chf\" | \"smoking_current\" | \"smoking_former\"\n  family_history: \"fh_breast\" | \"fh_colon\" | \"fh_prostate\" | \"fh_melanoma\"\n  measure_high: { \"key\": <measure>, \"value\": number }   // matches if person's measure >= value\n  mood_at_least: \"none\" | \"mild\" | \"moderate\" | \"severe\"\n  all_of: [clauses]   // logical AND across nested clauses\n  any_of: [clauses]   // logical OR across nested clauses\nMeasure keys available at runtime: bmi, sbp, dbp, a1c, ldl, hdl, tg, cr, uacr, pack_years.\nA priority_when block at the top level must be { \"any_of\": [...] } or { \"all_of\": [...] }.\n\nCATEGORIZATION RULES (4 buckets)\n  cancer          — any cancer screening (lung, colon, breast, cervical, prostate, skin/melanoma, etc.)\n  cardiometabolic — cardiovascular, diabetes, kidney, lipid, bone, vascular (BP, lipids, A1c, kidney protection, osteoporosis, AAA)\n  infection       — communicable-disease screening and immunization (HIV, Hep C, STI, vaccinations)\n  lifestyle       — behavioral and mental health (tobacco cessation, alcohol screening, depression screening, sleep, etc.)\n\nORDERING RULE\nWithin each category, place items in descending order of expected population health benefit = impact × prevalence × strength of evidence in the general U.S. adult population. Justify any change to the prior ordering in review_notes.\n\nSOURCES TO USE (always cite the current published version)\n  USPSTF (uspreventiveservicestaskforce.org)\n  ACIP/CDC adult immunization schedule\n  ACC/AHA cardiovascular prevention guidelines\n  ADA Standards of Care\n  KDIGO CKD guidelines\n  AUA / NCCN for prostate context\n\nDISCUSSION FIELD STANDARDS\n  1–2 sentences, plain language, ~8th-grade reading level.\n  Always frames the item as something to discuss with a clinician.\n  Never tells the patient what to do.\n\nAPPROVAL FIELDS (REQUIRED ON EVERY ITEM)\n  approved_by_openevidence and approved_by_cmi_committee must both be present on every item.\n  Set approved=false until formally validated, with when=\"\" and explanation noting why pending.\n  When approved=true, include the date and a 1-sentence explanation of what was checked.\n\nDELIVERABLE\nReturn the complete updated guidelines.json. Update last_reviewed to today. In review_notes, list every item that was added, removed, reworded, or reordered, with a one-line reason citing the source guideline that drove the change. Do not output anything other than the JSON.\n"
+  }
+}
