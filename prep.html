@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +187,7 @@ main{
   max-width: 720px;
   margin: 0 auto;
   padding: 16px;
-  padding-bottom: 120px; /* room for sticky CTA */
+  padding-bottom: 40px;
 }
 
 .tab-panel{ display:none; }
@@ -469,20 +468,7 @@ main{
   font-family:var(--display);
 }
 
-/* ============ Sticky CTA ============ */
-.cta-wrap{
-  position:fixed;
-  bottom:0; left:0; right:0;
-  background: linear-gradient(180deg, rgba(250,247,242,0) 0%, rgba(250,247,242,0.95) 30%, rgba(250,247,242,1) 100%);
-  padding: 20px 16px max(16px, env(safe-area-inset-bottom));
-  z-index:25;
-  pointer-events:none;
-}
-.cta-wrap > *{ pointer-events:auto; }
-.cta-inner{
-  max-width:720px;
-  margin:0 auto;
-}
+/* ============ Buttons (used in Calendar tab) ============ */
 .btn{
   display:flex;
   align-items:center;
@@ -520,14 +506,6 @@ main{
 }
 .btn-row{
   display:flex; gap:8px;
-}
-
-.cta-meta{
-  text-align:center;
-  font-size:.74rem;
-  color:var(--muted);
-  margin-top:8px;
-  font-family:var(--mono);
 }
 
 /* ============ Prompt preview ============ */
@@ -665,6 +643,154 @@ main{
 @media (min-width: 600px){
   .brand h1{ font-size:1.4rem; }
 }
+/* ============ Top CTA (replaces bottom sticky) ============ */
+.top-cta{
+  padding: 10px 16px 12px;
+  background: rgba(250,247,242,0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.top-cta-inner{
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cta-status{
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.cta-bar{
+  height: 6px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.cta-bar-fill{
+  height: 100%;
+  width: 0%;
+  background: var(--ok);
+  border-radius: 999px;
+  transition: width .35s cubic-bezier(.4,0,.2,1);
+}
+.cta-checks{
+  display: flex;
+  gap: 10px;
+  font-size: .8rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+.cta-check{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  transition: color .2s;
+}
+.cta-check .ico{
+  width: 16px; height: 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-strong);
+  background: var(--paper);
+  display: inline-block;
+  position: relative;
+  transition: all .2s;
+}
+.cta-check.done{ color: var(--ok); }
+.cta-check.done .ico{
+  background: var(--ok);
+  border-color: var(--ok);
+}
+.cta-check.done .ico::after{
+  content: '';
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.cta-btn{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: .95rem;
+  border: none;
+  border-radius: var(--r);
+  padding: 12px 18px;
+  min-height: 48px;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(14,110,94,0.22);
+  transition: transform .08s, filter .15s, opacity .15s;
+}
+.cta-btn:hover:not(:disabled){ filter: brightness(1.06); }
+.cta-btn:active:not(:disabled){ transform: scale(0.98); }
+.cta-btn:disabled{
+  background: var(--line-strong);
+  color: var(--paper);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+@media (max-width: 520px){
+  .cta-btn{ width: 100%; }
+}
+
+/* ============ Priority legend ============ */
+.prio-legend{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-top: 4px;
+}
+.prio-legend::before{
+  content: '●';
+  color: var(--accent);
+  font-size: .7rem;
+}
+
+/* ============ Prompt preview section ============ */
+.prompt-section{
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+.prompt-title{
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+.prompt-sub{
+  font-size: .84rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.prompt-section .prompt-box{
+  max-height: 320px;
+}
+
 </style>
 </head>
 
@@ -693,6 +819,23 @@ main{
     <button class="tab-btn" data-tab="calendar" role="tab"><span class="num">04</span> Calendar</button>
   </div>
 </nav>
+
+<!-- ====== Top CTA (sticky with tabs) ====== -->
+<div class="top-cta">
+  <div class="top-cta-inner">
+    <div class="cta-status">
+      <div class="cta-bar"><div class="cta-bar-fill" id="cta_bar_fill"></div></div>
+      <div class="cta-checks">
+        <span class="cta-check" id="check_age"><span class="ico"></span>Age</span>
+        <span class="cta-check" id="check_sex"><span class="ico"></span>Sex</span>
+        <span class="cta-meta-text" id="cta_meta" style="margin-left:auto; color:var(--muted); font-weight:500; font-size:.78rem;">Fill required fields</span>
+      </div>
+    </div>
+    <button class="cta-btn" id="cta_main" disabled>
+      Open in OpenEvidence →
+    </button>
+  </div>
+</div>
 
 <main>
 
@@ -724,7 +867,10 @@ main{
 
     <div class="card">
       <div class="card-title">What you'll get</div>
-      <div class="card-sub">Best-effort preview from your inputs. Full review happens via OpenEvidence.</div>
+      <div class="card-sub">
+        Best-effort preview from your inputs. Full review happens via OpenEvidence.
+        <br/><span class="prio-legend">Especially relevant for your inputs</span>
+      </div>
       <div class="suggest-list" id="quick_suggest"></div>
     </div>
 
@@ -826,7 +972,10 @@ main{
 
     <div class="card">
       <div class="card-title">Preview</div>
-      <div class="card-sub">Topics flagged as priority appear highlighted.</div>
+      <div class="card-sub">
+        Items above each section are ordered by health impact × prevalence.
+        <br/><span class="prio-legend">Especially relevant for your inputs</span>
+      </div>
       <div class="suggest-list" id="basic_suggest"></div>
     </div>
 
@@ -916,12 +1065,6 @@ main{
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Prompt preview</div>
-      <div class="card-sub">This is what gets sent to OpenEvidence.</div>
-      <div class="prompt-box" id="detailed_prompt_preview">Fill required fields to preview…</div>
-    </div>
-
     <div class="meta-strip">
       <span><span class="dot"></span>Guidelines reviewed: <b id="rev_date_3">—</b></span>
       <span>Detailed mode</span>
@@ -956,17 +1099,14 @@ main{
     </div>
   </section>
 
-</main>
-
-<!-- ====== Sticky CTA ====== -->
-<div class="cta-wrap">
-  <div class="cta-inner">
-    <button class="btn btn-primary" id="cta_main" disabled>
-      Open in OpenEvidence
-    </button>
-    <div class="cta-meta" id="cta_meta">Fill required fields to continue</div>
+  <!-- ===================== Prompt preview (visible on all non-Calendar tabs) ===================== -->
+  <div class="prompt-section" id="prompt_section">
+    <div class="prompt-title">What gets sent to OpenEvidence</div>
+    <div class="prompt-sub">This is the exact prompt that will be copied when you tap the button at the top.</div>
+    <pre class="prompt-box" id="global_prompt_preview">Fill required fields to preview…</pre>
   </div>
-</div>
+
+</main>
 
 <div class="toast" id="toast">Copied</div>
 
@@ -1162,7 +1302,7 @@ function relevantItems(p){
 /* =========================================================
    RENDER — suggestion lists
    ========================================================= */
-function renderSuggestions(targetId, limit=null){
+function renderSuggestions(targetId){
   const p = buildPerson();
   const { eligible, priority } = relevantItems(p);
   const prioritySet = new Set(priority.map(x => x.id));
@@ -1176,7 +1316,8 @@ function renderSuggestions(targetId, limit=null){
   }
 
   // Group eligible items by category, preserving JSON order within each.
-  // Category sections appear in GUIDELINES.category_order.
+  // Category sections appear in GUIDELINES.category_order. Every eligible item shows —
+  // the page itself scrolls, no truncation.
   const catOrder = GUIDELINES.category_order || ['cancer', 'cardiometabolic', 'infection', 'lifestyle'];
   const catLabels = GUIDELINES.category_labels || {};
 
@@ -1188,16 +1329,10 @@ function renderSuggestions(targetId, limit=null){
     grouped[c].push(it);
   }
 
-  // Apply optional limit by walking categories in order and taking until limit hit.
-  // This guarantees Quick mode still shows the top of each category, not just cancer.
-  let remaining = limit ?? Infinity;
   const sections = [];
   for (const c of catOrder){
     if (!grouped[c]?.length) continue;
-    if (remaining <= 0) break;
-    const slice = grouped[c].slice(0, remaining);
-    sections.push({ cat: c, items: slice });
-    remaining -= slice.length;
+    sections.push({ cat: c, items: grouped[c] });
   }
 
   container.innerHTML = sections.map(sec => {
@@ -1736,22 +1871,50 @@ function isReady(){
 function updateCTA(){
   const ready = isReady();
   const btn = $('cta_main');
-  btn.disabled = !ready;
+  const ageOk = state.age != null && state.age >= 0 && state.age <= 120;
+  const sexOk = !!state.sex;
+
+  // Progress: 2 required fields (age + sex). Each = 50% of the bar.
+  const filled = (ageOk ? 1 : 0) + (sexOk ? 1 : 0);
+  const pct = (filled / 2) * 100;
+  $('cta_bar_fill').style.width = pct + '%';
+  $('check_age').classList.toggle('done', ageOk);
+  $('check_sex').classList.toggle('done', sexOk);
 
   if (state.tab === 'calendar'){
     btn.textContent = state.cal_selected.size
-      ? `Download .ics (${state.cal_selected.size} items)`
-      : 'Select reminders to download';
+      ? `Download .ics (${state.cal_selected.size}) →`
+      : 'Select reminders →';
     btn.disabled = !state.cal_selected.size;
     $('cta_meta').textContent = ready
-      ? 'Reminders are based on your inputs.'
-      : 'Fill required fields first.';
+      ? 'Reminders ready'
+      : 'Fill required fields first';
   } else {
-    btn.textContent = 'Open in OpenEvidence';
-    $('cta_meta').textContent = ready
-      ? 'Prompt will be copied — paste into OpenEvidence.'
-      : 'Fill age and sex to continue.';
+    btn.textContent = 'Open in OpenEvidence →';
+    btn.disabled = !ready;
+    if (!ready) $('cta_meta').textContent = `${filled}/2 — fill age and sex`;
+    else $('cta_meta').textContent = 'Ready — tap to copy and open';
   }
+}
+
+function renderPromptPreview(){
+  const section = $('prompt_section');
+  if (!section) return;
+
+  // Hide on Calendar (no prompt to send), show on all other tabs.
+  if (state.tab === 'calendar'){
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+
+  const box = $('global_prompt_preview');
+  if (!isReady()){
+    box.textContent = 'Fill age and sex above to preview the prompt.';
+    return;
+  }
+  const mode = activePromptMode();
+  box.textContent = buildPrompt(mode);
 }
 
 /* =========================================================
@@ -1763,14 +1926,14 @@ function setTab(name){
   $$('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === name));
 
   if (name === 'quick'){
-    renderSuggestions('quick_suggest', 8);
+    renderSuggestions('quick_suggest');
   } else if (name === 'basic'){
     renderSuggestions('basic_suggest');
-  } else if (name === 'detailed'){
-    $('detailed_prompt_preview').textContent = isReady() ? buildPrompt('detailed') : 'Fill required fields to preview…';
   } else if (name === 'calendar'){
     renderCalendar();
   }
+  // detailed has no per-tab preview anymore — the global one handles it
+  renderPromptPreview();
   updateCTA();
   saveState();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1819,12 +1982,11 @@ function afterChange(){
   }
 
   // refresh whichever tab is active
-  if (state.tab === 'quick') renderSuggestions('quick_suggest', 8);
+  if (state.tab === 'quick') renderSuggestions('quick_suggest');
   else if (state.tab === 'basic') renderSuggestions('basic_suggest');
-  else if (state.tab === 'detailed'){
-    $('detailed_prompt_preview').textContent = isReady() ? buildPrompt('detailed') : 'Fill required fields to preview…';
-  } else if (state.tab === 'calendar') renderCalendar();
+  else if (state.tab === 'calendar') renderCalendar();
 
+  renderPromptPreview();
   updateCTA();
   saveState();
 }
