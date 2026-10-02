@@ -1,72 +1,766 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Previsit Call Checklist</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Previsit Call Checklist - DEMO</title>
 <style>
-:root{--navy:#16324f;--blue:#1f6fb2;--pale:#eef6fb;--green:#147d64;--amber:#a45d00;--red:#a52a2a;--ink:#17212b;--muted:#5d6b78;--line:#d5dee7;--white:#fff}
-*{box-sizing:border-box} body{margin:0;background:#f4f7f9;color:var(--ink);font:16px/1.42 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.app{max-width:1100px;margin:auto;padding:20px}.hero{background:linear-gradient(135deg,var(--navy),#245a7d);color:#fff;border-radius:18px;padding:24px;box-shadow:0 10px 30px #16324f22}.hero h1{margin:0 0 5px;font-size:30px}.hero p{margin:0;opacity:.9}.notice{margin-top:12px;padding:10px 12px;border-radius:10px;background:#fff2;border:1px solid #fff4;font-size:14px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.btn,button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff}.btn.secondary,button.secondary{background:#e8eef3;color:var(--navy)}button.danger{background:#8b2430}button:disabled{opacity:.5;cursor:not-allowed}.progressWrap{background:#fff;border:1px solid var(--line);padding:14px;border-radius:14px;margin-bottom:16px}.progress{height:12px;background:#e6edf3;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:.25s}.progressText{display:flex;justify-content:space-between;margin-bottom:7px;font-weight:700}.card{background:#fff;border:1px solid var(--line);border-radius:16px;margin:14px 0;overflow:hidden;box-shadow:0 4px 18px #16324f0c}.cardHead{display:flex;align-items:center;gap:12px;padding:17px 18px;background:var(--pale);border-bottom:1px solid var(--line)}.num{height:34px;width:34px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}.cardHead h2{font-size:20px;margin:0}.body{padding:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label,.label{display:block;font-weight:750;margin-bottom:6px}.field input,.field textarea,.field select,input[type=text],input[type=number],input[type=date],textarea,select{width:100%;padding:10px 11px;border:1px solid #bfcbd6;border-radius:9px;background:#fff;font:inherit}.field textarea,textarea{min-height:78px;resize:vertical}.check{display:flex;gap:9px;align-items:flex-start;margin:9px 0}.check input{margin-top:4px;transform:scale(1.15)}.sub{padding:13px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd;margin-top:12px}.sub h3{margin:0 0 8px;font-size:17px}.codes{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}.chip{border:1px solid #b8ccd9;background:#f2f8fc;color:#174b70;border-radius:999px;padding:5px 9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}.copyrow{display:flex;gap:8px;align-items:center}.copyrow input,.copyrow textarea{flex:1}.status{font-size:13px;color:var(--muted)}.ok{color:var(--green);font-weight:800}.warn{color:var(--amber);font-weight:800}.hide{display:none!important}.bpRows{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin:7px 0}.average{font-size:22px;font-weight:850;color:var(--navy)}.footer{color:var(--muted);font-size:13px;margin:18px 2px}.sheet{display:none}.agent{background:#fff8e7;border:1px solid #efd49a}.tiny{font-size:13px;color:var(--muted)}
-@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}.app{padding:10px}.hero{border-radius:12px}.bpRows{grid-template-columns:1fr 1fr auto}}
-@media print{body{background:#fff}.app>*{display:none!important}.sheet.printMe{display:block!important;padding:8px;font-size:12pt}.sheet h1{font-size:20pt}.line{border-bottom:1px solid #333;min-height:24px;margin:7px 0}.noPrint{display:none!important}}
+:root{--navy:#16324f;--blue:#1f6fb2;--pale:#eef6fb;--green:#147d64;--red:#b00020;--ink:#17212b;--muted:#5d6b78;--line:#d5dee7;--amber:#7a4f00;--amberPale:#fff8e7;--amberLine:#efd49a}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7f9;color:var(--ink);font:16px/1.42 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.demoBanner{position:sticky;top:0;z-index:5000;background:var(--red);color:#fff;text-align:center;padding:14px;font-weight:900;font-size:26px;letter-spacing:2px;box-shadow:0 3px 12px #0005}
+#lockScreen{position:fixed;inset:0;z-index:4000;background:#10283ef2;display:flex;align-items:center;justify-content:center;padding:20px}
+.lockBox{background:#fff;border-radius:18px;padding:28px;width:420px;max-width:100%;text-align:center;box-shadow:0 20px 60px #0007}
+.lockBox h2{margin-top:0;color:var(--red)}
+.app{max-width:1100px;margin:auto;padding:20px}
+.hero{background:linear-gradient(135deg,var(--navy),#245a7d);color:#fff;border-radius:18px;padding:24px}
+.hero h1{margin:0 0 5px;font-size:30px}.hero p{margin:0;opacity:.9}
+.notice{margin-top:12px;padding:10px 12px;border-radius:10px;background:#fff2;border:1px solid #fff4;font-size:14px}
+.infoBox{padding:10px 12px;border-radius:10px;background:#eef6fb;border:1px solid #b8ccd9;color:var(--navy);font-size:14px;margin:10px 0}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--blue);color:#fff;font:inherit;font-weight:700}
+button.secondary{background:#e8eef3;color:var(--navy)}
+button.danger{background:#8b2430}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.progressWrap{background:#fff;border:1px solid var(--line);padding:14px;border-radius:14px;margin-bottom:16px}
+.progress{height:12px;background:#e6edf3;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:.25s}
+.progressText{display:flex;justify-content:space-between;margin-bottom:7px;font-weight:700}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;margin:14px 0;overflow:hidden;box-shadow:0 4px 18px #16324f0c}
+.cardHead{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 18px;background:var(--pale);border-bottom:1px solid var(--line)}
+.num{height:34px;width:34px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
+.cardHead h2{font-size:20px;margin:0}
+.askBtn{margin-left:auto;padding:6px 12px;border-radius:999px;background:var(--amberPale);color:var(--amber);border:1px solid var(--amberLine);font-size:13px}
+.askBtn:hover{background:#fdeec8}
+.body{padding:18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+label.lbl{display:block;font-weight:750;margin:6px 0}
+input[type=text],input[type=number],input[type=date],input[type=password],textarea,select{width:100%;padding:10px 11px;border:1px solid #bfcbd6;border-radius:9px;background:#fff;font:inherit}
+textarea{min-height:80px;resize:vertical}
+.check{display:flex;gap:9px;align-items:flex-start;margin:8px 0;cursor:pointer}
+.check input{margin-top:4px;transform:scale(1.15)}
+.sub{padding:13px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd;margin-top:12px}
+.say{padding:10px 12px;border-radius:10px;background:#eefaf5;border:1px solid #bfe3d6;color:#0f4f40;margin:14px 0 4px}
+.okNote{padding:10px 12px;border-radius:10px;background:#eefaf5;border:1px solid #bfe3d6;color:#0f4f40;font-weight:700;margin-top:12px}
+.staff{padding:13px;border:1px dashed #9fb4c6;border-radius:12px;background:#f7f9fb;margin-top:12px}
+.staffTag{font-size:13px;font-weight:800;color:#8b2430}
+.copyrow{display:flex;gap:8px;align-items:center}
+.copyrow input{flex:1;font-family:Consolas,monospace;font-size:14px}
+.tiny{font-size:13px;color:var(--muted)}
+.hide{display:none!important}
+.bpRow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin:7px 0}
+.average{font-size:22px;font-weight:850;color:var(--navy)}
+.medRow{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd;margin:10px 0}
+.srcBoxes{display:flex;flex-wrap:wrap;gap:6px 18px}
+.ptPreview{display:block;width:100%;max-width:520px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:6px auto 0}
+.agentBig{display:block;width:100%;margin:22px 0 4px;padding:22px 18px;border-radius:16px;background:linear-gradient(135deg,#7a4f00,#a06a00);color:#fff;font-size:24px;font-weight:850;text-align:center;box-shadow:0 6px 20px #7a4f0030}
+.agentBig span{display:block;font-size:15px;font-weight:600;margin-top:4px}
+.agentBig:hover{filter:brightness(1.07)}
+.footer{color:var(--muted);font-size:13px;margin:18px 2px}
+.sheet{display:none}
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}.app{padding:10px}}
+@media(prefers-reduced-motion:reduce){.bar{transition:none}}
+@media print{
+  body{background:#fff}
+  .demoBanner,#lockScreen{display:none!important}
+  body.printSheet .app>*{display:none!important}
+  body.printSheet .app>.sheet.printMe{display:block!important;padding:8px;font-size:12pt}
+  .line{border-bottom:1px solid #333;min-height:26px;margin:8px 0}
+}
 </style>
 </head>
 <body>
-<div class="app">
-<section class="hero"><h1>Previsit Call Checklist</h1><p>Home BP, medication reconciliation, diabetic eye exam, and mammogram documentation.</p><div class="notice"><strong>Privacy:</strong> This standalone page does not transmit data. Do not enter patient identifiers unless the file is running in an approved secure environment. Refresh or use “Clear call” before the next patient.</div></section>
-<div class="toolbar"><button onclick="clearCall()" class="danger">Clear call</button><button onclick="copySummary()">Copy call summary</button><button onclick="window.print()" class="secondary">Print active Novilus sheet</button></div>
-<section class="progressWrap"><div class="progressText"><span>Call completion</span><span id="pct">0%</span></div><div class="progress"><div class="bar" id="bar"></div></div></section>
 
-<section class="card"><div class="cardHead"><span class="num">1</span><h2>Home blood pressures</h2></div><div class="body">
-<div class="grid"><div class="field"><label>Hypertension diagnosis present?</label><select id="htn" onchange="toggleHTN()"><option value="">Select</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="field"><label>Search terms to paste into diagnosis search</label><div class="copyrow"><input id="htnCodes" readonly value="I10, I11, I12, I13, I15, I16, O10, O11, O13, O14, O15, O16"><button onclick="copyId('htnCodes')">Copy</button></div><div class="tiny">Broad ICD-10-CM families for hypertension screening. Confirm the documented diagnosis in Epic; do not assign a code from this list.</div></div></div>
-<div id="htnFlow" class="sub hide"><h3>Home BP workflow</h3><label class="check"><input type="checkbox" class="task"><span>Home readings available, documented, or obtained during the call</span></label><div id="bpList"></div><button class="secondary" onclick="addBP()">+ Add reading</button><div class="sub"><span class="label">Calculated average</span><div class="average" id="bpAvg">Add valid readings</div><div class="tiny">Simple arithmetic mean of entered systolic and diastolic values, rounded to the nearest whole number.</div></div><label class="check"><input type="checkbox" class="task"><span>Average or single home BP entered in the Epic note’s previsit section</span></label><div class="field"><label>BP note</label><textarea id="bpNote" placeholder="Example: Home BP readings reviewed; average ___/___ mmHg."></textarea></div></div>
-<label class="check"><input type="checkbox" class="task"><span>Blood pressure step complete</span></label>
-</div></section>
+<div class="demoBanner">DEMO ONLY - NOT FOR USE</div>
 
-<section class="card"><div class="cardHead"><span class="num">2</span><h2>Medication verification</h2></div><div class="body">
-<div class="grid"><div class="field"><label>Medication sources reviewed</label><label class="check"><input type="checkbox" class="task"><span>Dispense/fill list reviewed</span></label><label class="check"><input type="checkbox" class="task"><span>PDMP reviewed when applicable</span></label></div><div class="field"><label>Medication list for previsit note</label><textarea id="meds" placeholder="List only medications supported by the dispense list and PDMP. Do not infer current use solely from an old medication list."></textarea></div></div>
-<div class="grid"><div class="field"><label>Gaps or discrepancies?</label><select id="gaps" onchange="toggleGaps()"><option value="">Select</option><option value="no">No gaps found</option><option value="yes">Yes, review needed</option></select></div><div id="gapBox" class="field hide"><label>Gap details / questions for patient</label><textarea id="gapText" placeholder="Late fill, missing fill, conflicting dose, pharmacy mismatch, or PDMP discrepancy"></textarea></div></div>
-<label class="check"><input type="checkbox" class="task"><span>Fill list and identified gaps reviewed with patient</span></label><label class="check"><input type="checkbox" class="task"><span>Medication step complete</span></label>
-</div></section>
-
-<section class="card"><div class="cardHead"><span class="num">3</span><h2>Diabetic eye exam</h2></div><div class="body">
-<div class="grid"><div class="field"><label>Diabetes diagnosis present?</label><select id="dm" onchange="toggleDM()"><option value="">Select</option><option value="yes">Yes</option><option value="no">No</option></select></div><div class="field"><label>Diabetes diagnosis search terms</label><div class="copyrow"><input id="dmCodes" readonly value="E08, E09, E10, E11, E13"><button onclick="copyId('dmCodes')">Copy</button></div><div class="tiny">Broad diabetes ICD-10-CM families. Confirm the documented diagnosis and subtype in Epic.</div></div></div>
-<div id="dmFlow" class="sub hide"><div class="grid"><div class="field"><label>Eye exam status</label><select id="eyeStatus"><option value="">Select</option><option>Documented and current</option><option>Completed, report not in chart</option><option>Due / needs scheduling</option><option>Patient declined</option><option>Unknown</option></select></div><div class="field"><label>Date of eye exam</label><input type="date" id="eyeDate"></div></div>
-<div class="grid3"><div class="field"><label>Ophthalmology/optometry practice</label><input type="text" id="eyeOffice"></div><div class="field"><label>Phone</label><input type="text" id="eyePhone"></div><div class="field"><label>Fax</label><input type="text" id="eyeFax"></div></div>
-<label class="check"><input type="checkbox" class="task"><span>Contact information obtained</span></label><label class="check"><input type="checkbox" class="task"><span>Fax request sent for signed report and return fax</span></label><div class="field"><label>Attach report for Novilus intake</label><input type="file" id="eyeUpload" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff"><div class="tiny">Local file selection only. This page cannot upload to Novilus without an approved integration.</div></div><button onclick="prepareSheet('eye')" class="secondary">Prepare eye exam Novilus sheet</button></div>
-<label class="check"><input type="checkbox" class="task"><span>Eye exam step complete or not applicable</span></label>
-</div></section>
-
-<section class="card"><div class="cardHead"><span class="num">4</span><h2>Mammogram documentation</h2></div><div class="body">
-<div class="grid"><div class="field"><label>Mammogram status</label><select id="mamStatus"><option value="">Select</option><option>Documented in chart</option><option>Completed, report not scanned</option><option>Due / needs scheduling</option><option>Not applicable</option><option>Patient declined</option><option>Unknown</option></select></div><div class="field"><label>Date completed</label><input type="date" id="mamDate"></div></div><div class="grid3"><div class="field"><label>Facility</label><input type="text" id="mamFacility"></div><div class="field"><label>Phone</label><input type="text" id="mamPhone"></div><div class="field"><label>Fax</label><input type="text" id="mamFax"></div></div>
-<label class="check"><input type="checkbox" class="task"><span>If completed but not scanned, report requested from performing facility</span></label><div class="field"><label>Attach report for Novilus intake</label><input type="file" id="mamUpload" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff"><div class="tiny">Local file selection only. This page cannot upload to Novilus without an approved integration.</div></div><button onclick="prepareSheet('mam')" class="secondary">Prepare mammogram Novilus sheet</button><label class="check"><input type="checkbox" class="task"><span>Mammogram step complete or not applicable</span></label>
-</div></section>
-
-<section class="card agent"><div class="cardHead"><span class="num">↗</span><h2>Previsit agent</h2></div><div class="body"><div class="grid"><div class="field"><label>Agent link</label><input id="agentLink" type="text" placeholder="Paste the approved previsit agent link here when available"></div><div style="align-self:end"><button onclick="saveAgent()" class="secondary">Save link on this device</button> <button onclick="openAgent()">Open agent</button></div></div></div></section>
-
-<div class="footer">Clinical support checklist only. Verify diagnoses, documentation, routing, and fax destination in approved systems before acting. ICD-10-CM code families are search aids, not autonomous coding recommendations.</div>
-
-<section class="sheet" id="eyeSheet"><h1>Novilus Intake Sheet: Diabetic Eye Exam</h1><p><strong>Document type:</strong> Diabetic retinal/eye examination report</p><div class="line">Patient label / MRN:</div><div class="line">Exam date:</div><div class="line">Eye care practice:</div><div class="line">Ordering/requesting clinician:</div><p><strong>Checklist</strong></p><p>☐ Patient identity verified &nbsp; ☐ Exam date visible &nbsp; ☐ Performing clinician visible</p><p>☐ Diabetic eye/retinal findings visible &nbsp; ☐ Full report attached &nbsp; ☐ Correct document type selected</p><p>☐ Routed for review per local workflow &nbsp; ☐ Duplicate chart document checked</p><div class="line">Notes:</div></section>
-<section class="sheet" id="mamSheet"><h1>Novilus Intake Sheet: Mammogram</h1><p><strong>Document type:</strong> Mammography report</p><div class="line">Patient label / MRN:</div><div class="line">Study date:</div><div class="line">Imaging facility:</div><div class="line">Ordering clinician:</div><p><strong>Checklist</strong></p><p>☐ Patient identity verified &nbsp; ☐ Study date visible &nbsp; ☐ Facility visible</p><p>☐ Impression / BI-RADS visible &nbsp; ☐ Full report attached &nbsp; ☐ Correct document type selected</p><p>☐ Routed for review per local workflow &nbsp; ☐ Duplicate chart document checked</p><div class="line">Notes:</div></section>
+<div id="lockScreen">
+  <div class="lockBox">
+    <h2>DEMO ONLY - NOT FOR USE</h2>
+    <p>Enter the demo password to unlock.</p>
+    <input id="unlockInput" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')unlockDemo()">
+    <button style="width:100%;margin-top:12px" onclick="unlockDemo()">Unlock</button>
+    <div id="unlockError" style="margin-top:10px;color:#b00020;font-weight:700"></div>
+  </div>
 </div>
+
+<div class="app">
+
+<section class="hero">
+  <h1>Previsit Call Checklist</h1>
+  <p>Home BP, medications, diabetic eye exam, mammogram, wellness visit, MyUPMC picture for the patient, previsit note.</p>
+  <div class="notice"><strong>Privacy:</strong> This page does not transmit data. Do not enter patient identifiers. Use "Clear call" before the next patient.</div>
+</section>
+
+<div class="toolbar">
+  <button class="danger" onclick="clearCall()">Clear call</button>
+</div>
+
+<section class="progressWrap">
+  <div class="progressText"><span>Call completion</span><span id="pct">0%</span></div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+</section>
+
+<!-- STEP 1: HOME BP -->
+<section class="card">
+  <div class="cardHead"><span class="num">1</span><h2>Home blood pressures</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <div class="grid">
+      <div>
+        <label class="lbl" for="htnCodes">Search terms for the Epic search bar</label>
+        <div class="copyrow">
+          <input id="htnCodes" type="text" readonly value="I10 OR I11 OR I12 OR I13 OR I15 OR I16 OR O10 OR O11 OR O13 OR O14 OR O15 OR O16">
+          <button onclick="copyId('htnCodes')">Copy</button>
+        </div>
+        <div class="tiny">Search aid only. Confirm the documented diagnosis in Epic.</div>
+      </div>
+      <div>
+        <label class="lbl" for="htn">Hypertension diagnosis present?</label>
+        <select id="htn" class="task">
+          <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+        </select>
+      </div>
+    </div>
+    <div id="htnFlow" class="sub hide">
+      <label class="check"><input type="checkbox" class="task"><span>Home BP readings documented or obtained on the call</span></label>
+      <div id="bpList"></div>
+      <button class="secondary" onclick="addBP()">+ Add reading</button>
+      <div class="sub">
+        <label class="lbl">Average</label>
+        <div class="copyrow"><div class="average" id="bpAvg" style="flex:1">Add readings</div><button onclick="copyBP()">Copy</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2: MEDICATIONS -->
+<section class="card">
+  <div class="cardHead"><span class="num">2</span><h2>Medications</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <p style="margin-top:0">Add each medication and check how it was confirmed. Verified = dispense list and/or PDMP.</p>
+    <div id="medList"></div>
+    <div class="toolbar"><button class="secondary" onclick="addMed()">+ Add medication</button></div>
+    <label class="lbl" for="medOutput">Medication list</label>
+    <textarea id="medOutput" style="min-height:140px;font-family:Consolas,monospace;font-size:14px" readonly></textarea>
+    <div class="toolbar"><button onclick="copyId('medOutput')">Copy medication list</button></div>
+    <label class="lbl" for="gaps">Gaps in fills?</label>
+    <select id="gaps">
+      <option value="">Select</option><option value="no">No gaps</option><option value="yes">Yes, gaps found</option>
+    </select>
+    <div id="gapBox" class="hide" style="margin-top:8px">
+      <textarea id="gapText" placeholder="Describe gaps (late fill, missing fill, dose mismatch)"></textarea>
+    </div>
+    <label class="check"><input type="checkbox" class="task" id="tFillReviewed"><span>Fill list reviewed with patient</span></label>
+    <div class="say"><strong>Tell the patient:</strong> "Please bring all of your medications to your visit, including vitamins and supplements."</div>
+    <label class="check"><input type="checkbox" class="task" id="tBringMeds"><span>Reminded patient to bring all medications to the visit</span></label>
+  </div>
+</section>
+
+<!-- STEP 3: EYE EXAM -->
+<section class="card">
+  <div class="cardHead"><span class="num">3</span><h2>Diabetic eye exam</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <div class="grid">
+      <div>
+        <label class="lbl" for="dmCodes">Search terms for the Epic search bar</label>
+        <div class="copyrow">
+          <input id="dmCodes" type="text" readonly value="E08 OR E09 OR E10 OR E11 OR E13">
+          <button onclick="copyId('dmCodes')">Copy</button>
+        </div>
+        <div class="tiny">Search aid only. Confirm the documented diagnosis in Epic.</div>
+      </div>
+      <div>
+        <label class="lbl" for="dm">Diabetes diagnosis present?</label>
+        <select id="dm" class="task">
+          <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+        </select>
+      </div>
+    </div>
+    <div id="dmFlow" class="sub hide">
+      <div class="grid">
+        <div><label class="lbl" for="eyeStatus">Eye exam status</label>
+          <select id="eyeStatus" class="task" aria-describedby="eyeStatusHint"><option value="">Select</option><option>Documented in chart</option><option>Scanned in chart</option><option>Done, report not in chart</option><option>Patient needs contact</option></select>
+          <div class="tiny" id="eyeStatusHint" style="margin-top:4px">Picking "Scanned in chart" or "Done, report not in chart" opens the Previsit Capture form in a new tab.</div></div>
+        <div><label class="lbl" for="eyeDate">Date of eye exam</label><input type="date" id="eyeDate"></div>
+      </div>
+      <div id="eyeDoneNote" class="okNote hide">Documented in the chart - nothing else needed for this step.</div>
+      <div id="eyeScanned" class="hide">
+        <div class="infoBox"><strong>Novilus:</strong> a scanned report may need Novilus. Report attachment will be added later - for now, print the Novilus check sheet.</div>
+        <button class="secondary" onclick="printSheet('eye')">Print eye exam Novilus check sheet</button>
+        <label class="check"><input type="checkbox" class="task" id="tEyeNovilus"><span>Scanned report checked in Novilus</span></label>
+      </div>
+      <div id="eyeOutside" class="hide">
+        <div class="grid3" style="margin-top:6px">
+          <div><label class="lbl" for="eyeOffice">Ophthalmology office</label><input type="text" id="eyeOffice"></div>
+          <div><label class="lbl" for="eyePhone">Phone</label><input type="text" id="eyePhone"></div>
+          <div><label class="lbl" for="eyeFax">Fax</label><input type="text" id="eyeFax"></div>
+        </div>
+        <label class="check"><input type="checkbox" class="task" id="tEyeContact"><span>Ophthalmology contact info obtained</span></label>
+        <label class="check"><input type="checkbox" class="task" id="tEyeFax"><span>Fax sent to ophthalmology to sign and fax back</span></label>
+        <div class="tiny" style="margin-top:6px">The patient picture in step 6 will ask for a copy of this report.</div>
+      </div>
+      <div id="eyeForm" class="staff hide">
+        <div class="staffTag">Staff only - not for patients</div>
+        <div>Complete the Previsit Capture form for this eye exam.</div>
+        <div class="toolbar" style="margin:10px 0 4px"><button class="secondary" onclick="openCaptureForm('eye')">Open Previsit Capture form</button></div>
+        <label class="check"><input type="checkbox" class="task" id="tEyeForm"><span>Previsit Capture form completed for eye exam</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4: MAMMOGRAM -->
+<section class="card">
+  <div class="cardHead"><span class="num">4</span><h2>Mammogram</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <label class="lbl" for="mamOk">Is a mammogram appropriate for this patient?</label>
+    <select id="mamOk" class="task" style="max-width:320px">
+      <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+    </select>
+    <div class="tiny" style="margin-top:4px">For example: female, age 40 or older, no bilateral mastectomy.</div>
+    <div id="mamNoNote" class="okNote hide">Mammogram not appropriate - nothing else needed for this step.</div>
+    <div id="mamFlow" class="sub hide">
+      <div class="grid">
+        <div><label class="lbl" for="mamStatus">Mammogram status</label>
+          <select id="mamStatus" class="task" aria-describedby="mamStatusHint"><option value="">Select</option><option>Documented in chart</option><option>Scanned in chart</option><option>Done, report not in chart</option><option>Patient needs contact</option></select>
+          <div class="tiny" id="mamStatusHint" style="margin-top:4px">Picking "Scanned in chart" or "Done, report not in chart" opens the Previsit Capture form in a new tab.</div></div>
+        <div><label class="lbl" for="mamDate">Date done</label><input type="date" id="mamDate"></div>
+      </div>
+      <div id="mamDoneNote" class="okNote hide">Documented in the chart - nothing else needed for this step.</div>
+      <div id="mamScanned" class="hide">
+        <div class="infoBox"><strong>Novilus:</strong> a scanned report may need Novilus. Report attachment will be added later - for now, print the Novilus check sheet.</div>
+        <button class="secondary" onclick="printSheet('mam')">Print mammogram Novilus check sheet</button>
+        <label class="check"><input type="checkbox" class="task" id="tMamNovilus"><span>Scanned report checked in Novilus</span></label>
+      </div>
+      <div id="mamOutside" class="hide">
+        <div class="grid3" style="margin-top:6px">
+          <div><label class="lbl" for="mamFacility">Where it was done</label><input type="text" id="mamFacility"></div>
+          <div><label class="lbl" for="mamPhone">Phone</label><input type="text" id="mamPhone"></div>
+          <div><label class="lbl" for="mamFax">Fax</label><input type="text" id="mamFax"></div>
+        </div>
+        <label class="check"><input type="checkbox" class="task" id="tMamReq"><span>Report requested from where it was done</span></label>
+        <div class="tiny" style="margin-top:6px">The patient picture in step 6 will ask for a copy of this report.</div>
+      </div>
+      <div id="mamForm" class="staff hide">
+        <div class="staffTag">Staff only - not for patients</div>
+        <div>Complete the Previsit Capture form for this mammogram.</div>
+        <div class="toolbar" style="margin:10px 0 4px"><button class="secondary" onclick="openCaptureForm('mam')">Open Previsit Capture form</button></div>
+        <label class="check"><input type="checkbox" class="task" id="tMamForm"><span>Previsit Capture form completed for mammogram</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 5: WELLNESS VISIT -->
+<section class="card">
+  <div class="cardHead"><span class="num">5</span><h2>Wellness visit</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <label class="lbl" for="wellness">Is this a wellness visit?</label>
+    <select id="wellness" class="task" style="max-width:320px">
+      <option value="">Select</option><option value="yes">Yes</option><option value="no">No</option>
+    </select>
+    <div id="wellFlow" class="sub hide">
+      <div class="say" style="margin-top:0"><strong>Tell the patient:</strong> "Please complete the wellness form in your MyUPMC account before your visit. It helps the doctor focus on what matters most to you."</div>
+      <label class="check"><input type="checkbox" class="task" id="tWellRemind"><span>Reminded patient to complete the MyUPMC wellness form</span></label>
+      <div class="tiny">The patient picture in step 6 will include this reminder.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 6: PICTURE FOR THE PATIENT'S MYUPMC MESSAGE -->
+<section class="card">
+  <div class="cardHead"><span class="num">6</span><h2>Picture for the patient's MyUPMC message</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <p style="margin-top:0">Copy this picture and paste it into a MyUPMC message. It fills in from this call: the medications reviewed, reminders, any eye exam or mammogram report still needed, and a QR code for reviewing preventive care.</p>
+    <img id="ptPreview" class="ptPreview" alt="Preview of the picture for the patient's MyUPMC message">
+    <div class="toolbar" style="justify-content:center">
+      <button onclick="copyPtImage()">Copy picture</button>
+      <button class="secondary" onclick="downloadPtImage()">Download PNG</button>
+      <button class="secondary" onclick="openLink(LINKS.prevent)">Preview preventive care app</button>
+    </div>
+    <div class="tiny" style="text-align:center">If "Copy picture" is blocked, right-click the picture and choose <strong>Copy image</strong>, or use Download PNG.</div>
+    <label class="check"><input type="checkbox" class="task" id="tPicSent"><span>Picture sent to the patient in MyUPMC</span></label>
+  </div>
+</section>
+
+<!-- STEP 7: PREVISIT NOTE -->
+<section class="card">
+  <div class="cardHead"><span class="num">7</span><h2>Previsit note</h2><button class="askBtn" onclick="openAgent()">Ask previsit agent</button></div>
+  <div class="body">
+    <p style="margin-top:0">Everything from this call, ready to paste into the previsit note in Epic. It updates as you fill in the steps above.</p>
+    <textarea id="noteOutput" readonly aria-label="Previsit note" style="min-height:480px;font-family:Consolas,monospace;font-size:14px"></textarea>
+    <div class="toolbar"><button onclick="copyNote()">Copy previsit note</button></div>
+    <label class="check"><input type="checkbox" class="task" id="tNotePasted"><span>Previsit note pasted into Epic</span></label>
+  </div>
+</section>
+
+<button class="agentBig" onclick="openAgent()">Ask the previsit agent<span>It can answer questions about any step of this call</span></button>
+
+<div class="footer">DEMO ONLY - NOT FOR USE. Verify diagnoses, medications, and fax destinations in approved systems. Search terms are search aids, not coding recommendations.</div>
+
+<!-- PRINTABLE NOVILUS SHEETS -->
+<section class="sheet" id="eyeSheet">
+  <h1>DEMO ONLY - Novilus Check Sheet: Diabetic Eye Exam</h1>
+  <div class="line">Patient label / MRN:</div>
+  <div class="line">Exam date: <span id="sEyeDate"></span></div>
+  <div class="line">Ophthalmology office / fax: <span id="sEyeOffice"></span></div>
+  <div class="line">Requested by / date faxed:</div>
+  <p>&#9744; Patient identity verified &nbsp; &#9744; Exam date visible &nbsp; &#9744; Signed by eye doctor</p>
+  <p>&#9744; Retinopathy findings visible &nbsp; &#9744; Report attached in Novilus &nbsp; &#9744; Correct document type</p>
+  <p>&#9744; Routed for review &nbsp; &#9744; Duplicate checked</p>
+  <div class="line">Notes:</div>
+</section>
+<section class="sheet" id="mamSheet">
+  <h1>DEMO ONLY - Novilus Check Sheet: Mammogram</h1>
+  <div class="line">Patient label / MRN:</div>
+  <div class="line">Study date: <span id="sMamDate"></span></div>
+  <div class="line">Facility / fax: <span id="sMamFacility"></span></div>
+  <div class="line">Requested by / date requested:</div>
+  <p>&#9744; Patient identity verified &nbsp; &#9744; Study date visible &nbsp; &#9744; Facility visible</p>
+  <p>&#9744; Impression / BI-RADS visible &nbsp; &#9744; Report attached in Novilus &nbsp; &#9744; Correct document type</p>
+  <p>&#9744; Routed for review &nbsp; &#9744; Duplicate checked</p>
+  <div class="line">Notes:</div>
+</section>
+
+</div>
+
 <script>
-const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
-function toggleHTN(){q('#htnFlow').classList.toggle('hide',q('#htn').value!=='yes');updateProgress()}
-function toggleDM(){q('#dmFlow').classList.toggle('hide',q('#dm').value!=='yes');updateProgress()}
-function toggleGaps(){q('#gapBox').classList.toggle('hide',q('#gaps').value!=='yes')}
-function addBP(sys='',dia=''){const row=document.createElement('div');row.className='bpRows';row.innerHTML=`<div class="field"><label>Systolic</label><input type="number" min="40" max="300" value="${sys}" oninput="calcBP()"></div><div class="field"><label>Diastolic</label><input type="number" min="20" max="200" value="${dia}" oninput="calcBP()"></div><button class="danger" onclick="this.parentElement.remove();calcBP()">×</button>`;q('#bpList').appendChild(row)}
-function calcBP(){let s=0,d=0,n=0;qa('#bpList .bpRows').forEach(r=>{let a=+r.children[0].querySelector('input').value,b=+r.children[1].querySelector('input').value;if(a>=40&&a<=300&&b>=20&&b<=200){s+=a;d+=b;n++}});q('#bpAvg').textContent=n?`${Math.round(s/n)}/${Math.round(d/n)} mmHg (${n} reading${n>1?'s':''})`:'Add valid readings'}
-async function copyId(id){await navigator.clipboard.writeText(q('#'+id).value);flash('Copied')}
-function flash(t){const n=document.createElement('div');n.textContent=t;n.style='position:fixed;right:18px;bottom:18px;background:#16324f;color:white;padding:10px 14px;border-radius:10px;z-index:20';document.body.append(n);setTimeout(()=>n.remove(),1200)}
-function updateProgress(){const all=qa('.task').filter(x=>x.offsetParent!==null),done=all.filter(x=>x.checked).length,p=all.length?Math.round(done/all.length*100):0;q('#bar').style.width=p+'%';q('#pct').textContent=p+'%'}
-qa('.task').forEach(x=>x.addEventListener('change',updateProgress));
-function prepareSheet(kind){qa('.sheet').forEach(x=>x.classList.remove('printMe'));q(kind==='eye'?'#eyeSheet':'#mamSheet').classList.add('printMe');flash('Sheet ready. Select Print active Novilus sheet.')}
-function val(id){return q('#'+id)?.value?.trim()||''}
-function summary(){return [`PREVISIT CALL SUMMARY`,`Home BP: ${q('#bpAvg').textContent}`,`BP note: ${val('bpNote')}`,`Medications verified from dispense list/PDMP: ${val('meds')||'Not entered'}`,`Medication gaps: ${val('gaps')||'Not selected'} ${val('gapText')}`,`Diabetes: ${val('dm')||'Not selected'}; Eye exam: ${val('eyeStatus')||'Not selected'}; Date: ${val('eyeDate')||'Not entered'}; Office: ${val('eyeOffice')}; Phone: ${val('eyePhone')}; Fax: ${val('eyeFax')}`,`Mammogram: ${val('mamStatus')||'Not selected'}; Date: ${val('mamDate')||'Not entered'}; Facility: ${val('mamFacility')}; Phone: ${val('mamPhone')}; Fax: ${val('mamFax')}`].join('\n')}
-async function copySummary(){await navigator.clipboard.writeText(summary());flash('Summary copied')}
-function clearCall(){if(!confirm('Clear all call data?'))return;qa('input:not([readonly]),textarea,select').forEach(x=>{if(x.type==='checkbox')x.checked=false;else if(x.type==='file')x.value='';else x.value=''});q('#bpList').innerHTML='';addBP();q('#htnFlow').classList.add('hide');q('#dmFlow').classList.add('hide');q('#gapBox').classList.add('hide');qa('.sheet').forEach(x=>x.classList.remove('printMe'));calcBP();updateProgress()}
-function saveAgent(){const u=val('agentLink');localStorage.setItem('previsitAgentLink',u);flash('Agent link saved on this device')}
-function openAgent(){const u=val('agentLink');if(!u)return alert('Paste the previsit agent link first.');try{const x=new URL(u);if(!['https:','http:'].includes(x.protocol))throw 0;window.open(x.href,'_blank','noopener')}catch(e){alert('Enter a valid approved web link.') }}
-q('#agentLink').value=localStorage.getItem('previsitAgentLink')||'';addBP();addBP();updateProgress();
+var LINKS = {
+  agent: "https://upmchs.sharepoint.com/:u:/s/CMIPrimaryCareEducationSeriesReview700/IQDJbF_JAoztRKIjTVLhVlt9AbzYIcz1RuK_UhuN8s3xZ9c?e=LetPJ1",
+  form: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ptc9i3JOeUaxkVbaFYhxK1or1hyV-E1DrSAYikmgrcZURDBFSzBMRDE0VTNaT1lNQ0dZUVZVSU5JTC4u",       /* Previsit Capture - STAFF form for eye exam / mammogram. Never send to patients. */
+  prevent: "https://dormantone.github.io/prevent/prep.html"  /* Patient preventive care app */
+};
+/* Pre-built QR code for LINKS.prevent (1 pixel per module, 2-module margin). If that link changes, this QR must be regenerated. */
+var PREVENT_QR = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAlAQAAAADt5R2uAAAA6UlEQVR42gHeACH/Af8AAAD5AgAAAAAAAMBr/3AYAh/vTgfAAvLmed2AAgAD9IAAAgAq/eAAAg74JaOAAcCVAPvIAP/T9//4Ad9n6RfyAerhxyq8Av6wAsHABPIQhdfbA2XG+t9xANvzTbIYBP0e4VAgAe+xE5kMANEa6wnYAPPuiLYYAtAdMdxAAijNJ/rgAOpU2Ey4AMS21Cj4BBZj9jDAAdkeCDkgAMQJmcH4Af/B0wq7AsG+ofjgAh/9CwdAANFu9sD4BAD5ZswwBAAMbhMwAg74vBFgBOHe+GJdAf8AAAD5AgAAAAAAjN9gdY+p7AAAAAAASUVORK5CYII=";
+/* Eye exam and mammogram share these statuses */
+var DOCUMENTED = "Documented in chart", SCANNED = "Scanned in chart", NOT_IN_CHART = "Done, report not in chart", NEEDS_CONTACT = "Patient needs contact";
+var PREVENT_BLURB = "Enter your age and a few details to see the screenings and vaccines that may be right for you. Please do not enter your name, date of birth, or other personal information.";
+
+function q(s, c) { return (c || document).querySelector(s); }
+function qa(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
+function val(id) { var e = document.getElementById(id); return e ? e.value.trim() : ""; }
+function isChecked(id) { var e = document.getElementById(id); return !!(e && e.checked); }
+function yn(id) { return isChecked(id) ? "yes" : "no"; }
+
+/* ---- Password (lightly obfuscated) ---- */
+function unlockDemo() {
+  var codes = [82, 79, 66, 83, 72];
+  var pw = codes.map(function (x) { return String.fromCharCode(x); }).join("");
+  if (val("unlockInput").toUpperCase() === pw) {
+    q("#lockScreen").style.display = "none";
+    sessionStorage.setItem("pvUnlocked", "1");
+  } else {
+    q("#unlockError").textContent = "Incorrect password";
+  }
+}
+if (sessionStorage.getItem("pvUnlocked") === "1") { q("#lockScreen").style.display = "none"; }
+else { setTimeout(function () { q("#unlockInput").focus(); }, 50); }
+
+/* ---- Helpers ---- */
+function show(id, on) { q("#" + id).classList.toggle("hide", !on); }
+function flash(t, ms) {
+  var n = document.createElement("div");
+  n.textContent = t;
+  n.style.cssText = "position:fixed;right:18px;bottom:18px;background:#16324f;color:#fff;padding:10px 14px;border-radius:10px;z-index:6000";
+  document.body.appendChild(n);
+  setTimeout(function () { n.remove(); }, ms || 1800);
+}
+function copyText(t, msg) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(t).then(function () { flash(msg || "Copied"); }, function () { fallbackCopy(t, msg); });
+  } else { fallbackCopy(t, msg); }
+}
+function fallbackCopy(t, msg) {
+  var ta = document.createElement("textarea");
+  ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  var ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+  if (ok) flash(msg || "Copied"); else alert("Copy was blocked. Select the text and copy it manually.");
+  ta.remove();
+}
+function copyId(id) { refresh(); copyText(q("#" + id).value); }
+function openLink(u) { window.open(u, "_blank", "noopener"); }
+function openAgent() { openLink(LINKS.agent); }
+function fmtDate(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); return m ? m[2] + "/" + m[3] + "/" + m[1] : ""; }
+function listParts(parts, sep) { return parts.filter(Boolean).join(sep || ", "); }
+function joinAnd(a) { return a.length < 3 ? a.join(" and ") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1]; }
+
+/* ---- Blood pressure ---- */
+function addBP() {
+  var row = document.createElement("div");
+  row.className = "bpRow";
+  row.innerHTML =
+    '<div><label class="lbl">Systolic</label><input type="number" min="40" max="300"></div>' +
+    '<div><label class="lbl">Diastolic</label><input type="number" min="20" max="200"></div>' +
+    '<button class="danger" aria-label="Remove reading" onclick="this.parentElement.remove();refresh()">X</button>';
+  q("#bpList").appendChild(row);
+}
+function calcBP() {
+  var s = 0, d = 0, n = 0;
+  qa("#bpList .bpRow").forEach(function (r) {
+    var ins = qa("input", r), a = +ins[0].value, b = +ins[1].value;
+    if (a >= 40 && a <= 300 && b >= 20 && b <= 200) { s += a; d += b; n++; }
+  });
+  q("#bpAvg").textContent = n
+    ? (n === 1 ? "Home BP " : "Home BP average ") + Math.round(s / n) + "/" + Math.round(d / n) + " mmHg (" + n + " reading" + (n > 1 ? "s" : "") + ")"
+    : "Add readings";
+}
+function bpReadings() {
+  return qa("#bpList .bpRow").map(function (r) {
+    var ins = qa("input", r), a = +ins[0].value, b = +ins[1].value;
+    return a >= 40 && a <= 300 && b >= 20 && b <= 200 ? a + "/" + b : "";
+  }).filter(Boolean);
+}
+function copyBP() { refresh(); copyText(q("#bpAvg").textContent); }
+
+/* ---- Medications ---- */
+function addMed() {
+  var row = document.createElement("div");
+  row.className = "medRow";
+  row.innerHTML =
+    '<div class="copyrow"><input type="text" class="medName" aria-label="Medication" placeholder="Medication, dose, directions (e.g. lisinopril 10 mg daily)">' +
+    '<button class="danger" aria-label="Remove medication" onclick="this.closest(\'.medRow\').remove();refresh()">X</button></div>' +
+    '<div class="srcBoxes" style="margin-top:8px">' +
+    '<label class="check"><input type="checkbox" class="src" value="med list"><span>Med list</span></label>' +
+    '<label class="check"><input type="checkbox" class="src" value="PDMP"><span>PDMP</span></label>' +
+    '<label class="check"><input type="checkbox" class="src" value="dispense list"><span>Dispense list</span></label>' +
+    '<label class="check"><input type="checkbox" class="src" value="pt says"><span>Pt just says (not verified)</span></label>' +
+    '</div>';
+  q("#medList").appendChild(row);
+}
+function medRows() {
+  return qa("#medList .medRow").map(function (r) {
+    return {
+      name: q(".medName", r).value.trim(),
+      srcs: qa(".src", r).filter(function (c) { return c.checked; }).map(function (c) { return c.value; })
+    };
+  }).filter(function (m) { return m.name; });
+}
+function medLines() {
+  return medRows().map(function (m, i) {
+    var verified = m.srcs.indexOf("PDMP") > -1 || m.srcs.indexOf("dispense list") > -1, tag;
+    if (!m.srcs.length) tag = "source not selected";
+    else if (verified) tag = "VERIFIED - confirmed with " + m.srcs.join(", ");
+    else if (m.srcs.length === 1 && m.srcs[0] === "pt says") tag = "NOT VERIFIED - pt just says";
+    else tag = "NOT VERIFIED - " + m.srcs.join(", ");
+    return (i + 1) + ". " + m.name + " - " + tag;
+  });
+}
+function gapLine() {
+  var g = val("gaps");
+  if (g === "no") return "Fill gaps: none";
+  if (g === "yes") return "Fill gaps: " + (val("gapText") || "yes (details not entered)");
+  return "";
+}
+function buildMeds() {
+  var lines = medLines(), g = gapLine();
+  var out = lines.length ? "Medications:\n" + lines.join("\n") : "";
+  if (g) out += (out ? "\n" : "") + g;
+  q("#medOutput").value = out;
+}
+
+/* ---- What shows, based on the answers ---- */
+/* Documented in chart = done, nothing else needed.
+   Scanned = Novilus check + Previsit Capture form. Not in chart = request the report + Previsit Capture form.
+   Patient needs contact = Previsit Capture form (button only).
+   Scanned and not in chart also open the form in a new tab on their own (see watchStatus). */
+function opensForm(status) { return status === SCANNED || status === NOT_IN_CHART; }
+function needsForm(status) { return opensForm(status) || status === NEEDS_CONTACT; }
+function statusBranches(prefix, status) {
+  show(prefix + "DoneNote", status === DOCUMENTED);
+  show(prefix + "Scanned", status === SCANNED);
+  show(prefix + "Outside", status === NOT_IN_CHART);
+  show(prefix + "Form", needsForm(status));
+}
+
+/* ---- Previsit Capture form ---- */
+var formOpened = {}, formTimer = {};
+/* Opens the staff form in a new tab. Used by the auto-open and by the "Open Previsit Capture form" buttons. */
+function openCaptureForm(prefix) {
+  var w = window.open(LINKS.form, "_blank");
+  if (w) {
+    try { w.opener = null; } catch (e) {}
+    formOpened[prefix] = true;
+  } else {
+    flash('Pop-up blocked by the browser. Use the "Open Previsit Capture form" button.', 6000);
+  }
+}
+/* Picking scanned / done but not in chart opens the form once for that exam.
+   Waits a moment so arrowing through the list with the keyboard doesn't open it.
+   Skipped if the form is already open for that exam or marked completed. Opens again only after
+   the status goes back to one with no form (documented or blank). */
+function watchStatus(prefix, doneBox) {
+  var sel = q("#" + prefix + "Status");
+  sel.addEventListener("change", function () {
+    clearTimeout(formTimer[prefix]);
+    if (!needsForm(sel.value)) formOpened[prefix] = false;
+    if (!opensForm(sel.value) || formOpened[prefix] || isChecked(doneBox)) return;
+    formTimer[prefix] = setTimeout(function () {
+      if (opensForm(sel.value) && !formOpened[prefix] && !isChecked(doneBox)) openCaptureForm(prefix);
+    }, 400);
+  });
+}
+function applyState() {
+  show("htnFlow", val("htn") === "yes");
+  show("gapBox", val("gaps") === "yes");
+  show("dmFlow", val("dm") === "yes");
+
+  statusBranches("eye", val("eyeStatus"));
+  show("mamFlow", val("mamOk") === "yes");
+  show("mamNoNote", val("mamOk") === "no");
+  statusBranches("mam", val("mamStatus"));
+
+  show("wellFlow", val("wellness") === "yes");
+}
+
+/* ---- Progress: only counts questions and checkboxes that apply to this patient ---- */
+function updateProgress() {
+  var all = qa(".task").filter(function (x) { return x.offsetParent !== null; });
+  var done = all.filter(function (x) { return x.type === "checkbox" ? x.checked : x.value !== ""; }).length;
+  var p = all.length ? Math.round(done / all.length * 100) : 0;
+  q("#bar").style.width = p + "%";
+  q("#pct").textContent = p + "%";
+}
+
+/* ---- Patient message + picture ---- */
+function reminderItems() {
+  var r = ["Please bring all of your medications to your visit, including vitamins and supplements."];
+  if (val("wellness") === "yes") r.push("Please complete the wellness form in your MyUPMC account.");
+  return r;
+}
+function neededRecords() {
+  var r = [];
+  function where(place, date) { var p = listParts([place, fmtDate(date)]); return p ? " (" + p + ")" : ""; }
+  if (val("dm") === "yes" && val("eyeStatus") === NOT_IN_CHART) r.push("Your diabetic eye exam report" + where(val("eyeOffice"), val("eyeDate")));
+  if (val("mamOk") === "yes" && val("mamStatus") === NOT_IN_CHART) r.push("Your mammogram report" + where(val("mamFacility"), val("mamDate")));
+  return r;
+}
+function picContents() {
+  var c = [], need = [];
+  if (medRows().length) c.push("medications reviewed");
+  c.push("reminder to bring all medications");
+  if (val("wellness") === "yes") c.push("reminder to complete the MyUPMC wellness form");
+  if (val("dm") === "yes" && val("eyeStatus") === NOT_IN_CHART) need.push("eye exam");
+  if (val("mamOk") === "yes" && val("mamStatus") === NOT_IN_CHART) need.push("mammogram");
+  if (need.length) c.push("request for " + joinAnd(need) + (need.length > 1 ? " reports" : " report"));
+  c.push("preventive care QR code");
+  return c;
+}
+
+var ptCanvas = document.createElement("canvas");
+ptCanvas.width = 900; ptCanvas.height = 1200;
+var qrImg = new Image();
+qrImg.onload = function () { renderPatientImage(); };
+qrImg.src = PREVENT_QR;
+var imgTimer = null;
+function scheduleImage() { clearTimeout(imgTimer); imgTimer = setTimeout(renderPatientImage, 150); }
+
+function wrapLines(ctx, text, maxW) {
+  var out = [];
+  text.split("\n").forEach(function (para) {
+    if (!para.trim()) { out.push(""); return; }
+    var line = "";
+    para.split(/\s+/).forEach(function (w) {
+      var test = line ? line + " " + w : w;
+      if (ctx.measureText(test).width > maxW && line) { out.push(line); line = w; }
+      else line = test;
+    });
+    if (line) out.push(line);
+  });
+  return out;
+}
+/* Lays out the picture. With draw=false it only measures, so the canvas can be sized to fit exactly. */
+function paintPatient(ctx, draw) {
+  var W = ptCanvas.width, M = 64, y, F = "Segoe UI, Arial, sans-serif";
+  var meds = medRows().map(function (m) { return m.name; }), remind = reminderItems(), need = neededRecords();
+  ctx.textBaseline = "top";
+  function font(px, bold) { ctx.font = (bold ? "bold " : "") + px + "px " + F; }
+  function put(t, x, yy, color, align) { if (draw) { ctx.fillStyle = color; ctx.textAlign = align || "left"; ctx.fillText(t, x, yy); } }
+  function rect(x, yy, w, h, color) { if (draw) { ctx.fillStyle = color; ctx.fillRect(x, yy, w, h); } }
+  function heading(t) {
+    y += 40; font(30, true); put(t, M, y, "#16324f");
+    y += 44; rect(M, y, W - 2 * M, 2, "#d5dee7"); y += 22;
+  }
+  function list(items, numbered) {
+    items.forEach(function (it, i) {
+      font(26, false);
+      var lines = wrapLines(ctx, it, W - 2 * M - 50);
+      font(26, true); put(numbered ? (i + 1) + "." : "\u2022", M + 4, y, "#1f6fb2");
+      font(26, false);
+      lines.forEach(function (l) { put(l, M + 50, y, "#17212b"); y += 36; });
+      y += 8;
+    });
+  }
+  function para(t, px, color, center) {
+    font(px, false);
+    wrapLines(ctx, t, W - 2 * M).forEach(function (l) {
+      put(l, center ? W / 2 : M, y, color, center ? "center" : "left");
+      y += Math.round(px * 1.4);
+    });
+  }
+
+  rect(0, 0, W, 90, "#b00020");
+  font(44, true); put("DEMO ONLY - NOT FOR USE", W / 2, 22, "#fff", "center");
+  y = 128; font(40, true); put("Getting Ready for Your Visit", W / 2, y, "#16324f", "center"); y += 50;
+
+  if (meds.length) { heading("Medications we reviewed"); list(meds, true); }
+  heading("Before your visit"); list(remind, false);
+  if (need.length) { heading("Records we still need"); list(need, false); para("If you have a copy, please bring it to your visit.", 24, "#5d6b78", false); }
+
+  heading("Review your preventive care");
+  var n = qrImg.naturalWidth || 37, s = Math.floor(330 / n) * n, x = Math.round((W - s) / 2); /* whole-pixel scaling keeps the QR crisp */
+  y += 16;
+  if (draw && qrImg.naturalWidth) {
+    ctx.imageSmoothingEnabled = false; ctx.drawImage(qrImg, x, y, s, s); ctx.imageSmoothingEnabled = true;
+    ctx.strokeStyle = "#d5dee7"; ctx.lineWidth = 3; ctx.strokeRect(x - 12, y - 12, s + 24, s + 24);
+  }
+  y += s + 34;
+  font(28, true); put("Scan with your phone camera", W / 2, y, "#1f6fb2", "center"); y += 48;
+  para(PREVENT_BLURB, 24, "#17212b", true);
+  y += 6; font(24, true);
+  wrapLines(ctx, "Or go to " + LINKS.prevent.replace(/^https?:\/\//, ""), W - 2 * M).forEach(function (l) { put(l, W / 2, y, "#1f6fb2", "center"); y += 34; });
+
+  y += 30; rect(0, y, W, 64, "#eef6fb");
+  font(20, false); put("Questions? Reply to this message or call our office.", W / 2, y + 21, "#16324f", "center");
+  return y + 64;
+}
+function renderPatientImage() {
+  var ctx = ptCanvas.getContext("2d");
+  ptCanvas.height = Math.ceil(paintPatient(ctx, false));
+  ctx = ptCanvas.getContext("2d");
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, ptCanvas.width, ptCanvas.height);
+  paintPatient(ctx, true);
+  q("#ptPreview").src = ptCanvas.toDataURL("image/png");
+}
+function copyPtImage() {
+  renderPatientImage();
+  if (!navigator.clipboard || !window.ClipboardItem) {
+    alert("This browser blocks copying pictures. Right-click the preview and choose Copy image, or use Download PNG.");
+    return;
+  }
+  ptCanvas.toBlob(function (blob) {
+    navigator.clipboard.write([new ClipboardItem({ "image/png": blob })])
+      .then(function () { flash("Picture copied - paste it into the MyUPMC message"); })
+      .catch(function () { alert("Copy was blocked. Right-click the preview and choose Copy image, or use Download PNG."); });
+  }, "image/png");
+}
+function downloadPtImage() {
+  renderPatientImage();
+  var a = document.createElement("a");
+  a.download = "previsit-message-DEMO.png";
+  a.href = ptCanvas.toDataURL("image/png");
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---- Novilus sheets: one click fills in what was typed and prints ---- */
+function fillSheets() {
+  q("#sEyeDate").textContent = fmtDate(val("eyeDate"));
+  q("#sEyeOffice").textContent = listParts([val("eyeOffice"), val("eyeFax")], " / ");
+  q("#sMamDate").textContent = fmtDate(val("mamDate"));
+  q("#sMamFacility").textContent = listParts([val("mamFacility"), val("mamFax")], " / ");
+}
+function printSheet(kind) {
+  fillSheets();
+  var id = kind === "eye" ? "eyeSheet" : "mamSheet";
+  qa(".sheet").forEach(function (x) { x.classList.toggle("printMe", x.id === id); });
+  document.body.classList.add("printSheet");
+  window.print();
+}
+window.addEventListener("afterprint", function () { document.body.classList.remove("printSheet"); });
+
+/* ---- Summary / clear ---- */
+function contactLine(place, phone, fax) { return listParts([place, phone && "ph " + phone, fax && "fax " + fax]); }
+function buildNote() {
+  var t = ["PREVISIT CALL"], htn = val("htn"), dm = val("dm"), eye = val("eyeStatus"), mam = val("mamStatus"), mamOk = val("mamOk"), well = val("wellness");
+  function section(title) { t.push("", title); }
+  function line(label, value) { if (value) t.push(label + ": " + value); }
+
+  section("HOME BLOOD PRESSURE");
+  line("Hypertension diagnosis", htn || "not reviewed");
+  if (htn === "yes") {
+    var rd = bpReadings();
+    line("Home readings", rd.length ? rd.join(", ") : "none obtained");
+    if (rd.length) t.push(q("#bpAvg").textContent);
+  }
+
+  section("MEDICATIONS");
+  var ml = medLines();
+  if (ml.length) t.push.apply(t, ml); else t.push("No medications entered");
+  t.push(gapLine() || "Fill gaps: not reviewed");
+  line("Fill list reviewed with patient", yn("tFillReviewed"));
+  line("Reminded to bring all medications to visit", yn("tBringMeds"));
+
+  section("DIABETIC EYE EXAM");
+  line("Diabetes diagnosis", dm || "not reviewed");
+  if (dm === "yes") {
+    line("Status", eye || "not selected");
+    line("Exam date", fmtDate(val("eyeDate")));
+    if (eye === SCANNED) line("Scanned report checked in Novilus", yn("tEyeNovilus"));
+    if (eye === NOT_IN_CHART) {
+      line("Ophthalmology office", contactLine(val("eyeOffice"), val("eyePhone"), val("eyeFax")) || "not entered");
+      line("Contact info obtained", yn("tEyeContact"));
+      line("Fax sent to ophthalmology to sign and fax back", yn("tEyeFax"));
+    }
+    if (needsForm(eye)) line("Previsit Capture form completed", yn("tEyeForm"));
+  }
+
+  section("MAMMOGRAM");
+  line("Mammogram appropriate", mamOk || "not reviewed");
+  if (mamOk === "yes") {
+    line("Status", mam || "not selected");
+    line("Date done", fmtDate(val("mamDate")));
+    if (mam === SCANNED) line("Scanned report checked in Novilus", yn("tMamNovilus"));
+    if (mam === NOT_IN_CHART) {
+      line("Facility", contactLine(val("mamFacility"), val("mamPhone"), val("mamFax")) || "not entered");
+      line("Report requested", yn("tMamReq"));
+    }
+    if (needsForm(mam)) line("Previsit Capture form completed", yn("tMamForm"));
+  }
+
+  section("WELLNESS VISIT");
+  line("Wellness visit", well || "not reviewed");
+  if (well === "yes") line("Reminded to complete MyUPMC wellness form", yn("tWellRemind"));
+
+  section("MYUPMC PICTURE TO PATIENT");
+  line("Sent", yn("tPicSent"));
+  if (isChecked("tPicSent")) line("Included", joinAnd(picContents()));
+  return t.join("\n");
+}
+function copyNote() { refresh(); copyText(q("#noteOutput").value, "Previsit note copied"); }
+function clearCall() {
+  if (!confirm("Clear all call data?")) return;
+  /* Blank every field before reloading so the browser has nothing to refill afterward */
+  qa(".app input, .app textarea, .app select").forEach(function (el) {
+    if (el.readOnly) return;
+    if (el.type === "checkbox") el.checked = false;
+    else if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+  location.reload();
+}
+
+/* ---- Keep everything in sync ---- */
+function refresh() {
+  applyState();
+  calcBP();
+  buildMeds();
+  updateProgress();
+  var note = q("#noteOutput"); note.value = buildNote();
+  note.style.height = "auto"; note.style.height = (note.scrollHeight + 4) + "px"; /* grow to fit so the whole note is visible */
+  scheduleImage();
+}
+document.addEventListener("input", refresh);
+document.addEventListener("change", refresh);
+
+/* ---- Start ---- */
+watchStatus("eye", "tEyeForm");
+watchStatus("mam", "tMamForm");
+addBP(); addBP();
+addMed(); addMed(); addMed();
+refresh();
+renderPatientImage();
 </script>
-</body></html>
+</body>
+</html>
